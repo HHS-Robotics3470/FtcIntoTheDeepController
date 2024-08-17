@@ -162,9 +162,9 @@ public class ExampleRobotHardware {
         servo.setPosition(servoActive);
     }
 
-    public void ServoFunction2(boolean ifOpen)
+    public void ServoFunction2()
     {
-        servoState = SwitchServo(servo, servoActive, servoInactive, ifOpen);
+        servoState = SwitchServo(servo, servoActive, servoInactive, servoState);
     }
 
     public void ServoFunction3(boolean open)

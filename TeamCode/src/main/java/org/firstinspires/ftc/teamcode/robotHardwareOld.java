@@ -1,5 +1,3 @@
-package org.firstinspires.ftc.teamcode;
-
 
 
 /*
@@ -7,12 +5,20 @@ This code brought us to regionals
 9th place in qualifiers
 gg
 * */
+package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 public class robotHardwareOld {
@@ -46,6 +52,11 @@ public class robotHardwareOld {
     public DistanceSensor leftSensor;
     public DistanceSensor rightSensor;
 
+    //Rev Blinkin
+
+    public RevBlinkinLedDriver lights;
+    public final boolean ledStart = true;
+
 
     //Servo states
     public final double dropActive = 0;
@@ -66,7 +77,7 @@ public class robotHardwareOld {
     public final double hookActive = 0.072;
     public final double hookInActive = 0;
 
-    public final double clawOpen = 0.0398;
+    public final double clawOpen = 0.049001;
     public final double clawClosed = 0.049;
     public final double clawOpen2 = 0.0315;
     public final double clawOpenDrop1 = 0.0401 ;
@@ -121,6 +132,8 @@ public class robotHardwareOld {
 //        leftSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance2");
         rightSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance1");
 
+        //LED
+        lights = myOpMode.hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
         //Direction and encoders
         fLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -171,6 +184,8 @@ public class robotHardwareOld {
         arm.setPosition(rollActive);
         wrist.setPosition(wristUp);
 
+        //LED Init
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
 
     }
 
@@ -291,7 +306,7 @@ public class robotHardwareOld {
         }
     }
 
-    //initalizes camera detection - execute before getting spike position
+
 
     public void raiseLift() {
         if (lLift.getCurrentPosition() < 0) {
@@ -376,6 +391,17 @@ public class robotHardwareOld {
         }
     }
 */
+
+    public void intakingStatus (boolean hello){
+        if(hello){
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
+        }
+        else{
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
+        }
+    }
+
+
 
 
     public void hookRobot(boolean up){

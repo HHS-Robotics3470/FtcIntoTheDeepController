@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="TestOpMode", group="blah")
-public class TeleOpOld extends LinearOpMode {
+public class TeleOpPractice extends LinearOpMode {
 
-    robotHardwareOld robot = new robotHardwareOld(this);
+    robotHardware robot = new robotHardware(this);
     public boolean ifLaunched = false;
     public boolean ifLifted = false;
     public boolean xState = false;
@@ -34,7 +34,11 @@ public class TeleOpOld extends LinearOpMode {
 
 
 
-
+    public TeleOpPractice() throws Exception
+    {
+        Logging.setup();
+        Logging.log("Starting Drive Circle Logging");
+    }
 
 
 
@@ -44,6 +48,8 @@ public class TeleOpOld extends LinearOpMode {
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
                 ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+","+robot.wrist.getPosition()+","+clawDrop+",ifMirror);";
     }
+
+
     @Override
     public void runOpMode() {
 
@@ -105,6 +111,7 @@ public class TeleOpOld extends LinearOpMode {
 
             if (gamepad1.left_bumper){
                 robot.intakeRolling(gamepad1.left_bumper);
+                robot.intakingStatus(gamepad1.left_bumper);
             }
             else   {
                 robot.intakeRolling(false);
@@ -120,6 +127,7 @@ public class TeleOpOld extends LinearOpMode {
                 robot.resetClaw(gamepad1.y);
                 robot.adjusting((gamepad1.y));
             }
+
 
             if (gamepad1.a && !aState) {
 
@@ -207,7 +215,25 @@ public class TeleOpOld extends LinearOpMode {
             }
 
 
+            if (gamepad1.b && !bState) {
+                robot.releasePixel(ifOpen);
+                ifOpen = !ifOpen;
+                ifDrop = true;
+                bState = true;
+            } else if (!gamepad1.b && bState) {
+                bState = false;
+            }
 
+            if (gamepad2.dpad_left)
+            {
+                Logging.log("//flag");
+            }
+
+
+
+
+            Logging.log(currentPos(gamepad1));
+            ifDrop = false;
         }
 
 
