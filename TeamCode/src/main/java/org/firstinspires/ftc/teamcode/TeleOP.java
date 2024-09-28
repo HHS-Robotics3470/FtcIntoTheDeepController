@@ -41,6 +41,7 @@ public class TeleOP extends LinearOpMode {
     @Override
     public void runOpMode() {
         robotHardware robot = new robotHardware(this);
+        robot.init();
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -49,6 +50,11 @@ public class TeleOP extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+            telemetry.addData("Front Encoder", robot.frontEncoder.getCurrentPosition());
+            telemetry.addData("Right Encoder", robot.rightEncoder.getCurrentPosition());
+            telemetry.addData("Left Encoder", robot.leftEncoder.getCurrentPosition());
+            telemetry.update();
 
             robot.driveRobot(gamepad1);
 

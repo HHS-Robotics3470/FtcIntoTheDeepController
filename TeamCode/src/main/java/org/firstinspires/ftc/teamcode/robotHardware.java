@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.util.Encoder;
 
 
 public class robotHardware {
@@ -22,6 +25,9 @@ public class robotHardware {
     public DcMotor bLeft;
     public DcMotor bRight;
 
+    //Odometry
+    public Encoder leftEncoder, rightEncoder, frontEncoder;
+
     public void init(){
 
 //        MOTORS
@@ -30,6 +36,9 @@ public class robotHardware {
         bLeft = myOpMode.hardwareMap.get(DcMotor.class, "bLeft");
         bRight = myOpMode.hardwareMap.get(DcMotor.class, "bRight");
 
+        leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
+        rightEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fRight"));
+        frontEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "bLeft"));
 
         //Direction and encoders
         fLeft.setDirection(DcMotor.Direction.FORWARD);
