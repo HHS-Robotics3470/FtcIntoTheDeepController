@@ -50,7 +50,7 @@ public class TeleOP extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            robot.localizer.update();
             telemetry.addData("Front Encoder", robot.frontEncoder.getCurrentPosition());
             telemetry.addData("Right Encoder", robot.rightEncoder.getCurrentPosition());
             telemetry.addData("Left Encoder", robot.leftEncoder.getCurrentPosition());
