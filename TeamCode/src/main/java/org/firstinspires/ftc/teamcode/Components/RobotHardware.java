@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 
 import org.firstinspires.ftc.teamcode.util.Encoder;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.Components.Intake;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,33 +28,39 @@ public class RobotHardware {
     public DcMotorEx fRight;
     public DcMotorEx bLeft;
     public DcMotorEx bRight;
-
-    // Lift Motors
     public DcMotor lLift;
     public DcMotor rLift;
-    public DcMotor intake;
+    public DcMotor roller;
 
     // Odometry
     public Encoder leftEncoder, rightEncoder, frontEncoder;
     public StandardTrackingWheelLocalizer localizer;
 
+    //Sensors
+
+
+    //Components
+    public Intake intake = new Intake();
+    public Mecnum mecnum = new Mecnum();
+    public Component[] components = {intake, mecnum};
+
     public void init() {
-        // Initialize drive motors
+        // Map moters
         fLeft = myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft");
         fRight = myOpMode.hardwareMap.get(DcMotorEx.class, "fRight");
         bLeft = myOpMode.hardwareMap.get(DcMotorEx.class, "bLeft");
         bRight = myOpMode.hardwareMap.get(DcMotorEx.class, "bRight");
-
-        // Initialize lift motors
         lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
+        roller = myOpMode.hardwareMap.get(DcMotor.class, "intakey");
 
-        intake = myOpMode.hardwareMap.get(DcMotor.class, "intakey");
-
-        // Initialize encoders
+        // Map encoders
         leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
         rightEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fRight"));
         frontEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "bLeft"));
+
+        // Map sensors
+
 
         // Initialize localizer
         List<Integer> initalpos = new ArrayList<>();
@@ -61,6 +70,12 @@ public class RobotHardware {
             initalvel.add(0);
         }
         localizer = new StandardTrackingWheelLocalizer(myOpMode.hardwareMap, initalpos, initalvel);
+
+        for (int i = 0; i < components.length; i++)
+        {
+            components[i].init(this);
+        }
+
 
         myOpMode.telemetry.addData("status", "initialized");
         myOpMode.telemetry.update();
