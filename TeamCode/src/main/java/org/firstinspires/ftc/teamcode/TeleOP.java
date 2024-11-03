@@ -2,9 +2,8 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.robotHardware;
+import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -40,7 +39,7 @@ public class TeleOP extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robotHardware robot = new robotHardware(this);
+        RobotHardware robot = new RobotHardware(this);
         robot.init();
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");

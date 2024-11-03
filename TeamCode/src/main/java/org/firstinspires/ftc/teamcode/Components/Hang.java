@@ -1,4 +1,4 @@
 package org.firstinspires.ftc.teamcode.Components;
 
-public class Outtake implements Component{
+public class Hang {
 }
