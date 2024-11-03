@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.Components;
 
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServoImpl;
 
 import org.firstinspires.ftc.teamcode.util.Encoder;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
@@ -29,11 +30,17 @@ public class RobotHardware {
     // Lift Motors
     public DcMotor lLift;
     public DcMotor rLift;
-    public DcMotor intake;
+
 
     // Odometry
     public Encoder leftEncoder, rightEncoder, frontEncoder;
     public StandardTrackingWheelLocalizer localizer;
+
+    public DcMotor intakeMotor;
+
+    // Servo for intake pitch control
+    public Servo intakePitch;
+    public CRServoImpl roller;
 
     public void init() {
         // Initialize drive motors
@@ -46,7 +53,7 @@ public class RobotHardware {
         lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
 
-        intake = myOpMode.hardwareMap.get(DcMotor.class, "intakey");
+        roller = myOpMode.hardwareMap.get(CRServoImpl.class, "intakey");
 
         // Initialize encoders
         leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
