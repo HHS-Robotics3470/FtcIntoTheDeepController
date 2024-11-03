@@ -383,11 +383,11 @@ public class robotHardwareOld {
     /*
     public void intakeDisposing(boolean kys) {
         if (kys) {
-            intake.setPower(-5.0);
+            roller.setPower(-5.0);
             claw.setPosition(clawOpen2);
         }
         else {
-            intake.setPower(0);
+            roller.setPower(0);
         }
     }
 */
