@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RobotHardware {
-    private LinearOpMode myOpMode = null;
+    public LinearOpMode myOpMode = null;
 
     public RobotHardware(LinearOpMode opMode) {
         myOpMode = opMode;

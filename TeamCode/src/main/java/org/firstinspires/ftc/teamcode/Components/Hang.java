@@ -25,6 +25,9 @@ public class Hang implements Component{
     @Override
     public void init(RobotHardware robotHardware) {
         hangMotor = robotHardware.hang;
+        hangLock1 = robotHardware.lock1;
+        hangLock2 = robotHardware.lock2;
+        myOpMode = robotHardware.myOpMode;
     }
 
     // Method to lift the robot
