@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.Components;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-public class Hang {
-    private LinearOpMode myOpMode;
-    private DcMotor hangMotor;
-    private Servo hangServo;
+public class Hang implements Component{
+    private DcMotorEx hangMotor;
+    private Servo hangLock1;
+    private Servo hangLock2;
+    private OpMode myOpMode;
+
+    private final double LOCK_POS= 1;
+    private final double UNLOCK_POS= 0;
 
     // Constants for safety
     private static final double MAX_HANG_POWER = 1.0; // Maximum power for lifting
@@ -18,13 +22,9 @@ public class Hang {
     private boolean isHanging = false;
     private long hangStartTime;
 
-    public Hang(LinearOpMode opMode, DcMotor hangMotor, Servo hangServo) {
-        myOpMode = opMode;
-        this.hangMotor = hangMotor;
-        this.hangServo = hangServo;
-
-        // Set the initial position of the servo
-        hangServo.setPosition(0.0); // Assuming this is the unlocked position
+    @Override
+    public void init(RobotHardware robotHardware) {
+        hangMotor = robotHardware.hang;
     }
 
     // Method to lift the robot
@@ -49,12 +49,14 @@ public class Hang {
 
     // Method to lock the hang mechanism
     public void lock() {
-        hangServo.setPosition(1.0); // Adjust based on servo mechanics
+        hangLock1.setPosition(LOCK_POS);
+        hangLock2.setPosition(LOCK_POS);// Adjust based on servo mechanics
     }
 
     // Method to unlock the hang mechanism
     public void unlock() {
-        hangServo.setPosition(0.0); // Adjust based on servo mechanics
+        hangLock1.setPosition(UNLOCK_POS);
+        hangLock2.setPosition(UNLOCK_POS); // Adjust based on servo mechanics
     }
 
     // Safety checks to stop lifting if it takes too long
@@ -65,4 +67,6 @@ public class Hang {
             myOpMode.telemetry.update();
         }
     }
+
+
 }
