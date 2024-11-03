@@ -27,6 +27,7 @@ public class Intake implements Component {
         intakePitch.setPosition(0.5); // Neutral position; adjust range [0.0, 1.0] as needed
     }
 
+
     // Set power to the intake motor
     public void setIntakePower(double power) {
         intakeMotor.setPower(power);

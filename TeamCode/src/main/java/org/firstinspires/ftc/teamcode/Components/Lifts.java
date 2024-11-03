@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 public class Lifts implements Component {
     private LinearOpMode myOpMode = null;
@@ -14,6 +15,9 @@ public class Lifts implements Component {
     // Lift motors
     public DcMotor lLift;
     public DcMotor rLift;
+
+    // Horizontal extension motor
+    public DcMotorEx extendo;
 
     // Init function
     public void init(RobotHardware robotHardware) {
@@ -50,5 +54,26 @@ public class Lifts implements Component {
     public void stopLift() {
         rLift.setTargetPosition(rLift.getCurrentPosition());
         lLift.setTargetPosition(lLift.getCurrentPosition());
+    }
+
+
+    // New function for horizontal extension
+    public void extendHorizontally(RobotHardware robotHardware) {
+        // Initialize extendo motor from RobotHardware
+        extendo = robotHardware.extendo;
+
+        // Reset encoder position for extendo
+        extendo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extendo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Set motor direction for extendo (adjust as necessary)
+        extendo.setDirection(DcMotor.Direction.FORWARD);
+    }
+
+    // Function to set position for the extendo motor
+    public void setExtendoPosition(int position, double power) {
+        extendo.setTargetPosition(position);
+        extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        extendo.setPower(power);
     }
 }
