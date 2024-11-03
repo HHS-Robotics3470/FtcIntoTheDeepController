@@ -26,6 +26,9 @@ public class RobotHardware {
     public DcMotorEx fRight;
     public DcMotorEx bLeft;
     public DcMotorEx bRight;
+    public DcMotorEx extendo;
+    public DcMotorEx hang;
+
 
     // Lift Motors
     public DcMotor lLift;
@@ -36,11 +39,16 @@ public class RobotHardware {
     public Encoder leftEncoder, rightEncoder, frontEncoder;
     public StandardTrackingWheelLocalizer localizer;
 
-    public DcMotor intakeMotor;
 
     // Servo for intake pitch control
     public Servo intakePitch;
     public CRServoImpl roller;
+    public Servo claw;
+    public Servo clawPitch;
+    public Servo arm1;
+    public Servo arm2;
+    public Servo lock1;
+    public Servo lock2;
 
     public void init() {
         // Initialize drive motors
