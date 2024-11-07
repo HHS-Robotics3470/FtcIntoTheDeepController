@@ -13,8 +13,8 @@ public class Lifts implements Component {
 
     private LinearOpMode myOpMode = null;
     // Lift motors
-    private DcMotor lLift;
-    private DcMotor rLift;
+    private DcMotorEx lLift;
+    private DcMotorEx rLift;
 
     // Horizontal extension motor
     public DcMotorEx extendo;

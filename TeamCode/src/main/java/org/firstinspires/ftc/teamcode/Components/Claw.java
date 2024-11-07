@@ -27,6 +27,7 @@ public class Claw implements Component{
         clawServo = robotHardware.clawServo;
         armRight = robotHardware.armRight;
         armLeft = robotHardware.armLeft;
+        wrist = robotHardware.wrist;
 
         armRight.setDirection(Servo.Direction.FORWARD);
         armLeft.setDirection(Servo.Direction.REVERSE);

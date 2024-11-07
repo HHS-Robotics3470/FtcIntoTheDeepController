@@ -26,11 +26,8 @@ public class RobotHardware {
     public DcMotorEx bRight;
     public DcMotorEx extendo;
     public DcMotorEx hangMotor;
-
-
-    // Lift Motors
-    public DcMotor lLift;
-    public DcMotor rLift;
+    public DcMotorEx lLift;
+    public DcMotorEx rLift;
 
 
     // Odometry
@@ -63,12 +60,21 @@ public class RobotHardware {
         fRight = myOpMode.hardwareMap.get(DcMotorEx.class, "fRight");
         bLeft = myOpMode.hardwareMap.get(DcMotorEx.class, "bLeft");
         bRight = myOpMode.hardwareMap.get(DcMotorEx.class, "bRight");
+        lLift = myOpMode.hardwareMap.get(DcMotorEx.class, "lLift");
+        rLift = myOpMode.hardwareMap.get(DcMotorEx.class, "rLift");
+        extendo = myOpMode.hardwareMap.get(DcMotorEx.class, "extendo");
+        hangMotor = myOpMode.hardwareMap.get(DcMotorEx.class, "hang");
 
-        // Initialize lift motors
-        lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
-        rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
+        //Initialize servos
+        roller = myOpMode.hardwareMap.get(CRServoImpl.class, "roller");
+        intakePitch = myOpMode.hardwareMap.get(Servo.class, "intake pitch");
+        clawServo = myOpMode.hardwareMap.get(Servo.class, "claw");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        armRight = myOpMode.hardwareMap.get(Servo.class, "arm right");
+        armLeft = myOpMode.hardwareMap.get(Servo.class, "arm left");
+        lock1 = myOpMode.hardwareMap.get(Servo.class, "lock1");
+        lock2 = myOpMode.hardwareMap.get(Servo.class, "lock2");
 
-        roller = myOpMode.hardwareMap.get(CRServoImpl.class, "intakey");
 
         // Initialize encoders
         leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
