@@ -33,9 +33,11 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="New TeleOP", group="Linear OpMode")
+@TeleOp(name="The Only TeleOP", group="Linear OpMode")
 public class TeleOP extends LinearOpMode {
-
+    private boolean b1state = false;
+    private boolean y1state = false;
+    private boolean a2state = false;
 
     @Override
     public void runOpMode() {
@@ -55,7 +57,76 @@ public class TeleOP extends LinearOpMode {
             telemetry.addData("Left Encoder", robot.leftEncoder.getCurrentPosition());
             telemetry.update();
 
-            robot.driveRobot(gamepad1);
+            robot.mecnum.driveRobot(gamepad1);
+
+            if (gamepad1.a)
+            {
+                robot.intake.pitchDown();
+                robot.intake.startIntake();
+            }
+            else if (gamepad1.x)
+            {
+                robot.intake.pitchDown();
+                robot.intake.reverseIntake();
+            }
+            else
+            {
+                robot.intake.pitchUp();
+                robot.intake.stopIntake();
+            }
+
+            if (gamepad1.right_bumper)
+            {
+                robot.lifts.forwardLift();
+            }
+            else if (gamepad1.left_bumper)
+            {
+                robot.lifts.backLift();
+            }
+            else
+            {
+                robot.lifts.stopLiftHorizontal();
+            }
+
+            if (gamepad2.right_bumper)
+            {
+                robot.lifts.raiseLift();
+            }
+            else if (gamepad2.left_bumper)
+            {
+                robot.lifts.lowerLift();
+            }
+            else
+            {
+                robot.lifts.stopLiftVertical();
+            }
+
+
+            if (gamepad1.b && !b1state) {
+                robot.claw.grab();
+                b1state = true;
+            } else if (!gamepad1.b && b1state) {
+                b1state = false;
+            }
+
+            if (gamepad1.y && !y1state) {
+                robot.claw.swing();
+                y1state = true;
+            } else if (!gamepad1.y && y1state) {
+                y1state = false;
+            }
+
+            if (gamepad2.a && !a2state) {
+                robot.claw.toggleClaw();
+                a2state = true;
+            } else if (!gamepad2.a && a2state) {
+                a2state = false;
+            }
+
+
+
+
+
 
         }
     }}

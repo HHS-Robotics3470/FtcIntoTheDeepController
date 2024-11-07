@@ -19,15 +19,13 @@ public class RobotHardware {
         myOpMode = opMode;
     }
 
-    public double driveSpeedControl = 0.8;
-
     // Motors
     public DcMotorEx fLeft;
     public DcMotorEx fRight;
     public DcMotorEx bLeft;
     public DcMotorEx bRight;
     public DcMotorEx extendo;
-    public DcMotorEx hang;
+    public DcMotorEx hangMotor;
 
 
     // Lift Motors
@@ -43,12 +41,21 @@ public class RobotHardware {
     // Servo for intake pitch control
     public Servo intakePitch;
     public CRServoImpl roller;
-    public Servo claw;
-    public Servo clawPitch;
-    public Servo arm1;
-    public Servo arm2;
+    public Servo clawServo;
+    public Servo wrist;
+    public Servo armRight;
+    public Servo armLeft;
     public Servo lock1;
     public Servo lock2;
+
+    //SubSystems
+    public Mecnum mecnum = new Mecnum();
+    public Intake intake = new Intake();
+    public Claw claw = new Claw();
+    public Lifts lifts = new Lifts();
+    public Hang hang = new Hang();
+    Component[] components = {mecnum, intake, claw, lifts, hang};
+
 
     public void init() {
         // Initialize drive motors
@@ -76,6 +83,11 @@ public class RobotHardware {
             initalvel.add(0);
         }
         localizer = new StandardTrackingWheelLocalizer(myOpMode.hardwareMap, initalpos, initalvel);
+
+        for (int i = 0; i < components.length; i++)
+        {
+            components[i].init(this);
+        }
 
         myOpMode.telemetry.addData("status", "initialized");
         myOpMode.telemetry.update();
