@@ -44,6 +44,7 @@ public class RobotHardware {
     public Servo armLeft;
     public Servo lock1;
     public Servo lock2;
+    public Servo liftLock;
 
     //SubSystems
     public Mecnum mecnum = new Mecnum();
@@ -74,6 +75,7 @@ public class RobotHardware {
         armLeft = myOpMode.hardwareMap.get(Servo.class, "arm left");
         lock1 = myOpMode.hardwareMap.get(Servo.class, "lock1");
         lock2 = myOpMode.hardwareMap.get(Servo.class, "lock2");
+        liftLock = myOpMode.hardwareMap.get(Servo.class, "liftLock");
 
 
         // Initialize encoders
