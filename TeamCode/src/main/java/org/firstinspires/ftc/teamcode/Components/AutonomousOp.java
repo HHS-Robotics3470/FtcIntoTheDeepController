@@ -129,7 +129,8 @@ public class AutonomousOp extends LinearOpMode {
      * Park the robot at the designated position.
      */
     private void park() {
-        // Add specific parking logic here, e.g., move forward/backward for a set time
-        moveForward(0.3, 2000);  // Example move forward for 2000 ms
+        moveForward(0.3);  // Start moving forward with power 0.3
+        sleep(2000);       // Continue moving for 2000 ms
+        stopMoving();      // Stop the robot after the specified time
     }
 }
