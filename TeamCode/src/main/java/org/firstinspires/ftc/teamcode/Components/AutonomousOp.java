@@ -20,52 +20,58 @@ public class AutonomousOp extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            // Step 1: Move forward
-            moveForward(0.5, 1000);  // Move forward with power 0.5 for 1000 ms
-            sleep(500);
+            //Auto code starts
 
-            // Step 2: Use claw to grab an object
-            robotHardware.claw.clawOpen();
-            sleep(500);
-            robotHardware.claw.armDown();
-            sleep(500);
-            robotHardware.claw.clawClose();  // Use robotHardware's claw to close
-            sleep(500);
-            robotHardware.claw.armRest();
 
-            // Step 3: Raise the lift
-            robotHardware.lifts.raiseLift();
-            sleep(1500);  // Allow time for the lift to reach its position
 
-            // Step 4: Move to drop zone
-            moveForward(0.5, 1500);  // Adjust power and time as needed
-            sleep(500);
-
-            // Step 5: Drop the object
-            robotHardware.claw.armDown();
-            sleep(500);
-            robotHardware.claw.clawOpen();
-            sleep(500);
-            robotHardware.claw.armRest();
-
-            // Step 6: Lower the lift
-            robotHardware.lifts.lowerLift();
-            sleep(1500);
-
-            // Step 7: Strafe to adjust position
-            strafe(0.5, 1000, true);  // Strafe right for 1000 ms
-            sleep(500);
-
-            // Step 8: Rotate robot (for example, rotate 90 degrees to the right)
-            rotate(0.5, 1000, true);  // Rotate right for 1000 ms
-            sleep(500);
-
-            // Step 9: Move to parking position
-            park();
-            sleep(500);
+//            // Step 1: Move forward
+//            moveForward(0.5, 1000);  // Move forward with power 0.5 for 1000 ms
+//            sleep(500);
+//
+//            // Step 2: Use claw to grab an object
+//            robotHardware.claw.clawOpen();
+//            sleep(500);
+//            robotHardware.claw.armDown();
+//            sleep(500);
+//            robotHardware.claw.clawClose();  // Use robotHardware's claw to close
+//            sleep(500);
+//            robotHardware.claw.armRest();
+//
+//            // Step 3: Raise the lift
+//            robotHardware.lifts.raiseLift();
+//            sleep(1500);  // Allow time for the lift to reach its position
+//
+//            // Step 4: Move to drop zone
+//            moveForward(0.5, 1500);  // Adjust power and time as needed
+//            sleep(500);
+//
+//            // Step 5: Drop the object
+//            robotHardware.claw.armDown();
+//            sleep(500);
+//            robotHardware.claw.clawOpen();
+//            sleep(500);
+//            robotHardware.claw.armRest();
+//
+//            // Step 6: Lower the lift
+//            robotHardware.lifts.lowerLift();
+//            sleep(1500);
+//
+//            // Step 7: Strafe to adjust position
+//            strafe(0.5, 1000, true);  // Strafe right for 1000 ms
+//            sleep(500);
+//
+//            // Step 8: Rotate robot (for example, rotate 90 degrees to the right)
+//            rotate(0.5, 1000, true);  // Rotate right for 1000 ms
+//            sleep(500);
+//
+//            // Step 9: Move to parking position
+//            park();
+//            sleep(500);
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();
+
+            //Auto code ends
         }
     }
 
@@ -73,15 +79,12 @@ public class AutonomousOp extends LinearOpMode {
      * Move the robot forward for a specific duration.
      *
      * @param power the power level to set for the motors
-     * @param durationMs the duration to move forward in milliseconds
      */
-    private void moveForward(double power, int durationMs) {
+    private void moveForward(double power) {
         robotHardware.fLeft.setPower(power);
         robotHardware.fRight.setPower(power);
         robotHardware.bLeft.setPower(power);
         robotHardware.bRight.setPower(power);
-        sleep(durationMs);
-        stopMoving();
     }
 
     /**
@@ -102,19 +105,10 @@ public class AutonomousOp extends LinearOpMode {
      * @param right whether to strafe right (true) or left (false)
      */
     private void strafe(double power, int durationMs, boolean right) {
-        if (right) {
-            robotHardware.fLeft.setPower(power);
-            robotHardware.bLeft.setPower(-power);
-            robotHardware.fRight.setPower(-power);
-            robotHardware.bRight.setPower(power);
-        } else {
-            robotHardware.fLeft.setPower(-power);
-            robotHardware.bLeft.setPower(power);
-            robotHardware.fRight.setPower(power);
-            robotHardware.bRight.setPower(-power);
-        }
-        sleep(durationMs);
-        stopMoving();
+        robotHardware.fLeft.setPower(power);
+        robotHardware.fRight.setPower(-power);
+        robotHardware.bLeft.setPower(-power);
+        robotHardware.bRight.setPower(power);
     }
 
     /**
@@ -125,21 +119,10 @@ public class AutonomousOp extends LinearOpMode {
      * @param right whether to rotate right (true) or left (false)
      */
     private void rotate(double power, int durationMs, boolean right) {
-        if (right) {
-            // Rotate right: Set opposite directions on front and back motors
-            robotHardware.fLeft.setPower(power);
-            robotHardware.bLeft.setPower(power);
-            robotHardware.fRight.setPower(-power);
-            robotHardware.bRight.setPower(-power);
-        } else {
-            // Rotate left: Set opposite directions on front and back motors
-            robotHardware.fLeft.setPower(-power);
-            robotHardware.bLeft.setPower(-power);
-            robotHardware.fRight.setPower(power);
-            robotHardware.bRight.setPower(power);
-        }
-        sleep(durationMs);
-        stopMoving();
+        robotHardware.fLeft.setPower(power);
+        robotHardware.fRight.setPower(-power);
+        robotHardware.bLeft.setPower(-power);
+        robotHardware.bRight.setPower(power);
     }
 
     /**
