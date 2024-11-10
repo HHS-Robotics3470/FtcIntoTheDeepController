@@ -4,17 +4,21 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Lifts implements Component {
     private final int LIFT_LOW = 0;
-    private final int LIFT_HIGH = 4275;
+    private final int LIFT_HIGH = 4100;
     private final int LIFT_BACK = 0;
-    private final int LIFT_FORWARD = 4275;
+    private final int LIFT_FORWARD = 1810;
+    private final double LOCK_OPEN = 1;
+    private final double LOCK_CLOSE = 0;
 
     private LinearOpMode myOpMode = null;
     // Lift motors
     private DcMotorEx lLift;
     private DcMotorEx rLift;
+    private Servo lock;
 
     // Horizontal extension motor
     public DcMotorEx extendo;
@@ -26,6 +30,7 @@ public class Lifts implements Component {
         lLift = robotHardware.lLift;
         rLift = robotHardware.rLift;
         extendo = robotHardware.extendo;
+        lock = robotHardware.liftLock;
 
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -91,6 +96,16 @@ public class Lifts implements Component {
     // Stop Lift function
     public void stopLiftHorizontal() {
         extendo.setTargetPosition(extendo.getCurrentPosition());
+    }
+
+    public void lockOpen()
+    {
+        lock.setPosition(LOCK_OPEN);
+    }
+
+    public void lockClose()
+    {
+        lock.setPosition(LOCK_CLOSE);
     }
 
 
