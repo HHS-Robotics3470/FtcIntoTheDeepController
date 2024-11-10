@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 
 
-@Autonomous(name = "AutonomousOp", group = "Autonomous")
+@Autonomous(name = "Blue Right", group = "Autonomous")
 public class BlueRight extends LinearOpMode {
     private RobotHardware robotHardware;
 
@@ -25,8 +25,9 @@ public class BlueRight extends LinearOpMode {
 
         if (opModeIsActive()) {
             //Auto code starts (One side)
-            strafe(1, 15);
-            moveForward(-1, 15);
+            strafe(1, 2500000);
+            moveForward(-1, 2500000);
+
 
 
 //           // Step 1: Move forward for parking distance
