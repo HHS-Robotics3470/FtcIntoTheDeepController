@@ -27,7 +27,7 @@ public class AutonomousOp extends LinearOpMode {
 
 
 //           // Step 1: Move forward for parking distance
-//            moveForward(0.5, 1000); // Move forward with 50% power for 1 second
+//            moveForward(0.5, 1500); // Move forward with 50% power for 1 second
 //            sleep(500); // Pause for stability
 //
 //            // Optional: Step 2: Rotate robot to align for parking
@@ -35,7 +35,7 @@ public class AutonomousOp extends LinearOpMode {
 //            sleep(500);
 //
 //            // Step 3: Move forward a bit more to park
-//            moveForward(0.3, 800); // Move forward with 30% power for 0.8 seconds
+//            moveForward(0.3, 900); // Move forward with 30% power for 0.8 seconds
 //            stopMoving(); // Stop the robot
 
 
@@ -48,7 +48,7 @@ public class AutonomousOp extends LinearOpMode {
             //            sleep(500);
             //
             //            // Step 2: Move forward to parking position
-            //            moveForward(0.5, 1200);  // Move forward at 50% power for 1.2 seconds
+            //            moveForward(0.5, 1500);  // Move forward at 50% power for 1.2 seconds
             //            sleep(500);
             //
             //            // Optional: Step 3: Rotate to align if necessary
@@ -56,7 +56,7 @@ public class AutonomousOp extends LinearOpMode {
             //            sleep(500);
             //
             //            // Step 4: Final forward movement for parking
-            //            moveForward(0.3, 800);  // Move forward at 30% power for 0.8 seconds
+            //            moveForward(0.3, 900);  // Move forward at 30% power for 0.8 seconds
             //            stopMoving();  // Stop the robot
 
             telemetry.addData("Status", "Autonomous Complete");
