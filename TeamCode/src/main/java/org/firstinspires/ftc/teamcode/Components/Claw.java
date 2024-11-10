@@ -94,7 +94,7 @@ public class Claw implements Component{
         clawClose();
         myOpMode.sleep(400);
         armRest();
-        wristUP();
+        wristDown();
     }
 
     // Method to toggle the claw's open/close state

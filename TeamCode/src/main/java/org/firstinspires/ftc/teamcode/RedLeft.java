@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 
 
-@Autonomous(name = "AutonomousOp", group = "Autonomous")
+@Autonomous(name = "Red Left", group = "Autonomous")
 public class RedLeft extends LinearOpMode {
     private RobotHardware robotHardware;
 

@@ -48,7 +48,7 @@ public class Lifts implements Component {
 
     // Raise Lift function
     public void raiseLift() {
-        if (lLift.getCurrentPosition() < LIFT_HIGH) {
+        if (lLift.getCurrentPosition() < LIFT_HIGH && rLift.getCurrentPosition() < LIFT_HIGH) {
             rLift.setTargetPosition(LIFT_HIGH);
             lLift.setTargetPosition(LIFT_HIGH);
             rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -60,7 +60,7 @@ public class Lifts implements Component {
 
     // Lower Lift function
     public void lowerLift() {
-        if (rLift.getCurrentPosition() > LIFT_LOW) {
+        if (rLift.getCurrentPosition() > LIFT_LOW && lLift.getCurrentPosition() > LIFT_LOW) {
             rLift.setTargetPosition(LIFT_LOW);
             lLift.setTargetPosition(LIFT_LOW);
             rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);

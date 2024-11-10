@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Mecnum implements Component{
 
-    public double driveSpeedControl = 0.8;
+    public double driveSpeedControl = 0.6;
 
     //Moters
     public DcMotorEx fLeft;
@@ -52,7 +52,7 @@ public class Mecnum implements Component{
     public void driveRobot(Gamepad gamepad1){
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
-        double rx = -gamepad1.right_stick_x;
+        double rx = gamepad1.right_stick_x;
 
         double frLeft = y + x + rx;
         double frRight = y - x - rx;
