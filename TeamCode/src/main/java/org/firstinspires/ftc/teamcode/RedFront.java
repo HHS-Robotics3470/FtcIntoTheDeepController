@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.Components;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Components.RobotHardware;
+
 @Disabled
 @Autonomous(name = "AutonomousOp", group = "Autonomous")
-public class AutonomousOp extends LinearOpMode {
+public class RedFront extends LinearOpMode {
     private RobotHardware robotHardware;
 
     @Override
