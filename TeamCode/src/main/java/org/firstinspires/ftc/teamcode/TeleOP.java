@@ -55,6 +55,12 @@ public class TeleOP extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             telemetry.addData("Claw", robot.clawServo.getPosition());
+            telemetry.addData("arm right", robot.armRight.getPosition());
+            telemetry.addData("arm left", robot.armLeft.getPosition());
+            telemetry.addData("up lift position", robot.rLift.getCurrentPosition());
+            telemetry.addData("foward lift position", robot.extendo.getCurrentPosition());
+
+
             robot.localizer.update();
             telemetry.addData("Front Encoder", robot.frontEncoder.getCurrentPosition());
             telemetry.addData("Right Encoder", robot.rightEncoder.getCurrentPosition());
@@ -119,15 +125,18 @@ public class TeleOP extends LinearOpMode {
 
             if (gamepad1.b && !b1state) {
                 robot.claw.grab();
+                robot.intake.pitchDown();
+                sleep(500);
+                robot.intake.pitchUp();
                 b1state = true;
             } else if (!gamepad1.b && b1state) {
                 b1state = false;
             }
 
-            if (gamepad1.y && !y1state) {
+            if (gamepad2.y && !y1state) {
                 robot.claw.swing();
                 y1state = true;
-            } else if (!gamepad1.y && y1state) {
+            } else if (!gamepad2.y && y1state) {
                 y1state = false;
             }
 
@@ -137,6 +146,12 @@ public class TeleOP extends LinearOpMode {
             } else if (!gamepad2.a && a2state) {
                 a2state = false;
             }
+
+            if (gamepad2.x) {
+                robot.claw.specimen();
+            }
+
+
 
 
 
