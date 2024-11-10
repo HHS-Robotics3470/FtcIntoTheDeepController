@@ -42,15 +42,19 @@ public class TeleOP extends LinearOpMode {
     @Override
     public void runOpMode() {
         RobotHardware robot = new RobotHardware(this);
-        robot.init();
+
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
+
         telemetry.update();
 
         waitForStart();
+        robot.init();
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            telemetry.addData("Claw", robot.clawServo.getPosition());
             robot.localizer.update();
             telemetry.addData("Front Encoder", robot.frontEncoder.getCurrentPosition());
             telemetry.addData("Right Encoder", robot.rightEncoder.getCurrentPosition());
@@ -69,11 +73,22 @@ public class TeleOP extends LinearOpMode {
                 robot.intake.pitchDown();
                 robot.intake.reverseIntake();
             }
+            else if (gamepad1.dpad_up)
+            {
+                robot.intake.pitchUp();
+                robot.intake.startIntake();
+            }
+            else if (gamepad1.dpad_down)
+            {
+                robot.intake.pitchUp();
+                robot.intake.reverseIntake();
+            }
             else
             {
                 robot.intake.pitchUp();
                 robot.intake.stopIntake();
             }
+
 
             if (gamepad1.right_bumper)
             {
@@ -127,6 +142,6 @@ public class TeleOP extends LinearOpMode {
 
 
 
-
+            telemetry.update();
         }
     }}

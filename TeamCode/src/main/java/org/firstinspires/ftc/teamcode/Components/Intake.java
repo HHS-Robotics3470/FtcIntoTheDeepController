@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Intake implements Component {
 
-    public final double PITCH_DOWN = 0;
-    public final double PITCH_UP = 0.01;
+    public final double PITCH_DOWN = 0.005;
+    public final double PITCH_UP = 0.07;
     public final double INTAKE_POWER = 1;
 
     // Declare a CRServo object for the continuous intake motor
