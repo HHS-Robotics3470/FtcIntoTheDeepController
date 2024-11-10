@@ -13,7 +13,10 @@ import java.util.List;
 
 public class Mecnum implements Component{
 
-    public double driveSpeedControl = 0.6;
+
+    public final double DRIVE_SPEED_MAX = 0.5;
+    public final double DRIVE_SPEED_SLOW = 0.05;
+    public double driveSpeedControl = DRIVE_SPEED_MAX;
 
     //Moters
     public DcMotorEx fLeft;
@@ -88,6 +91,19 @@ public class Mecnum implements Component{
         fRight.setPower(v2 * driveSpeedControl);
         bLeft.setPower(v3 * driveSpeedControl);
         bRight.setPower(v4 * driveSpeedControl);
+    }
+
+    public void brake(double button)
+    {
+//        if (button)
+//        {
+//            driveSpeedControl = DRIVE_SPEED_SLOW;
+//        }
+//        else
+//        {
+//            driveSpeedControl = DRIVE_SPEED_MAX;
+//        };
+        driveSpeedControl = (DRIVE_SPEED_MAX * button) + DRIVE_SPEED_SLOW;
     }
 
 }

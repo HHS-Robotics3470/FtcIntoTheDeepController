@@ -25,8 +25,8 @@ public class BlueRight extends LinearOpMode {
 
         if (opModeIsActive()) {
             //Auto code starts (One side)
-            strafe(1, 5);
-            moveForward(-1, 5);
+            strafe(1, 2500000);
+            moveForward(-1, 5000000);
 
 
 //           // Step 1: Move forward for parking distance

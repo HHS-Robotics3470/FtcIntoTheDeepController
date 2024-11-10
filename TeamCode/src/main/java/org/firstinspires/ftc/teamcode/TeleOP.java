@@ -67,6 +67,7 @@ public class TeleOP extends LinearOpMode {
             telemetry.addData("Left Encoder", robot.leftEncoder.getCurrentPosition());
             telemetry.update();
 
+            robot.mecnum.brake(1-gamepad1.right_trigger);
             robot.mecnum.driveRobot(gamepad1);
 
             if (gamepad1.a)
