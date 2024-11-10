@@ -17,6 +17,7 @@ public class RedLeft extends LinearOpMode {
         robotHardware = new RobotHardware(this);  // Initialize with 'this' LinearOpMode
         robotHardware.init();  // Call init() to set up the hardware
 
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -25,8 +26,8 @@ public class RedLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             //Auto code starts (One side)
-            strafe(1, 5);
-            moveForward(-1, 5);
+            strafe(1, 15);
+            moveForward(-1, 15);
 
 
 //           // Step 1: Move forward for parking distance

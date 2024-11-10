@@ -25,8 +25,8 @@ public class RedRight extends LinearOpMode {
 
         if (opModeIsActive()) {
             //Auto code starts (One side)
-            strafe(-1, 5);
-            moveForward(-1, 5);
+            strafe(-1, 15);
+            moveForward(-1, 15);
 
 
 //           // Step 1: Move forward for parking distance
