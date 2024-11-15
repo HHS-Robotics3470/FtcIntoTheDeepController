@@ -1,15 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
-
+import org.firstinspires.ftc.teamcode.Components.Lifts;
+import org.firstinspires.ftc.teamcode.Components.Claw;
 
 @Autonomous(name = "Red Left", group = "Autonomous")
 public class RedLeft extends LinearOpMode {
     private RobotHardware robotHardware;
+    private Lifts lifts;
+    private Claw claw;
 
     @Override
     public void runOpMode() {
@@ -17,6 +19,11 @@ public class RedLeft extends LinearOpMode {
         robotHardware = new RobotHardware(this);  // Initialize with 'this' LinearOpMode
         robotHardware.init();  // Call init() to set up the hardware
 
+        lifts = new Lifts();  // Initialize the lift system
+        lifts.init(robotHardware);
+
+        claw = new Claw();  // Initialize the claw system
+        claw.init(robotHardware);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -25,48 +32,31 @@ public class RedLeft extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            //Auto code starts (One side)
-            strafe(1, 15);
-            moveForward(-1, 15);
+            // Move straight left
+            strafe(-1, 2500); // Adjust time or power needed
 
+            // Raise the lift to the height limit
+            lifts.raiseLift();
+            sleep(2000); // Wait to ensure lift reaches the height
 
-//           // Step 1: Move forward for parking distance
-//            moveForward(0.5, 1000); // Move forward with 50% power for 1 second
-//            sleep(500); // Pause for stability
-//
-//            // Optional: Step 2: Rotate robot to align for parking
-//            rotate(0.5, 500, true); // Rotate right at 50% power for 0.5 seconds
-//            sleep(500);
-//
-//            // Step 3: Move forward a bit more to park
-//            moveForward(0.3, 800); // Move forward with 30% power for 0.8 seconds
-//            stopMoving(); // Stop the robot
+            // Open the claw to release the object
+            claw.clawOpen();
+            sleep(1000);
 
+            // Open the claw to release the object
+            claw.clawClose();
+            sleep(1000);
 
+            // Lower the lift to normal position
+            lifts.lowerLift();
+            sleep(2000);
 
-            //-----------------------------------------
-            //OPPOSITE SIDE
-
-            //// Step 1: Strafe left to align with parking lane
-            //            strafe(0.5, 800, false);  // Strafe left at 50% power for 0.8 seconds
-            //            sleep(500);
-            //
-            //            // Step 2: Move forward to parking position
-            //            moveForward(0.5, 1200);  // Move forward at 50% power for 1.2 seconds
-            //            sleep(500);
-            //
-            //            // Optional: Step 3: Rotate to align if necessary
-            //            rotate(0.5, 500, true);  // Rotate right at 50% power for 0.5 seconds
-            //            sleep(500);
-            //
-            //            // Step 4: Final forward movement for parking
-            //            moveForward(0.3, 800);  // Move forward at 30% power for 0.8 seconds
-            //            stopMoving();  // Stop the robot
+            // Turn around (180 degrees)
+            rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
+            sleep(500);
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();
-
-            //Auto code ends
         }
     }
 
@@ -74,17 +64,15 @@ public class RedLeft extends LinearOpMode {
      * Move the robot forward for a specific duration.
      *
      * @param power the power level to set for the motors
+     * @param time the duration to move in milliseconds
      */
-    private void moveForward(double power, int times) {
-
-        for (int i = 0; i < times; i++)
-        {
-            robotHardware.fLeft.setPower(power);
-            robotHardware.fRight.setPower(power);
-            robotHardware.bLeft.setPower(power);
-            robotHardware.bRight.setPower(power);
-        }
-
+    private void moveForward(double power, int time) {
+        robotHardware.fLeft.setPower(power);
+        robotHardware.fRight.setPower(power);
+        robotHardware.bLeft.setPower(power);
+        robotHardware.bRight.setPower(power);
+        sleep(time);
+        stopMoving();
     }
 
     /**
@@ -101,31 +89,29 @@ public class RedLeft extends LinearOpMode {
      * Strafe the robot either left or right.
      *
      * @param power the power level to set for the motors
+     * @param time the duration to move in milliseconds
      */
-    private void strafe(double power, int times) {
-        for (int i = 0; i < times; i++)
-        {
-            robotHardware.fLeft.setPower(power);
-            robotHardware.fRight.setPower(-power);
-            robotHardware.bLeft.setPower(-power);
-            robotHardware.bRight.setPower(power);
-        }
+    private void strafe(double power, int time) {
+        robotHardware.fLeft.setPower(power);
+        robotHardware.fRight.setPower(-power);
+        robotHardware.bLeft.setPower(-power);
+        robotHardware.bRight.setPower(power);
+        sleep(time);
+        stopMoving();
     }
 
     /**
      * Rotate the robot either left or right.
      *
      * @param power the power level to set for the motors
+     * @param time the duration to rotate in milliseconds
      */
-    private void rotate(double power, int times) {
-        for (int i = 0; i < times; i++)
-        {
-            robotHardware.fLeft.setPower(power);
-            robotHardware.fRight.setPower(-power);
-            robotHardware.bLeft.setPower(-power);
-            robotHardware.bRight.setPower(power);
-        }
+    private void rotate(double power, int time) {
+        robotHardware.fLeft.setPower(power);
+        robotHardware.fRight.setPower(-power);
+        robotHardware.bLeft.setPower(power);
+        robotHardware.bRight.setPower(-power);
+        sleep(time);
+        stopMoving();
     }
-
-
 }
