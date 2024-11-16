@@ -33,7 +33,7 @@ public class BlueLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             // Move straight left
-            strafe(1, 2500); // Adjust time or power as needed
+            strafe(1, 1000); // Adjust time or power as needed
 
             // Raise the lift to the height limit
             //lifts.raiseLift();
