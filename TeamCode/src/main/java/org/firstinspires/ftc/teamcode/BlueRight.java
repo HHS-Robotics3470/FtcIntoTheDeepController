@@ -26,28 +26,28 @@ public class BlueRight extends LinearOpMode {
             stopMoving();
 
             // Raise Lift
-            robotHardware.lifts.raiseLift();
-            sleep(1000); // Allow time for lift to reach position
+            //robotHardware.lifts.raiseLift();
+            //sleep(1000); // Allow time for lift to reach position
 
             // Lower Lift Slightly
-            robotHardware.lifts.lowerLift();
-            sleep(500); // Adjust for the partial lowering of lift
+            //robotHardware.lifts.lowerLift();
+            //sleep(500); // Adjust for the partial lowering of lift
 
             // Open Claw
-            robotHardware.claw.clawOpen();
-            sleep(500);
+            //robotHardware.claw.clawOpen();
+            //sleep(500);
 
             // Back Up
             moveForward(-0.5, 1000); // Move backward with moderate speed
             stopMoving();
 
             // Fully Lower Lift
-            robotHardware.lifts.lowerLift();
-            sleep(1000); // Allow enough time for the lift to fully lower
+            //robotHardware.lifts.lowerLift();
+            //sleep(1000); // Allow enough time for the lift to fully lower
 
             // Close Claw
-            robotHardware.claw.clawClose();
-            sleep(500);
+            //robotHardware.claw.clawClose();
+            //sleep(500);
 
             // Move Southeast to Park
             strafe(1, 1500); // Adjust the duration for strafing SE

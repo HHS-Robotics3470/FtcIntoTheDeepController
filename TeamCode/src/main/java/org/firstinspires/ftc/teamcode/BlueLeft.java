@@ -36,20 +36,20 @@ public class BlueLeft extends LinearOpMode {
             strafe(-1, 2500); // Adjust time or power as needed
 
             // Raise the lift to the height limit
-            lifts.raiseLift();
-            sleep(2000); // Wait to ensure lift reaches the height
+            //lifts.raiseLift();
+            //sleep(2000); // Wait to ensure lift reaches the height
 
             // Open the claw to release the object
-            claw.clawOpen();
-            sleep(1000);
+            //claw.clawOpen();
+            //sleep(1000);
 
             // Open the claw to release the object
-            claw.clawClose();
-            sleep(1000);
+            // claw.clawClose();
+            //sleep(1000);
 
             // Lower the lift to normal position
-            lifts.lowerLift();
-            sleep(2000);
+            //lifts.lowerLift();
+            //sleep(2000);
 
             // Turn around (180 degrees)
             rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
