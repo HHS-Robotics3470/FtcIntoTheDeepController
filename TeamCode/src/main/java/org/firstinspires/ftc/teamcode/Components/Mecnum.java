@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mecnum implements Component{
+public class Mecnum implements Component {
 
 
     public final double DRIVE_SPEED_MAX = 0.5;
@@ -25,7 +25,7 @@ public class Mecnum implements Component{
     public DcMotorEx bRight;
 
     //Localizer
-    public  StandardTrackingWheelLocalizer localizer;
+    public StandardTrackingWheelLocalizer localizer;
 
     @Override
     public void init(RobotHardware robotHardware) {
@@ -45,14 +45,14 @@ public class Mecnum implements Component{
         bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     //Mechnam code for robot
-    public void driveRobot(Gamepad gamepad1){
+    public void driveRobot(Gamepad gamepad1) {
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
         double rx = gamepad1.right_stick_x;
@@ -66,7 +66,7 @@ public class Mecnum implements Component{
 
     }
 
-    public void fieldCentricDrve(Gamepad gamepad1){
+    public void fieldCentricDrve(Gamepad gamepad1) {
         Pose2d poseEstimate = localizer.getPoseEstimate();
 
         Vector2d vector = new Vector2d(gamepad1.left_stick_x, -gamepad1.left_stick_y).rotated(-poseEstimate.getHeading());
@@ -93,8 +93,7 @@ public class Mecnum implements Component{
         bRight.setPower(v4 * driveSpeedControl);
     }
 
-    public void brake(double button)
-    {
+    public void brake(double button) {
 //        if (button)
 //        {
 //            driveSpeedControl = DRIVE_SPEED_SLOW;
@@ -103,7 +102,30 @@ public class Mecnum implements Component{
 //        {
 //            driveSpeedControl = DRIVE_SPEED_MAX;
 //        };
-        driveSpeedControl = (DRIVE_SPEED_MAX * button) + DRIVE_SPEED_SLOW;
+//        driveSpeedControl = (DRIVE_SPEED_MAX * button) + DRIVE_SPEED_SLOW;
     }
+
+    public void move(double power, int times) {
+
+        for (int i = 0; i < times; i++) {
+            setDrivePower(power, power, power, power);
+        }
+    }
+
+    public void rotate(double power, int times) {
+
+        for (int i = 0; i < times; i++) {
+            setDrivePower(-power, power, -power, power);
+        }
+    }
+
+    public void strafe(double power, int times) {
+
+        for (int i = 0; i < times; i++) {
+            setDrivePower(power, -power, -power, power);
+        }
+
+    }
+
 
 }
