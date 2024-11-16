@@ -52,7 +52,7 @@ public class RobotHardware {
     public Claw claw = new Claw();
     public Lifts lifts = new Lifts();
     public Hang hang = new Hang();
-    Component[] components = {mecnum, intake, claw, lifts, hang};
+    Component[] components = {mecnum}; //intake, claw, lifts, hang};
 
 
     public void init() {
