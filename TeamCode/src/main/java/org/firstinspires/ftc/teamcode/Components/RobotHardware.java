@@ -78,6 +78,8 @@ public class RobotHardware {
         liftLock = myOpMode.hardwareMap.get(Servo.class, "liftLock");
 
 
+
+
         // Initialize encoders
         leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
         rightEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fRight"));
