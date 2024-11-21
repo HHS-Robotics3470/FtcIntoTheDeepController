@@ -110,22 +110,22 @@ public class Lifts implements Component {
 
 
 //    // New function for horizontal extension
-//    public void extendHorizontally(RobotHardware robotHardware) {
-//        // Initialize extendo motor from RobotHardware
-//        extendo = robotHardware.extendo;
-//
-//        // Reset encoder position for extendo
-//        extendo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        extendo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//        // Set motor direction for extendo (adjust as necessary)
-//        extendo.setDirection(DcMotor.Direction.FORWARD);
-//    }
-//
-//    // Function to set position for the extendo motor
-//    public void setExtendoPosition(int position, double power) {
-//        extendo.setTargetPosition(position);
-//        extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        extendo.setPower(power);
-//    }
+    public void extendHorizontally(RobotHardware robotHardware) {
+        // Initialize extendo motor from RobotHardware
+        extendo = robotHardware.extendo;
+
+        // Reset encoder position for extendo
+        extendo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extendo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Set motor direction for extendo (adjust as necessary)
+        extendo.setDirection(DcMotor.Direction.FORWARD);
+    }
+
+    // Function to set position for the extendo motor
+    public void setExtendoPosition(int position, double power) {
+        extendo.setTargetPosition(position);
+        extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        extendo.setPower(power);
+    }
 }
