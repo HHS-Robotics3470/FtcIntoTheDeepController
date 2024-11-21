@@ -3,20 +3,19 @@ package org.firstinspires.ftc.teamcode.Components;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-
-public class Claw implements Component{
+public class Claw implements Component {
     private LinearOpMode myOpMode;
     private Servo clawServo;     // Servo to open/close the claw
     private Servo armRight;
     private Servo armLeft;
-    private Servo wrist;// Servo to adjust the pitch of the claw
+    private Servo wrist;         // Servo to adjust the pitch of the claw
 
     private boolean ifSwinged = false;
 
     // Constants for servo positions
     private final double CLAW_OPEN_POSITION = 0.05;   // Adjust as needed for your claw design
-    private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
-    private final double ARM_UP_POSITION = 0.29;    // Adjust as needed for your pitch servo
+    private final double CLAW_CLOSE_POSITION = 0;     // Adjust as needed for your claw design
+    private final double ARM_UP_POSITION = 0.29;      // Adjust as needed for your pitch servo
     private final double ARM_DOWN_POSITION = 0.195;
     private final double ARM_REST_POSITION = 0.23;
     private final double WRIST_UP_POSITION = 0;
@@ -24,28 +23,36 @@ public class Claw implements Component{
     private final double WRIST_SPECIMEN = 0.2;
     private final double ARM_SPECIMEN = 0.35;
 
-
-            ;// Adjust as needed for your pitch servo
-
     @Override
     public void init(RobotHardware robotHardware) {
         myOpMode = robotHardware.myOpMode;
+
+        // Initialize servos
         wrist = robotHardware.wrist;
         clawServo = robotHardware.clawServo;
         armRight = robotHardware.armRight;
         armLeft = robotHardware.armLeft;
 
+        // Ensure servos are not null to avoid crashes
+        if (wrist == null || clawServo == null || armRight == null || armLeft == null) {
+            throw new IllegalStateException("One or more servos are not initialized! Check hardware map.");
+        }
+
+        // Set directions
         armRight.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.FORWARD);
-
         wrist.setDirection(Servo.Direction.REVERSE);
 
+        // Reset servos to default positions
         clawServo.setPosition(CLAW_OPEN_POSITION);
+        myOpMode.sleep(100);
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
+        myOpMode.sleep(100);
         wrist.setPosition(WRIST_DOWN_POSITION);
+        myOpMode.sleep(100);
         wrist.setPosition(WRIST_UP_POSITION);
-
+        myOpMode.sleep(100);
 
         ifSwinged = false;
     }
@@ -72,22 +79,20 @@ public class Claw implements Component{
         armLeft.setPosition(ARM_DOWN_POSITION);
     }
 
-    public void armRest(){
+    public void armRest() {
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
     }
 
-    public void wristUP(){
+    public void wristUP() {
         wrist.setPosition(WRIST_UP_POSITION);
     }
 
     public void wristDown() {
-
         wrist.setPosition(WRIST_DOWN_POSITION);
     }
 
-    public void grab()
-    {
+    public void grab() {
         clawOpen();
         myOpMode.sleep(100);
         wristDown();
@@ -108,35 +113,21 @@ public class Claw implements Component{
         }
     }
 
-
-    public void swing()
-    {
-        if (!ifSwinged)
-        {
+    public void swing() {
+        if (!ifSwinged) {
             armUp();
             wristUP();
             ifSwinged = true;
-        }
-        else
-        {
+        } else {
             armRest();
             wristDown();
             ifSwinged = false;
         }
     }
 
-    public void specimen()
-    {
+    public void specimen() {
         wrist.setPosition(WRIST_SPECIMEN);
         armRight.setPosition(ARM_SPECIMEN);
         armLeft.setPosition(ARM_SPECIMEN);
     }
-//
-//    // Method to stop the claw servo (optional, for safety)
-//    public void stop() {
-//        // Currently, the servo position is set directly, no need for a stop method.
-//        // You may want to add functionality here if needed in the future.
-//    }
-
-
 }
