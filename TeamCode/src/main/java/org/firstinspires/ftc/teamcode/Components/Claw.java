@@ -43,7 +43,9 @@ public class Claw implements Component{
         clawServo.setPosition(CLAW_OPEN_POSITION);
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
-        wrist.setPosition(WRIST_UP_POSITION); //Changed from down to up (value = 0)
+        wrist.setPosition(WRIST_DOWN_POSITION);
+        wrist.setPosition(WRIST_UP_POSITION);
+
 
         ifSwinged = false;
     }
