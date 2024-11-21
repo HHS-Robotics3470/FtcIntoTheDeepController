@@ -123,7 +123,7 @@ public class TeleOP extends LinearOpMode {
                 robot.lifts.stopLiftVertical();
             }
 
-
+//
             if (gamepad1.b && !b1state) {
                 robot.claw.grab();
                 robot.intake.pitchDown();
@@ -151,8 +151,6 @@ public class TeleOP extends LinearOpMode {
             if (gamepad2.x) {
                 robot.claw.specimen();
             }
-
-
 
 
 

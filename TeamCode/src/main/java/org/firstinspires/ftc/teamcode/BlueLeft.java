@@ -33,7 +33,7 @@ public class BlueLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             // Move straight left
-            strafe(1, 1000); // Adjust time or power as needed
+            robotHardware.mecnum.strafe(1, 45000); // Adjust time or power as needed
 
             // Raise the lift to the height limit
             //lifts.raiseLift();
@@ -52,7 +52,7 @@ public class BlueLeft extends LinearOpMode {
             //sleep(2000);
 
             // Turn around (180 degrees)
-            rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
+            robotHardware.mecnum.rotate(1, 1500); // Adjust timing for a full 180-degree turn
             sleep(500);
 
             telemetry.addData("Status", "Autonomous Complete");

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RobotHardware {
-    public LinearOpMode myOpMode = null;
+    public LinearOpMode myOpMode;
 
     public RobotHardware(LinearOpMode opMode) {
         myOpMode = opMode;
@@ -52,7 +52,7 @@ public class RobotHardware {
     public Claw claw = new Claw();
     public Lifts lifts = new Lifts();
     public Hang hang = new Hang();
-    Component[] components = {mecnum}; //intake, claw, lifts, hang};
+    Component[] components = {mecnum, intake, lifts}; //, claw, lifts, hang};
 
 
     public void init() {
@@ -79,9 +79,9 @@ public class RobotHardware {
 
 
         // Initialize encoders
-        leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
+        leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "bRight"));
         rightEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fRight"));
-        frontEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "bLeft"));
+        frontEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
 
         // Initialize localizer
         List<Integer> initalpos = new ArrayList<>();
