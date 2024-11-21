@@ -30,10 +30,10 @@ public class Claw implements Component{
     @Override
     public void init(RobotHardware robotHardware) {
         myOpMode = robotHardware.myOpMode;
+        wrist = robotHardware.wrist;
         clawServo = robotHardware.clawServo;
         armRight = robotHardware.armRight;
         armLeft = robotHardware.armLeft;
-        wrist = robotHardware.wrist;
 
         armRight.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.FORWARD);
@@ -43,7 +43,7 @@ public class Claw implements Component{
         clawServo.setPosition(CLAW_OPEN_POSITION);
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
-        wrist.setPosition(WRIST_DOWN_POSITION);
+        wrist.setPosition(WRIST_UP_POSITION); //Changed from down to up (value = 0)
 
         ifSwinged = false;
     }
