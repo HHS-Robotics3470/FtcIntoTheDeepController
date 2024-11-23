@@ -10,8 +10,21 @@ import org.firstinspires.ftc.teamcode.Components.Claw;
 @Autonomous(name = "Blue Left", group = "Autonomous")
 public class BlueLeft extends LinearOpMode {
     private RobotHardware robotHardware;
+    private RobotHardware Mecnum;
     private Lifts lifts;
     private Claw claw;
+
+
+    // Speed control constants
+    public final double DRIVE_SPEED_MAX_AUTO = 0.5;
+    public final double DRIVE_SPEED_SLOW_AUTO = 0.05;
+    public double driveSpeedControl = DRIVE_SPEED_MAX_AUTO;
+
+    // Individual motor speed scaling
+    public double AUTOspeedFLeft = 1.0;
+    public double AUTOspeedFRight = 1.0;
+    public double AUTOspeedBLeft = 2.5; // Back should have more power
+    public double AUTOspeedBRight = 2.5; // Back should have more power
 
     @Override
     public void runOpMode() {
@@ -33,26 +46,10 @@ public class BlueLeft extends LinearOpMode {
 
         if (opModeIsActive()) {
             // Move straight left
-            strafe(1, 1000); // Adjust time or power as needed
+            robotHardware.mecnum.strafe(1, 1000); // Adjust time or power as needed
 
-            // Raise the lift to the height limit
-            //lifts.raiseLift();
-            //sleep(2000); // Wait to ensure lift reaches the height
-
-            // Open the claw to release the object
-            //claw.clawOpen();
-            //sleep(1000);
-
-            // Open the claw to release the object
-            // claw.clawClose();
-            //sleep(1000);
-
-            // Lower the lift to normal position
-            //lifts.lowerLift();
-            //sleep(2000);
-
-            // Turn around (180 degrees)
-            rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
+            // Rotate around (180 degrees)
+            robotHardware.mecnum.rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
             sleep(500);
 
             telemetry.addData("Status", "Autonomous Complete");
@@ -61,57 +58,13 @@ public class BlueLeft extends LinearOpMode {
     }
 
     /**
-     * Move the robot forward for a specific duration.
-     *
-     * @param power the power level to set for the motors
-     * @param time the duration to move in milliseconds
+     * Set power for each motor with independent speed adjustments.
      */
-    private void moveForward(double power, int time) {
-        robotHardware.fLeft.setPower(power);
-        robotHardware.fRight.setPower(power);
-        robotHardware.bLeft.setPower(power);
-        robotHardware.bRight.setPower(power);
-        sleep(time);
-        stopMoving();
+    public void setDrivePower(double autoPower) {
+        robotHardware.fLeft.setPower(autoPower * driveSpeedControl * AUTOspeedFLeft);
+        robotHardware.fRight.setPower(autoPower * driveSpeedControl * AUTOspeedFRight);
+        robotHardware.bLeft.setPower(autoPower * driveSpeedControl * AUTOspeedBLeft);
+        robotHardware.bRight.setPower(autoPower * driveSpeedControl * AUTOspeedBRight);
     }
 
-    /**
-     * Stop all drive motors.
-     */
-    private void stopMoving() {
-        robotHardware.fLeft.setPower(0);
-        robotHardware.fRight.setPower(0);
-        robotHardware.bLeft.setPower(0);
-        robotHardware.bRight.setPower(0);
-    }
-
-    /**
-     * Strafe the robot either left or right.
-     *
-     * @param power the power level to set for the motors
-     * @param time the duration to move in milliseconds
-     */
-    private void strafe(double power, int time) {
-        robotHardware.fLeft.setPower(power);
-        robotHardware.fRight.setPower(-power);
-        robotHardware.bLeft.setPower(-power);
-        robotHardware.bRight.setPower(power);
-        sleep(time);
-        stopMoving();
-    }
-
-    /**
-     * Rotate the robot either left or right.
-     *
-     * @param power the power level to set for the motors
-     * @param time the duration to rotate in milliseconds
-     */
-    private void rotate(double power, int time) {
-        robotHardware.fLeft.setPower(power);
-        robotHardware.fRight.setPower(-power);
-        robotHardware.bLeft.setPower(power);
-        robotHardware.bRight.setPower(-power);
-        sleep(time);
-        stopMoving();
-    }
 }
