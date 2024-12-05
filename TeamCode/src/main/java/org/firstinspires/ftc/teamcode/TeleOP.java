@@ -127,7 +127,7 @@ public class TeleOP extends LinearOpMode {
             if (gamepad1.b && !b1state) {
                 robot.claw.grab();
                 robot.intake.pitchDown();
-                sleep(500);
+                sleep(200);
                 robot.intake.pitchUp();
                 b1state = true;
             } else if (!gamepad1.b && b1state) {
