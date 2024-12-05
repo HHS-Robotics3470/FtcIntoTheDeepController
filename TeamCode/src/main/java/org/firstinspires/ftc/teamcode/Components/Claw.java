@@ -17,7 +17,7 @@ public class Claw implements Component{
     private final double CLAW_OPEN_POSITION = 0.05;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.315;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.235;
+    private final double ARM_DOWN_POSITION = 0.2315;
     private final double ARM_REST_POSITION = 0.245;
     private final double WRIST_UP_POSITION = 0.35;
     private final double WRIST_DOWN_POSITION = 0.2;
@@ -90,12 +90,13 @@ public class Claw implements Component{
     {
         clawOpen();
         wristDown();
-        myOpMode.sleep(300);
+        myOpMode.sleep(150);
         armDown();
-        myOpMode.sleep(300);
+        myOpMode.sleep(190);
         clawClose();
-        myOpMode.sleep(400);
+        myOpMode.sleep(175);
         armRest();
+        myOpMode.sleep(300);
         wristUP();
     }
     //areeb the set position right now is good to transfer but when you use the wristDown() command it rotatates weirdly idk how to explain it wrist up is alaso scuffed idk <3
