@@ -17,9 +17,10 @@ public class Claw implements Component{
     private final double CLAW_OPEN_POSITION = 0.05;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.315;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.2315;
+    private final double ARM_DOWN_POSITION = 0.23;
     private final double ARM_REST_POSITION = 0.245;
     private final double WRIST_UP_POSITION = 0.35;
+    private final double WRIST_AUTO_POSITION = 0.38;
     private final double WRIST_DOWN_POSITION = 0.2;
     private final double WRIST_SPECIMEN = 0.15;
     private final double ARM_SPECIMEN = 0.35;
@@ -40,7 +41,7 @@ public class Claw implements Component{
 
         wrist.setDirection(Servo.Direction.REVERSE);
 
-        clawServo.setPosition(CLAW_OPEN_POSITION);
+        clawServo.setPosition(CLAW_CLOSE_POSITION);
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
         wrist.setPosition(WRIST_DOWN_POSITION);
@@ -86,17 +87,24 @@ public class Claw implements Component{
         wrist.setPosition(WRIST_DOWN_POSITION);
     }
 
+    public void ThreadSleep(int milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void grab()
     {
         clawOpen();
         wristDown();
-        myOpMode.sleep(150);
+        ThreadSleep(150);
         armDown();
-        myOpMode.sleep(190);
+        ThreadSleep(190);
         clawClose();
-        myOpMode.sleep(175);
+        ThreadSleep(175);
         armRest();
-        myOpMode.sleep(300);
+        ThreadSleep(300);
         wristUP();
     }
     //areeb the set position right now is good to transfer but when you use the wristDown() command it rotatates weirdly idk how to explain it wrist up is alaso scuffed idk <3
@@ -130,6 +138,12 @@ public class Claw implements Component{
     public void specimen()
     {
         wrist.setPosition(WRIST_SPECIMEN);
+        armRight.setPosition(ARM_SPECIMEN);
+        armLeft.setPosition(ARM_SPECIMEN);
+    }
+
+    public void specimenAuto() {
+        wrist.setPosition(WRIST_AUTO_POSITION);
         armRight.setPosition(ARM_SPECIMEN);
         armLeft.setPosition(ARM_SPECIMEN);
     }

@@ -84,6 +84,22 @@ public class Lifts implements Component {
         }
     }
 
+    public void GoToPositionVertical(int target)
+    {
+        while (lLift.getCurrentPosition() != target && rLift.getCurrentPosition() != target)
+        {
+            lLift.setTargetPosition(target);
+            rLift.setTargetPosition(target);
+
+            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lLift.setPower(1);
+            rLift.setPower(1);
+        }
+    }
+
+
     // Lower Lift function
     public void backLift() {
         if (extendo.getCurrentPosition() > LIFT_BACK) {
