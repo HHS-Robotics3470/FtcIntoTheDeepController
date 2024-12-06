@@ -21,26 +21,23 @@ public class BlueLeft extends LinearOpMode {
 
 
     // Speed control constants
-    public final double DRIVE_SPEED_MAX_AUTO = 0.5;
-    public final double DRIVE_SPEED_SLOW_AUTO = 0.05;
-    public double driveSpeedControl = DRIVE_SPEED_MAX_AUTO;
+//    public final double DRIVE_SPEED_MAX_AUTO = 0.5;
+//    public final double DRIVE_SPEED_SLOW_AUTO = 0.05;
+//    public double driveSpeedControl = DRIVE_SPEED_MAX_AUTO;
+//
+//    // Individual motor speed scaling
+//    public double AUTOspeedFLeft = 1.0;
+//    public double AUTOspeedFRight = 1.0;
+//    public double AUTOspeedBLeft = 2.5; // Back should have more power
+//    public double AUTOspeedBRight = 2.5; // Back should have more power
 
-    // Individual motor speed scaling
-    public double AUTOspeedFLeft = 1.0;
-    public double AUTOspeedFRight = 1.0;
-    public double AUTOspeedBLeft = 2.5; // Back should have more power
-    public double AUTOspeedBRight = 2.5; // Back should have more power
 
     @Override
     public void runOpMode() {
         // Initialize hardware and components
-        robotHardware = new RobotHardware(this);
-        drive = new SampleMecanumDrive(this.hardwareMap); // Initialize with 'this' LinearOpMode
-        robotHardware.init();  // Call init() to set up the hardware
-
-        Trajectory traj1 =  drive.trajectoryBuilder(new Pose2d())
-                .splineTo(new Vector2d(5, 5), Math.toRadians(270))
-                .build();
+        RobotHardware robot = new RobotHardware(this);
+        robot.init();
+        drive = new SampleMecanumDrive(hardwareMap); // Initialize with 'this' LinearOpMode
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -50,14 +47,16 @@ public class BlueLeft extends LinearOpMode {
 
 
         if (opModeIsActive()) {
-//            // Move straight left
-//            robotHardware.mecnum.strafe(1, 1000); // Adjust time or power as needed
-//
-//            // Rotate around (180 degrees)
-//            robotHardware.mecnum.rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
-//            sleep(500);
+//            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-            drive.followTrajectory(traj1);
+
+
+            drive.setPoseEstimate(new Pose2d(0,0, Math.toRadians(180)));
+            Trajectory traj = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
+                    .build();
+            drive.followTrajectory(traj);
+
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();
@@ -67,11 +66,11 @@ public class BlueLeft extends LinearOpMode {
     /**
      * Set power for each motor with independent speed adjustments.
      */
-    public void setDrivePower(double autoPower) {
-        robotHardware.fLeft.setPower(autoPower * driveSpeedControl * AUTOspeedFLeft);
-        robotHardware.fRight.setPower(autoPower * driveSpeedControl * AUTOspeedFRight);
-        robotHardware.bLeft.setPower(autoPower * driveSpeedControl * AUTOspeedBLeft);
-        robotHardware.bRight.setPower(autoPower * driveSpeedControl * AUTOspeedBRight);
-    }
+//    public void setDrivePower(double autoPower) {
+//        robotHardware.fLeft.setPower(autoPower * driveSpeedControl * AUTOspeedFLeft);
+//        robotHardware.fRight.setPower(autoPower * driveSpeedControl * AUTOspeedFRight);
+//        robotHardware.bLeft.setPower(autoPower * driveSpeedControl * AUTOspeedBLeft);
+//        robotHardware.bRight.setPower(autoPower * driveSpeedControl * AUTOspeedBRight);
+//    }
 
 }

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 public class Mecnum implements Component {
     private RobotHardware robotHardware;
 
-    public final double DRIVE_SPEED_MAX = 1.0;
+    public final double DRIVE_SPEED_MAX = 0.8;
     public final double DRIVE_SPEED_SLOW = 0.05;
     public double driveSpeedControl = DRIVE_SPEED_MAX;
 
