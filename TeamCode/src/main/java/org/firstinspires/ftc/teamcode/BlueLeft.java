@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
@@ -13,6 +17,7 @@ public class BlueLeft extends LinearOpMode {
     private RobotHardware Mecnum;
     private Lifts lifts;
     private Claw claw;
+    private SampleMecanumDrive drive;
 
 
     // Speed control constants
@@ -29,14 +34,13 @@ public class BlueLeft extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize hardware and components
-        robotHardware = new RobotHardware(this);  // Initialize with 'this' LinearOpMode
+        robotHardware = new RobotHardware(this);
+        drive = new SampleMecanumDrive(this.hardwareMap); // Initialize with 'this' LinearOpMode
         robotHardware.init();  // Call init() to set up the hardware
 
-        lifts = new Lifts();  // Initialize the lift system
-        lifts.init(robotHardware);
-
-        claw = new Claw();  // Initialize the claw system
-        claw.init(robotHardware);
+        Trajectory traj1 =  drive.trajectoryBuilder(new Pose2d())
+                .splineTo(new Vector2d(5, 5), Math.toRadians(270))
+                .build();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -44,13 +48,16 @@ public class BlueLeft extends LinearOpMode {
         // Wait for the start of the match
         waitForStart();
 
-        if (opModeIsActive()) {
-            // Move straight left
-            robotHardware.mecnum.strafe(1, 1000); // Adjust time or power as needed
 
-            // Rotate around (180 degrees)
-            robotHardware.mecnum.rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
-            sleep(500);
+        if (opModeIsActive()) {
+//            // Move straight left
+//            robotHardware.mecnum.strafe(1, 1000); // Adjust time or power as needed
+//
+//            // Rotate around (180 degrees)
+//            robotHardware.mecnum.rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
+//            sleep(500);
+
+            drive.followTrajectory(traj1);
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();
