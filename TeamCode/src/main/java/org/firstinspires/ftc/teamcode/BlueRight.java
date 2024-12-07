@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+//Fix Blue Left Configuration
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -42,8 +43,11 @@ public class BlueRight extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+
         // Wait for the start of the match
         waitForStart();
+
+
 
 
         if (opModeIsActive()) {
@@ -56,23 +60,63 @@ public class BlueRight extends LinearOpMode {
                     .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
                     .build();
             Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
-                    .back(15)
+                    .back(17.397)
                     .build();
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
             robot.lifts.GoToPositionVertical(1600);
             drive.followTrajectory(traj2);
-            robot.lifts.GoToPositionVertical(600);
+
+            // Define the starting pose
+            drive.setPoseEstimate(new Pose2d(20, 20, Math.toRadians(180)));
+
+// Define a single "backward" trajectory
+
+
+// Define the lift height parameters
+            int targetHeight = 900; // Target height
+            int decrementStep = 190; // Amount to decrease in each step
+            int currentHeight = 1600; // Starting height
+
+// Loop to simultaneously lower the lift and move backward
+            while (currentHeight > targetHeight) {
+                // Command the lift to move to the next height step
+                int nextHeight = Math.max(currentHeight - decrementStep, targetHeight); // Ensure it doesn't go below the target
+                robot.lifts.GoToPositionVertical(nextHeight);
+                boolean x = true;
+
+                // Wait until the lift reaches the next position
+                while (x == true) {
+                    // Follow the backward trajectory
+                    Trajectory traj69 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                            .back(9) // Move 9 unit backward
+                            .build();
+                    drive.followTrajectory(traj69);
+
+
+                    x = false;
+                }
+
+
+
+                // Update the current height
+                currentHeight = nextHeight;
+            }
+
+// Finalize at the target height
+            robot.lifts.GoToPositionVertical(targetHeight);
             robot.claw.clawOpen();
             Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(20)
+                    .forward(17.35)
+
                     .build();
             drive.followTrajectory(traj3);
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeLeft(70)
+                    .strafeLeft(87)
                     .build();
             drive.followTrajectory(traj4);
 
+            robot.lifts.GoToPositionVertical(0);
 
 
             telemetry.addData("Status", "Autonomous Complete");

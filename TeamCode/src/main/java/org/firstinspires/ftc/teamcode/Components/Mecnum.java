@@ -15,6 +15,7 @@ public class Mecnum implements Component {
     // Custom speeds for individual motors
     public double speedFLeft = 1.0;
     public double speedFRight = 1.0;
+
     public double speedBLeft = 1.0; //Back should have more power
     public double speedBRight = 1.0; //Back should have more power
 
