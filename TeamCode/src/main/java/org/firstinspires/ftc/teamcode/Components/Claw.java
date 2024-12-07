@@ -16,19 +16,20 @@ public class Claw implements Component{
     //
 
     // Constants for servo positions
-    private final double CLAW_OPEN_POSITION = 0.05;   // Adjust as needed for your claw design
+    private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
-    private final double ARM_UP_POSITION = 0.315;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.22;
-    private final double ARM_REST_POSITION = 0.245;
+    private final double ARM_UP_POSITION = 0.325;    // Adjust as needed for your pitch servo
+    private final double ARM_DOWN_POSITION = 0.229;
+    private final double ARM_REST_POSITION = 0.252;
     private final double WRIST_UP_POSITION = 0.35;
     private final double WRIST_AUTO_POSITION = 0.5;
-    private final double WRIST_DOWN_POSITION = 0.2;
-    private final double WRIST_SPECIMEN = 0.15;
+    private final double WRIST_DOWN_POSITION = 0.214
+            ;
+    private final double WRIST_SPECIMEN = 0.32;
     private final double ARM_SPECIMEN = 0.35;
-    private final double ARM_AUTO = 0.3;
+    private final double ARM_AUTO = 0.315;
     private final double HANG_INITIAL = 0;
-    private final double HANG_ACTIVATED = 0.2;
+    private final double HANG_ACTIVATED = 0.115;
 
 
             ;// Adjust as needed for your pitch servo
@@ -52,7 +53,7 @@ public class Claw implements Component{
         armLeft.setPosition(ARM_REST_POSITION);
         wrist.setPosition(WRIST_DOWN_POSITION);
         wrist.setPosition(WRIST_UP_POSITION);
-//        hang.setPosition(HANG_INITIAL);
+        hang.setPosition(HANG_INITIAL);
 
 
         ifSwinged = false;
@@ -107,9 +108,9 @@ public class Claw implements Component{
         wristDown();
         ThreadSleep(150);
         armDown();
-        ThreadSleep(190);
+        ThreadSleep(250);
         clawClose();
-        ThreadSleep(175);
+        ThreadSleep(200);
         armRest();
         ThreadSleep(300);
         wristUP();
@@ -157,7 +158,7 @@ public class Claw implements Component{
 
     public void lvl1hang()
     {
-//        hang.setPosition(HANG_ACTIVATED);
+        hang.setPosition(HANG_ACTIVATED);
     }
 //
 //    // Method to stop the claw servo (optional, for safety)

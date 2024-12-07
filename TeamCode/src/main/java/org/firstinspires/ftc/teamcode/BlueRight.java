@@ -35,8 +35,8 @@ public class BlueRight extends LinearOpMode {
     public void runOpMode() {
         // Initialize hardware and components
         RobotHardware robot = new RobotHardware(this);
-        robot.init();
-        drive = new SampleMecanumDrive(hardwareMap); // Initialize with 'this' LinearOpMode
+
+         // Initialize with 'this' LinearOpMode
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -44,8 +44,8 @@ public class BlueRight extends LinearOpMode {
 
         // Wait for the start of the match
         waitForStart();
-
-
+        robot.init();
+        drive = new SampleMecanumDrive(hardwareMap);
 
 
         if (opModeIsActive()) {
@@ -68,7 +68,7 @@ public class BlueRight extends LinearOpMode {
             robot.claw.armUp();
             robot.claw.wristUP();
 
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(5).build();
+            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(4.8).build();
             drive.followTrajectory(traj3);
 
             robot.claw.clawOpen();
@@ -93,6 +93,7 @@ public class BlueRight extends LinearOpMode {
             drive.followTrajectory(traj6);
 
             robot.claw.lvl1hang();
+            robot.claw.ThreadSleep(250);
 
 
 

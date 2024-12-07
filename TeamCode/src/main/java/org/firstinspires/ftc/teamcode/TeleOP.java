@@ -152,6 +152,10 @@ public class TeleOP extends LinearOpMode {
                 robot.claw.specimen();
             }
 
+            if (gamepad2.a) {
+                robot.claw.lvl1hang();
+            }
+
 //
 //
 
