@@ -33,6 +33,7 @@ public class RedRight extends LinearOpMode {
             //robotHardware.lifts.lowerLift();
             //sleep(500); // Adjust for the partial lowering of lift
 
+
             // Open Claw
             //robotHardware.claw.clawOpen();
             //sleep(500);

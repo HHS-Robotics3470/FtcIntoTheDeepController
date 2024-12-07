@@ -43,8 +43,11 @@ public class BlueLeft extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+
         // Wait for the start of the match
         waitForStart();
+
+
 
 
         if (opModeIsActive()) {
@@ -63,7 +66,7 @@ public class BlueLeft extends LinearOpMode {
             robot.claw.specimenAuto();
             robot.lifts.GoToPositionVertical(1600);
             drive.followTrajectory(traj2);
-            robot.lifts.GoToPositionVertical(600);
+            robot.lifts.GoToPositionVertical(1000);
             robot.claw.clawOpen();
             Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .forward(20)
