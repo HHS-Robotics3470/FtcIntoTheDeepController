@@ -12,12 +12,10 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Blue Right", group = "Autonomous")
+@Autonomous(name = "Blue Left", group = "Autonomous")
 public class BlueRight extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;
-    private Lifts lifts;
-    private Claw claw;
     private SampleMecanumDrive drive;
 
 
@@ -53,70 +51,50 @@ public class BlueRight extends LinearOpMode {
         if (opModeIsActive()) {
 //            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+            drive.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(270)));
 
+            Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(20).build();
 
-            drive.setPoseEstimate(new Pose2d(0,0, Math.toRadians(180)));
-            Trajectory traj = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
-                    .build();
-            Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
-                    .back(17.397)
-                    .build();
-            drive.followTrajectory(traj);
-            robot.claw.specimenAuto();
-            robot.lifts.GoToPositionVertical(1600);
+            drive.followTrajectory(traj1);
+
+            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40).build();
+
             drive.followTrajectory(traj2);
 
-            // Define the starting pose
-            drive.setPoseEstimate(new Pose2d(20, 20, Math.toRadians(180)));
+            drive.turn(Math.toRadians(53));
 
-// Define a single "backward" trajectory
+            robot.lifts.GoToPositionVertical(3700);
 
+            robot.claw.armUp();
+            robot.claw.wristUP();
 
-// Define the lift height parameters
-            int targetHeight = 900; // Target height
-            int decrementStep = 190; // Amount to decrease in each step
-            int currentHeight = 1600; // Starting height
-
-// Loop to simultaneously lower the lift and move backward
-            while (currentHeight > targetHeight) {
-                // Command the lift to move to the next height step
-                int nextHeight = Math.max(currentHeight - decrementStep, targetHeight); // Ensure it doesn't go below the target
-                robot.lifts.GoToPositionVertical(nextHeight);
-                boolean x = true;
-
-                // Wait until the lift reaches the next position
-                while (x == true) {
-                    // Follow the backward trajectory
-                    Trajectory traj69 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                            .back(9) // Move 9 unit backward
-                            .build();
-                    drive.followTrajectory(traj69);
-
-
-                    x = false;
-                }
-
-
-
-                // Update the current height
-                currentHeight = nextHeight;
-            }
-
-// Finalize at the target height
-            robot.lifts.GoToPositionVertical(targetHeight);
-            robot.claw.clawOpen();
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(17.35)
-
-                    .build();
+            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(5).build();
             drive.followTrajectory(traj3);
-            Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeLeft(87)
-                    .build();
-            drive.followTrajectory(traj4);
 
+            robot.claw.clawOpen();
+
+            sleep(200);
+
+            robot.claw.wristDown();
+            robot.claw.armRest();
             robot.lifts.GoToPositionVertical(0);
+            robot.lifts.GoToPositionVertical(0);
+
+
+
+            Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate()).forward(5).build();
+            drive.turn(Math.toRadians(150));
+
+
+            Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(60).build();
+            drive.followTrajectory(traj5);
+
+            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40).build();
+            drive.followTrajectory(traj6);
+
+            robot.claw.lvl1hang();
+
+
 
 
             telemetry.addData("Status", "Autonomous Complete");

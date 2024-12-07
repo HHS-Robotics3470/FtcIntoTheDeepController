@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Blue Left", group = "Autonomous")
+@Autonomous(name = "Blue Right", group = "Autonomous")
 public class BlueLeft extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;
