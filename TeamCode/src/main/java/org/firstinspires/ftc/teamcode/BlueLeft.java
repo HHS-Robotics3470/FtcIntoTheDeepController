@@ -26,6 +26,7 @@ public class BlueLeft extends LinearOpMode {
 //    public final double DRIVE_SPEED_SLOW_AUTO = 0.05;
 //    public double driveSpeedControl = DRIVE_SPEED_MAX_AUTO;
 //
+
 //    // Individual motor speed scaling
 //    public double AUTOspeedFLeft = 1.0;
 //    public double AUTOspeedFRight = 1.0;
@@ -61,21 +62,21 @@ public class BlueLeft extends LinearOpMode {
                     .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
                     .build();
             Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
-                    .back(17)
+                    .back(13.1)
                     .build();
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
-            robot.lifts.GoToPositionVertical(1600);
+            robot.lifts.GoToPositionVertical(1750);
             drive.followTrajectory(traj2);
-            robot.lifts.GoToPositionVertical(910);
+//            robot.lifts.GoToPositionVertical(910);
             robot.claw.clawOpen();
             Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(31)
+                    .forward(30)
 
                     .build();
             drive.followTrajectory(traj3);
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeLeft(70)
+                    .strafeLeft(73)
                     .build();
             drive.followTrajectory(traj4);
 

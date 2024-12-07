@@ -89,11 +89,28 @@ public class BlueRight extends LinearOpMode {
             Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(60).build();
             drive.followTrajectory(traj5);
 
-            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40).build();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(35).build();
             drive.followTrajectory(traj6);
 
             robot.claw.lvl1hang();
-            robot.claw.ThreadSleep(250);
+            robot.claw.ThreadSleep(5000);
 
 
 

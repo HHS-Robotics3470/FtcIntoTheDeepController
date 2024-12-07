@@ -38,6 +38,7 @@ public class TeleOP extends LinearOpMode {
     private boolean b1state = false;
     private boolean y1state = false;
     private boolean a2state = false;
+    private boolean a3state = false;
 
     @Override
     public void runOpMode() {
@@ -152,8 +153,11 @@ public class TeleOP extends LinearOpMode {
                 robot.claw.specimen();
             }
 
-            if (gamepad2.a) {
+            if (gamepad2.a && !a3state) {
                 robot.claw.lvl1hang();
+                a3state = true;
+            } else if (!gamepad2.a && a3state) {
+                a3state = false;
             }
 
 //

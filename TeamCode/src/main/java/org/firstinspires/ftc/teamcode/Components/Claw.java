@@ -20,13 +20,13 @@ public class Claw implements Component{
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.325;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.229;
+    private final double ARM_DOWN_POSITION = 0.228;
     private final double ARM_REST_POSITION = 0.252;
     private final double WRIST_UP_POSITION = 0.35;
     private final double WRIST_AUTO_POSITION = 0.5;
-    private final double WRIST_DOWN_POSITION = 0.214
+    private final double WRIST_DOWN_POSITION = 0.237
             ;
-    private final double WRIST_SPECIMEN = 0.32;
+    private final double WRIST_SPECIMEN = 0.345;
     private final double ARM_SPECIMEN = 0.35;
     private final double ARM_AUTO = 0.315;
     private final double HANG_INITIAL = 0;
@@ -42,7 +42,9 @@ public class Claw implements Component{
         clawServo = robotHardware.clawServo;
         armRight = robotHardware.armRight;
         armLeft = robotHardware.armLeft;
-        hang = robotHardware.lock2;
+        hang = robotHardware.lock1;
+
+        hang.setDirection(Servo.Direction.REVERSE);
 
         armRight.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.FORWARD);
@@ -111,7 +113,7 @@ public class Claw implements Component{
         armDown();
         ThreadSleep(250);
         clawClose();
-        ThreadSleep(200);
+        ThreadSleep(400);
         armRest();
         ThreadSleep(300);
         wristUP();
@@ -159,7 +161,11 @@ public class Claw implements Component{
 
     public void lvl1hang()
     {
-        hang.setPosition(HANG_ACTIVATED);
+        if (Math.abs(hang.getPosition() - HANG_ACTIVATED) < 0.0001) {
+            hang.setPosition(HANG_INITIAL);
+        } else {
+            hang.setPosition(HANG_ACTIVATED);
+        }
     }
 //
 //    // Method to stop the claw servo (optional, for safety)
