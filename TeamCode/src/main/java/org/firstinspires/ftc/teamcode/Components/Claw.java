@@ -20,10 +20,11 @@ public class Claw implements Component{
     private final double ARM_DOWN_POSITION = 0.23;
     private final double ARM_REST_POSITION = 0.245;
     private final double WRIST_UP_POSITION = 0.35;
-    private final double WRIST_AUTO_POSITION = 0.38;
+    private final double WRIST_AUTO_POSITION = 0.5;
     private final double WRIST_DOWN_POSITION = 0.2;
     private final double WRIST_SPECIMEN = 0.15;
     private final double ARM_SPECIMEN = 0.35;
+    private final double ARM_AUTO = 0.3;
 
 
             ;// Adjust as needed for your pitch servo
@@ -144,8 +145,8 @@ public class Claw implements Component{
 
     public void specimenAuto() {
         wrist.setPosition(WRIST_AUTO_POSITION);
-        armRight.setPosition(ARM_SPECIMEN);
-        armLeft.setPosition(ARM_SPECIMEN);
+        armRight.setPosition(ARM_AUTO);
+        armLeft.setPosition(ARM_AUTO);
     }
 //
 //    // Method to stop the claw servo (optional, for safety)

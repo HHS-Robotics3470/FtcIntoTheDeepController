@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+//Fix Blue Left Configuration
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -56,18 +57,24 @@ public class BlueLeft extends LinearOpMode {
                     .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
                     .build();
             Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
-                            .back(7)
+                            .back(15)
                             .build();
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
-            robot.lifts.GoToPositionVertical(2411);
+            robot.lifts.GoToPositionVertical(1600);
             drive.followTrajectory(traj2);
-            robot.lifts.GoToPositionVertical(1550);
+            robot.lifts.GoToPositionVertical(600);
             robot.claw.clawOpen();
             Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(7)
+                    .forward(20)
                     .build();
             drive.followTrajectory(traj3);
+            Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                            .strafeLeft(70)
+                            .build();
+            drive.followTrajectory(traj4);
+
+
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();

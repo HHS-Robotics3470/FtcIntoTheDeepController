@@ -141,10 +141,10 @@ public class TeleOP extends LinearOpMode {
                 y1state = false;
             }
 
-            if (gamepad2.a && !a2state) {
+            if (gamepad2.b && !a2state) {
                 robot.claw.toggleClaw();
                 a2state = true;
-            } else if (!gamepad2.a && a2state) {
+            } else if (!gamepad2.b && a2state) {
                 a2state = false;
             }
 
