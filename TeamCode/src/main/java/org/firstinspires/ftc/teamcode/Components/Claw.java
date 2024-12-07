@@ -58,7 +58,7 @@ public class Claw implements Component{
         wrist.setPosition(WRIST_UP_POSITION);
         hang.setPosition(HANG_INITIAL);
 
-
+//
         ifSwinged = false;
     }
 
