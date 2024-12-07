@@ -13,6 +13,7 @@ public class Claw implements Component{
     private Servo hang;
 
     private boolean ifSwinged = false;
+    //
 
     // Constants for servo positions
     private final double CLAW_OPEN_POSITION = 0.05;   // Adjust as needed for your claw design
