@@ -13,6 +13,7 @@ public class Claw implements Component{
     private Servo hang;
 
     private boolean ifSwinged = false;
+    private boolean ifSpecimen = false;
     //
     //
 
@@ -27,7 +28,8 @@ public class Claw implements Component{
     private final double WRIST_DOWN_POSITION = 0.18
             ;
     private final double WRIST_SPECIMEN = 0.345;
-    private final double ARM_SPECIMEN = 0.1625;
+    private final double WRIST_SPECIMEN_OUT = 0.18;
+    private final double ARM_SPECIMEN = 0.325;
     private final double ARM_AUTO = 0.315;
     private final double HANG_INITIAL = 0;
     private final double HANG_ACTIVATED = 0.115;
@@ -60,6 +62,7 @@ public class Claw implements Component{
 
 //
         ifSwinged = false;
+        ifSpecimen = false;
     }
 
     // Method to open the claw
@@ -150,9 +153,20 @@ public class Claw implements Component{
 
     public void specimen()
     {
-        wrist.setPosition(WRIST_SPECIMEN);
-        armRight.setPosition(ARM_SPECIMEN);
-        armLeft.setPosition(ARM_SPECIMEN);
+        if (!ifSpecimen)
+        {
+            wrist.setPosition(WRIST_SPECIMEN_OUT);
+            armRight.setPosition(ARM_SPECIMEN);
+            armLeft.setPosition(ARM_SPECIMEN);
+            ifSpecimen = true;
+        }
+        else
+        {
+            wrist.setPosition(WRIST_SPECIMEN);
+            armRight.setPosition(ARM_SPECIMEN);
+            armLeft.setPosition(ARM_SPECIMEN);
+            ifSpecimen = false;
+        }
     }
 
     public void specimenAuto() {

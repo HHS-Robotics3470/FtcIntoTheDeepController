@@ -82,6 +82,7 @@ public class Intake implements Component {
         ThreadSleep(500);
         clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
         ThreadSleep(500);
+        wristIntake.setPosition(INTAKE_CLAW_WRIST1_POSITION);
         intakePitch.setPosition(PITCH_TRANSFER);
     }
 
