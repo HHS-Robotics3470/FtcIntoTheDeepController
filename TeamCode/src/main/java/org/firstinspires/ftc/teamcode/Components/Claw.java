@@ -20,14 +20,14 @@ public class Claw implements Component{
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.325;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.228;
+    private final double ARM_DOWN_POSITION = 0.241;
     private final double ARM_REST_POSITION = 0.252;
     private final double WRIST_UP_POSITION = 0.35;
     private final double WRIST_AUTO_POSITION = 0.5;
-    private final double WRIST_DOWN_POSITION = 0.237
+    private final double WRIST_DOWN_POSITION = 0.18
             ;
     private final double WRIST_SPECIMEN = 0.345;
-    private final double ARM_SPECIMEN = 0.35;
+    private final double ARM_SPECIMEN = 0.1625;
     private final double ARM_AUTO = 0.315;
     private final double HANG_INITIAL = 0;
     private final double HANG_ACTIVATED = 0.115;
@@ -109,11 +109,13 @@ public class Claw implements Component{
     {
         clawOpen();
         wristDown();
-        ThreadSleep(150);
+        ThreadSleep(300);
         armDown();
         ThreadSleep(250);
         clawClose();
-        ThreadSleep(400);
+    }
+    public void grabUp()
+    {
         armRest();
         ThreadSleep(300);
         wristUP();
