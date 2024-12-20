@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import android.os.SystemClock;
+
 
 
 public class Claw implements Component{
@@ -16,17 +19,18 @@ public class Claw implements Component{
     private boolean ifSpecimen = false;
     //
     //
+    private final ElapsedTime timer = new ElapsedTime();
+
 
     // Constants for servo positions
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.325;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.25;
+    private final double ARM_DOWN_POSITION = 0.245;
     private final double ARM_REST_POSITION = 0.26;
     private final double WRIST_UP_POSITION = 0.35;
     private final double WRIST_AUTO_POSITION = 0.5;
-    private final double WRIST_DOWN_POSITION = 0.18
-            ;
+    private final double WRIST_DOWN_POSITION = 0.18;
     private final double WRIST_SPECIMEN = 0.345;
     private final double WRIST_SPECIMEN_OUT = 0.18;
     private final double ARM_SPECIMEN = 0.325;
@@ -64,6 +68,7 @@ public class Claw implements Component{
         ifSwinged = false;
         ifSpecimen = false;
     }
+
 
     // Method to open the claw
     public void clawOpen() {
@@ -108,20 +113,59 @@ public class Claw implements Component{
             throw new RuntimeException(e);
         }
     }
-    public void grab()
+
+    long setTime = System.currentTimeMillis();
+    boolean hasRun = false;
+    long lastTime = 0;
+    int step = 0;
+
+    int grabState = 0;
+    void startGrab(int state)
     {
-        clawOpen();
-        wristDown();
-        ThreadSleep(300);
-        armDown();
-        ThreadSleep(250);
-        clawClose();
+        grabState = state;
     }
+        public int grab(int state)
+        {
+            switch (state)
+            {
+                case 1:
+                    clawOpen();
+                    wristDown();
+                    timer.reset();
+                    state = 2;
+                    break;
+                case 2:
+                    if (timer.milliseconds() > 300) state = 3;
+                    break;
+                case 3:
+                    armDown();
+                    timer.reset();
+                    state = 4;
+                    break;
+                case 4:
+                    if (timer.milliseconds() > 250) state = 5;
+                    break;
+                case 5:
+                    clawClose();
+                    timer.reset();
+                    state = 6;
+                    break;
+                case 6:
+                    if (timer.milliseconds() > 200) state = 7;
+                    break;
+                case 0:
+                default:
+                    break;
+            }
+            return state;
+        }
+
     public void grabUp()
     {
         armRest();
         ThreadSleep(300);
         wristUP();
+        ThreadSleep(200);
     }
     //areeb the set position right now is good to transfer but when you use the wristDown() command it rotatates weirdly idk how to explain it wrist up is alaso scuffed idk <3
 

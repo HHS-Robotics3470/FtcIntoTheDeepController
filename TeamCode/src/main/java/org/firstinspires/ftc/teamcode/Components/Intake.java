@@ -1,14 +1,17 @@
 package org.firstinspires.ftc.teamcode.Components;
 
+import android.os.SystemClock;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import android.os.SystemClock;
 
 public class Intake implements Component {
 
-    public final double PITCH_TRANSFER = 0.1;
-    public final double PITCH_INTAKE_READY = 0.05;
-    public final double PITCH_INTAKING = 0.005;
+    public final double PITCH_TRANSFER = 0.205;
+    public final double PITCH_INTAKE_READY = 0.06;
+    public final double PITCH_INTAKING = 0;
 
     //public final double INTAKE_POWER = 1;
     private final double INTAKE_CLAW_OPEN_POSITION = 0.2;   // Adjust as needed for your claw design
@@ -60,6 +63,7 @@ public class Intake implements Component {
     }
     public void intakeRelease() {
         clawIntake.setPosition(INTAKE_CLAW_OPEN_POSITION);
+        ThreadSleep(250);
     }
     public void wristing()
     {
@@ -75,15 +79,18 @@ public class Intake implements Component {
         }
     }
 
+
+
     public void intaking() {
-        intakePitch.setPosition(PITCH_INTAKE_READY);
-        clawIntake.setPosition(INTAKE_CLAW_OPEN_POSITION);
-        intakePitch.setPosition(PITCH_INTAKING);
-        ThreadSleep(500);
-        clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
-        ThreadSleep(500);
-        wristIntake.setPosition(INTAKE_CLAW_WRIST1_POSITION);
-        intakePitch.setPosition(PITCH_TRANSFER);
+            intakePitch.setPosition(PITCH_INTAKE_READY);
+            clawIntake.setPosition(INTAKE_CLAW_OPEN_POSITION);
+            intakePitch.setPosition(PITCH_INTAKING);
+            ThreadSleep(500);
+            clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
+            ThreadSleep(500);
+            wristIntake.setPosition(INTAKE_CLAW_WRIST1_POSITION);
+            intakePitch.setPosition(PITCH_TRANSFER);
+        }
     }
 
     // Start intake motor
@@ -130,4 +137,3 @@ public class Intake implements Component {
      */
 
 
-}
