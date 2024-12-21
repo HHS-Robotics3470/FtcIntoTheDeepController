@@ -3,43 +3,31 @@ package org.firstinspires.ftc.teamcode.Components;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import android.os.SystemClock;
 
-
-
-public class Claw implements Component{
+public class Claw implements Component {
     private LinearOpMode myOpMode;
-    private Servo clawServo;     // Servo to open/close the claw
+    private Servo clawServo;
     private Servo armRight;
     private Servo armLeft;
-    private Servo wrist;// Servo to adjust the pitch of the claw
+    private Servo wrist;
     private Servo hang;
 
     private boolean ifSwinged = false;
     private boolean ifSpecimen = false;
-    //
-    //
+
     private final ElapsedTime timer = new ElapsedTime();
 
-
     // Constants for servo positions
-    private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
-    private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
-    private final double ARM_UP_POSITION = 0.325;    // Adjust as needed for your pitch servo
+    private final double CLAW_OPEN_POSITION = 0.056;
+    private final double CLAW_CLOSE_POSITION = 0;
+    private final double ARM_UP_POSITION = 0.325;
     private final double ARM_DOWN_POSITION = 0.245;
     private final double ARM_REST_POSITION = 0.26;
     private final double WRIST_UP_POSITION = 0.35;
-    private final double WRIST_AUTO_POSITION = 0.5;
     private final double WRIST_DOWN_POSITION = 0.18;
-    private final double WRIST_SPECIMEN = 0.345;
-    private final double WRIST_SPECIMEN_OUT = 0.18;
-    private final double ARM_SPECIMEN = 0.325;
-    private final double ARM_AUTO = 0.315;
-    private final double HANG_INITIAL = 0;
-    private final double HANG_ACTIVATED = 0.115;
 
-
-            ;// Adjust as needed for your pitch servo
+    private Thread grabThread;
+    private volatile boolean grabRunning = false;
 
     @Override
     public void init(RobotHardware robotHardware) {
@@ -51,188 +39,122 @@ public class Claw implements Component{
         hang = robotHardware.lock1;
 
         hang.setDirection(Servo.Direction.REVERSE);
-
         armRight.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.FORWARD);
-
         wrist.setDirection(Servo.Direction.REVERSE);
 
         clawServo.setPosition(CLAW_CLOSE_POSITION);
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
         wrist.setPosition(WRIST_DOWN_POSITION);
-        wrist.setPosition(WRIST_UP_POSITION);
-        hang.setPosition(HANG_INITIAL);
 
-//
         ifSwinged = false;
         ifSpecimen = false;
     }
 
-
-    // Method to open the claw
+    // Claw methods
     public void clawOpen() {
         clawServo.setPosition(CLAW_OPEN_POSITION);
     }
 
-    // Method to close the claw
     public void clawClose() {
         clawServo.setPosition(CLAW_CLOSE_POSITION);
     }
 
-    // Method to set the pitch of the claw up
+    // Arm methods
     public void armUp() {
         armRight.setPosition(ARM_UP_POSITION);
         armLeft.setPosition(ARM_UP_POSITION);
     }
 
-    // Method to set the pitch of the claw down
     public void armDown() {
         armRight.setPosition(ARM_DOWN_POSITION);
         armLeft.setPosition(ARM_DOWN_POSITION);
     }
 
-    public void armRest(){
+    public void armRest() {
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
     }
 
-    public void wristUP(){
+    public void wristUp() {
         wrist.setPosition(WRIST_UP_POSITION);
     }
 
     public void wristDown() {
-
         wrist.setPosition(WRIST_DOWN_POSITION);
     }
 
-    public void ThreadSleep(int milliseconds){
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    // Multithreaded grab logic
+    public void startGrab() {
+        grabRunning = true;
 
-    long setTime = System.currentTimeMillis();
-    boolean hasRun = false;
-    long lastTime = 0;
-    int step = 0;
-
-    int grabState = 0;
-    void startGrab(int state)
-    {
-        grabState = state;
-    }
-        public int grab(int state)
-        {
-            switch (state)
-            {
-                case 1:
-                    clawOpen();
-                    wristDown();
-                    timer.reset();
-                    state = 2;
-                    break;
-                case 2:
-                    if (timer.milliseconds() > 300) state = 3;
-                    break;
-                case 3:
-                    armDown();
-                    timer.reset();
-                    state = 4;
-                    break;
-                case 4:
-                    if (timer.milliseconds() > 250) state = 5;
-                    break;
-                case 5:
-                    clawClose();
-                    timer.reset();
-                    state = 6;
-                    break;
-                case 6:
-                    if (timer.milliseconds() > 200) state = 7;
-                    break;
-                case 0:
-                default:
-                    break;
+        grabThread = new Thread(() -> {
+            int state = 1;
+            while (grabRunning && !Thread.currentThread().isInterrupted()) {
+                state = grab(state);
+                if (state == 0) {
+                    grabRunning = false; // Stop when grab sequence is complete
+                }
+                try {
+                    Thread.sleep(50); // Small delay to prevent excessive CPU usage
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
-            return state;
-        }
-
-    public void grabUp()
-    {
-        armRest();
-        ThreadSleep(300);
-        wristUP();
-        ThreadSleep(200);
+        });
+        grabThread.start();
     }
-    //areeb the set position right now is good to transfer but when you use the wristDown() command it rotatates weirdly idk how to explain it wrist up is alaso scuffed idk <3
 
-    // Method to toggle the claw's open/close state
-    public void toggleClaw() {
-        if (Math.abs(clawServo.getPosition() - CLAW_OPEN_POSITION) < 0.0001) {
-            clawClose();
-        } else {
-            clawOpen();
+    public void stopGrab() {
+        grabRunning = false;
+        if (grabThread != null) {
+            grabThread.interrupt();
         }
     }
 
-
-    public void swing()
-    {
-        if (!ifSwinged)
-        {
-            armUp();
-            wristUP();
-            ifSwinged = true;
+    private int grab(int state) {
+        switch (state) {
+            case 1:
+                clawOpen();
+                wristDown();
+                timer.reset();
+                state = 2;
+                break;
+            case 2:
+                if (timer.milliseconds() > 300) state = 3;
+                break;
+            case 3:
+                armDown();
+                timer.reset();
+                state = 4;
+                break;
+            case 4:
+                if (timer.milliseconds() > 250) state = 5;
+                break;
+            case 5:
+                clawClose();
+                timer.reset();
+                state = 6;
+                break;
+            case 6:
+                if (timer.milliseconds() > 200) state = 0; // Grab sequence complete
+                break;
+            default:
+                break;
         }
-        else
-        {
+        return state;
+    }
+
+    public void grabUp() {
+        new Thread(() -> {
             armRest();
-            wristUP();
-            ifSwinged = false;
-        }
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            wristUp();
+        }).start();
     }
-
-    public void specimen()
-    {
-        if (!ifSpecimen)
-        {
-            wrist.setPosition(WRIST_SPECIMEN_OUT);
-            armRight.setPosition(ARM_SPECIMEN);
-            armLeft.setPosition(ARM_SPECIMEN);
-            ifSpecimen = true;
-        }
-        else
-        {
-            wrist.setPosition(WRIST_SPECIMEN);
-            armRight.setPosition(ARM_SPECIMEN);
-            armLeft.setPosition(ARM_SPECIMEN);
-            ifSpecimen = false;
-        }
-    }
-
-    public void specimenAuto() {
-        wrist.setPosition(WRIST_AUTO_POSITION);
-        armRight.setPosition(ARM_AUTO);
-        armLeft.setPosition(ARM_AUTO);
-    }
-
-    public void lvl1hang()
-    {
-        if (Math.abs(hang.getPosition() - HANG_ACTIVATED) < 0.0001) {
-            hang.setPosition(HANG_INITIAL);
-        } else {
-            hang.setPosition(HANG_ACTIVATED);
-        }
-    }
-//
-//    // Method to stop the claw servo (optional, for safety)
-//    public void stop() {
-//        // Currently, the servo position is set directly, no need for a stop method.
-//        // You may want to add functionality here if needed in the future.
-//    }
-
-
 }

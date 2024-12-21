@@ -169,7 +169,11 @@ public class TeleOP extends LinearOpMode {
 
 //
 //
+        if (gamepad2.a) {
+            robot.claw.lvl1hang();
 
+
+        }
 
             telemetry.update();
         }
