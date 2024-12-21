@@ -114,7 +114,7 @@ public class Claw implements Component{
         }
     }
 
-
+//
     public void grab()
     {
         clawOpen();
