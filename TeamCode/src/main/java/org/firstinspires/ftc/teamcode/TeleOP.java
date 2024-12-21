@@ -138,7 +138,7 @@ public class TeleOP extends LinearOpMode {
             }
 
             if (gamepad1.b) {
-                robot.claw.grab(1);
+                robot.claw.grab();
                 robot.intake.intakeRelease();
                 robot.claw.grabUp();
 

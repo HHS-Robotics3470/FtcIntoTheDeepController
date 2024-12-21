@@ -114,51 +114,16 @@ public class Claw implements Component{
         }
     }
 
-    long setTime = System.currentTimeMillis();
-    boolean hasRun = false;
-    long lastTime = 0;
-    int step = 0;
 
-    int grabState = 0;
-    void startGrab(int state)
+    public void grab()
     {
-        grabState = state;
+        clawOpen();
+        wristDown();
+        ThreadSleep(300);
+        armDown();
+        ThreadSleep(250);
+        clawClose();
     }
-        public int grab(int state)
-        {
-            switch (state)
-            {
-                case 1:
-                    clawOpen();
-                    wristDown();
-                    timer.reset();
-                    state = 2;
-                    break;
-                case 2:
-                    if (timer.milliseconds() > 300) state = 3;
-                    break;
-                case 3:
-                    armDown();
-                    timer.reset();
-                    state = 4;
-                    break;
-                case 4:
-                    if (timer.milliseconds() > 250) state = 5;
-                    break;
-                case 5:
-                    clawClose();
-                    timer.reset();
-                    state = 6;
-                    break;
-                case 6:
-                    if (timer.milliseconds() > 200) state = 7;
-                    break;
-                case 0:
-                default:
-                    break;
-            }
-            return state;
-        }
 
     public void grabUp()
     {
