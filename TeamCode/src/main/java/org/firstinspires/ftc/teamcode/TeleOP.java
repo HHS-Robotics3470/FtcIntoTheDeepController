@@ -37,7 +37,6 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 public class TeleOP extends LinearOpMode {
     private boolean b1state = false;
     private boolean y1state = false;
-    private boolean x1State = false;
     private boolean a2state = false;
     private boolean a3state = false;
 
@@ -72,18 +71,8 @@ public class TeleOP extends LinearOpMode {
             robot.mecnum.brake(1-gamepad1.right_trigger);
             robot.mecnum.driveRobot(gamepad1);
 
-            if (gamepad1.a){
-                robot.intake.intaking();
-            }
-
-            if (gamepad1.x && !x1State) {
-                robot.intake.wristing();
-                x1State = true;
-            } else if (!gamepad2.y && x1State) {
-                x1State = false;
-            }
-
-            /*{
+            if (gamepad1.a)
+            {
                 robot.intake.pitchDown();
                 robot.intake.startIntake();
             }
@@ -107,12 +96,10 @@ public class TeleOP extends LinearOpMode {
                 robot.intake.pitchUp();
                 robot.intake.stopIntake();
             }
-            */
 
 
             if (gamepad1.right_bumper)
             {
-                robot.intake.intakeOut();
                 robot.lifts.forwardLift();
             }
             else if (gamepad1.left_bumper)
@@ -137,12 +124,16 @@ public class TeleOP extends LinearOpMode {
                 robot.lifts.stopLiftVertical();
             }
 
-            if (gamepad1.b) {
+//
+            if (gamepad1.b && !b1state) {
                 robot.claw.grab();
-                robot.intake.intakeRelease();
-                robot.claw.grabUp();
+                robot.intake.pitchDown();
+                sleep(200);
+                robot.intake.pitchUp();
+                b1state = true;
+            } else if (!gamepad1.b && b1state) {
+                b1state = false;
             }
-
 
             if (gamepad2.y && !y1state) {
                 robot.claw.swing();
@@ -171,12 +162,9 @@ public class TeleOP extends LinearOpMode {
 
 //
 //
-            if (gamepad2.a) {
-              robot.claw.lvl1hang();
-            }
+
 
             telemetry.update();
-
         }
     }
-}
+r}

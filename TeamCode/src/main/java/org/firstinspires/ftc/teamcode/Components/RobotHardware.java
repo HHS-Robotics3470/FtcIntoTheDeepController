@@ -15,7 +15,6 @@ import java.util.List;
 public class RobotHardware {
     public LinearOpMode myOpMode;
 
-
     public RobotHardware(LinearOpMode opMode) {
         myOpMode = opMode;
     }
@@ -38,7 +37,7 @@ public class RobotHardware {
 
     // Servo for intake pitch control
     public Servo intakePitch;
-    //public CRServoImpl roller;
+    public CRServoImpl roller;
     public Servo clawServo;
     public Servo wrist;
     public Servo armRight;
@@ -46,8 +45,6 @@ public class RobotHardware {
     public Servo lock1;
     public Servo lock2;
     public Servo liftLock;
-    public Servo clawIntake;
-    public Servo wristIntake;
 
     //SubSystems
     public Mecnum mecnum = new Mecnum();
@@ -70,10 +67,8 @@ public class RobotHardware {
         hangMotor = myOpMode.hardwareMap.get(DcMotorEx.class, "hang");
 
         //Initialize servos
-        //roller = myOpMode.hardwareMap.get(CRServoImpl.class, "roller");
+        roller = myOpMode.hardwareMap.get(CRServoImpl.class, "roller");
         intakePitch = myOpMode.hardwareMap.get(Servo.class, "intake pitch");
-        clawIntake = myOpMode.hardwareMap.get(Servo.class, "claw intake");
-        wristIntake = myOpMode.hardwareMap.get(Servo.class, "wrist intake");
         clawServo = myOpMode.hardwareMap.get(Servo.class, "claw");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         armRight = myOpMode.hardwareMap.get(Servo.class, "arm right");
