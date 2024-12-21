@@ -141,6 +141,8 @@ public class TeleOP extends LinearOpMode {
                 robot.claw.grab();
                 robot.intake.intakeRelease();
                 robot.claw.grabUp();
+            }
+
 
             if (gamepad2.y && !y1state) {
                 robot.claw.swing();
@@ -169,14 +171,12 @@ public class TeleOP extends LinearOpMode {
 
 //
 //
-        if (gamepad2.a) {
-            robot.claw.lvl1hang();
-
-
-        }
+            if (gamepad2.a) {
+              robot.claw.lvl1hang();
+            }
 
             telemetry.update();
+
         }
-    }
     }
 }
