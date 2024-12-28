@@ -59,20 +59,25 @@ public class BlueLeft extends LinearOpMode {
             Trajectory traj = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
                     .build();
+
             Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
                     .back(17.83)
                     .build();
+
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
             robot.lifts.GoToPositionVertical(1600);
+
             drive.followTrajectory(traj2);
             robot.lifts.GoToPositionVertical(910);
             robot.claw.clawOpen();
+
             Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .forward(30)
 
                     .build();
             drive.followTrajectory(traj3);
+
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .strafeLeft(70)
                     .build();
