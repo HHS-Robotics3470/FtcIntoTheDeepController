@@ -69,7 +69,7 @@ public class RobotHardware {
         //Initialize servos
         roller = myOpMode.hardwareMap.get(CRServoImpl.class, "roller");
         intakePitch = myOpMode.hardwareMap.get(Servo.class, "intake pitch");
-        clawServo = myOpMode.hardwareMap.get(Servo.class, "claw");
+        clawServo = myOpMode.hardwareMap.get(Servo.class, "clawServo");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         armRight = myOpMode.hardwareMap.get(Servo.class, "arm right");
         armLeft = myOpMode.hardwareMap.get(Servo.class, "arm left");
