@@ -94,6 +94,7 @@ public class RobotHardware {
         }
         localizer = new StandardTrackingWheelLocalizer(myOpMode.hardwareMap, initalpos, initalvel);
 
+
         for (int i = 0; i < components.length; i++)
         {
             components[i].init(this);
@@ -102,4 +103,6 @@ public class RobotHardware {
         myOpMode.telemetry.addData("status", "initialized");
         myOpMode.telemetry.update();
     }
+
+
 }

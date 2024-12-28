@@ -29,7 +29,7 @@ public class Intake implements Component {
     }
 
 
-    // Start intake moter
+    // Start intake motor
     public void startIntake() {
         intakeMotor.setPower(INTAKE_POWER);
     }
@@ -67,6 +67,8 @@ public class Intake implements Component {
             pitchUp();
         }
     }
+
+
 
 
 }
