@@ -81,7 +81,6 @@ public class BlueRight extends LinearOpMode {
             robot.lifts.GoToPositionVertical(0);
 
 
-
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate()).forward(5).build();
             drive.turn(Math.toRadians(150));
 
