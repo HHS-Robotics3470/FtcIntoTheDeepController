@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 
@@ -40,6 +41,7 @@ public class TeleOP extends LinearOpMode {
     private boolean a2state = false;
     private boolean a3state = false;
 
+
     @Override
     public void runOpMode() {
         RobotHardware robot = new RobotHardware(this);
@@ -49,10 +51,13 @@ public class TeleOP extends LinearOpMode {
 
         telemetry.update();
 
+        ElapsedTime mStateTime = new ElapsedTime();
+        int v_state = 0;
+
         waitForStart();
         robot.init();
 
-//
+
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             telemetry.addData("Claw", robot.clawServo.getPosition());
@@ -68,72 +73,91 @@ public class TeleOP extends LinearOpMode {
             telemetry.addData("Left Encoder", robot.leftEncoder.getCurrentPosition());
             telemetry.update();
 
-            robot.mecnum.brake(1-gamepad1.right_trigger);
+            robot.mecnum.brake(1 - gamepad1.right_trigger);
             robot.mecnum.driveRobot(gamepad1);
 
-            if (gamepad1.a)
-            {
+            if (gamepad1.a) {
                 robot.intake.pitchDown();
                 robot.intake.startIntake();
-            }
-            else if (gamepad1.x)
-            {
+            } else if (gamepad1.x) {
                 robot.intake.pitchDown();
                 robot.intake.reverseIntake();
-            }
-            else if (gamepad1.dpad_up)
-            {
+            } else if (gamepad1.dpad_up) {
                 robot.intake.pitchUp();
                 robot.intake.startIntake();
-            }
-            else if (gamepad1.dpad_down)
-            {
+            } else if (gamepad1.dpad_down) {
                 robot.intake.pitchUp();
                 robot.intake.reverseIntake();
-            }
-            else
-            {
+            } else {
                 robot.intake.pitchUp();
                 robot.intake.stopIntake();
             }
 
 
-            if (gamepad1.right_bumper)
-            {
+            if (gamepad1.right_bumper) {
                 robot.lifts.forwardLift();
-            }
-            else if (gamepad1.left_bumper)
-            {
+            } else if (gamepad1.left_bumper) {
                 robot.lifts.backLift();
-            }
-            else
-            {
+            } else {
                 robot.lifts.stopLiftHorizontal();
             }
 
-            if (gamepad2.right_bumper)
-            {
+            if (gamepad2.right_bumper) {
                 robot.lifts.raiseLift();
-            }
-            else if (gamepad2.left_bumper)
-            {
+            } else if (gamepad2.left_bumper) {
                 robot.lifts.lowerLift();
-            }
-            else
-            {
+            } else {
                 robot.lifts.stopLiftVertical();
             }
 
-//
+
             if (gamepad1.b && !b1state) {
-                robot.claw.grab();
-                robot.intake.pitchDown();
-                sleep(200);
-                robot.intake.pitchUp();
-                b1state = true;
-            } else if (!gamepad1.b && b1state) {
-                b1state = false;
+                b1state = true; // Start the sequence
+                v_state = 0;    // Initialize the state machine
+                mStateTime.reset(); // Reset the timer
             }
+            if (b1state) {
+                switch (v_state) {
+                    case 0:
+                        robot.claw.clawOpen();
+                        robot.claw.wristDown();
+                        if (mStateTime.seconds() >= 0.15) {
+                            mStateTime.reset(); // Reset the timer for the next state
+                            v_state++;
+                        }
+                        break;
+
+                    case 1:
+                        robot.claw.armDown();
+                        if (mStateTime.seconds() >= 0.25) {
+                            mStateTime.reset(); // Reset the timer for the next state
+                            v_state++;
+                        }
+                        break;
+
+                    case 2:
+                        robot.claw.clawClose();
+                        if (mStateTime.seconds() >= 0.4) {
+                            mStateTime.reset(); // Reset the timer for the next state
+                            v_state++;
+                        }
+                        break;
+
+                    case 3:
+                        robot.claw.armRest();
+                        if (mStateTime.seconds() >= 0.3) {
+                            mStateTime.reset(); // Reset the timer for the next state
+                            v_state++;
+                        }
+                        break;
+
+                    case 4:
+                        robot.claw.wristUP();
+                        b1state = false; // End the sequence
+                        break;
+                }
+            }
+
 
             if (gamepad2.y && !y1state) {
                 robot.claw.swing();

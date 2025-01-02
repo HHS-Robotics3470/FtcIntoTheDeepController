@@ -94,7 +94,6 @@ public class Claw implements Component{
     }
 
     public void wristDown() {
-
         wrist.setPosition(WRIST_DOWN_POSITION);
     }
 
