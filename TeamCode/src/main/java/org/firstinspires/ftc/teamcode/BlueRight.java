@@ -94,7 +94,7 @@ public class BlueRight extends LinearOpMode {
             drive.followTrajectory(traj4);
             drive.turn(Math.toRadians(-66));
 
-
+//
             robot.claw.wristDown();
             robot.claw.armRest();
             robot.claw.clawOpen();
