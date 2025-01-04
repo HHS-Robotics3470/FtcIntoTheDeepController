@@ -64,6 +64,8 @@ public class Claw implements Component{
 
     // Method to open the claw
     public void clawOpen() {
+
+
         clawServo.setPosition(CLAW_OPEN_POSITION);
     }
 

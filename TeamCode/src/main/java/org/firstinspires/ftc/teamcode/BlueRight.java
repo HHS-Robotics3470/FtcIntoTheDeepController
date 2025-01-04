@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Blue Left", group = "Autonomous")
+@Autonomous(name = "Blue Right", group = "Autonomous")  //Name Confusion NEEDS FIXES
 public class BlueRight extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;
@@ -55,7 +55,7 @@ public class BlueRight extends LinearOpMode {
 
             //strafe Left
 
-            Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(20).build();
+            Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(16).build(); //Should be strafeLeft
 
             drive.followTrajectory(traj1);
 
@@ -64,17 +64,16 @@ public class BlueRight extends LinearOpMode {
             Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40).build();
 
             drive.followTrajectory(traj2);
+            //1st Cycle
+            drive.turn(Math.toRadians(66));
 
-
-            //turn
-            drive.turn(Math.toRadians(53));
-
-            robot.lifts.GoToPositionVertical(3700);
+            robot.lifts.GoToPositionVertical(3800);
 
             robot.claw.armUp();
             robot.claw.wristUP();
 
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(4.8).build();
+
+            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(5).build();
             drive.followTrajectory(traj3);
 
             robot.claw.clawOpen();
@@ -84,35 +83,64 @@ public class BlueRight extends LinearOpMode {
             robot.claw.wristDown();
             robot.claw.armRest();
             robot.lifts.GoToPositionVertical(0);
-            robot.lifts.GoToPositionVertical(0);
 
-            //forward
-            Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate()).forward(5).build();
-            drive.turn(Math.toRadians(150));
 
-            //strafe right
-            Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(60).build();
+            //2nd Cycle
+
+            Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .strafeRight(.2)
+
+                    .build();
+            drive.followTrajectory(traj4);
+            drive.turn(Math.toRadians(-66));
+
+
+            robot.claw.wristDown();
+            robot.claw.armRest();
+            robot.claw.clawOpen();
+
+            drive.followTrajectory(traj4);
+
+
+
+            Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .strafeRight(7)
+                    .build();
+            drive.followTrajectory(traj4);
+
+            drive.turn(Math.toRadians(66));
+
+            robot.lifts.GoToPositionVertical(3800);
+
+            robot.claw.armUp();
+            robot.claw.wristUP();
+
             drive.followTrajectory(traj5);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(35).build();
+            //strafe right
+            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(60).build();
             drive.followTrajectory(traj6);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Trajectory traj7 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(35).build();
+            drive.followTrajectory(traj7);
 
             robot.claw.lvl1hang();
             robot.claw.ThreadSleep(5000);
