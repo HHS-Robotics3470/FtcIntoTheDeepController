@@ -46,7 +46,7 @@ public class RobotHardware {
     public Servo lock2;
     public Servo liftLock;
 
-    //SubSystems
+    //SubSystems Intake and others
     public Mecnum mecnum = new Mecnum();
     public Intake intake = new Intake();
     public Claw claw = new Claw();

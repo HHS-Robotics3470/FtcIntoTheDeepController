@@ -53,14 +53,20 @@ public class BlueRight extends LinearOpMode {
 
             drive.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(270)));
 
+            //strafe Left
+
             Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(20).build();
 
             drive.followTrajectory(traj1);
+
+            //back up
 
             Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40).build();
 
             drive.followTrajectory(traj2);
 
+
+            //turn
             drive.turn(Math.toRadians(53));
 
             robot.lifts.GoToPositionVertical(3700);
@@ -80,11 +86,11 @@ public class BlueRight extends LinearOpMode {
             robot.lifts.GoToPositionVertical(0);
             robot.lifts.GoToPositionVertical(0);
 
-
+            //forward
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate()).forward(5).build();
             drive.turn(Math.toRadians(150));
 
-
+            //strafe right
             Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(60).build();
             drive.followTrajectory(traj5);
 
