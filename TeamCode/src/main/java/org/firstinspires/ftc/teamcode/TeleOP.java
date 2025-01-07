@@ -37,9 +37,11 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 @TeleOp(name="The Only TeleOP", group="Linear OpMode")
 public class TeleOP extends LinearOpMode {
     private boolean b1state = false;
+    private boolean b2state = false;
     private boolean y1state = false;
     private boolean a2state = false;
     private boolean a3state = false;
+    private boolean bdpadUpState = false;
 
 
     @Override
@@ -52,6 +54,8 @@ public class TeleOP extends LinearOpMode {
         telemetry.update();
 
         ElapsedTime mStateTime = new ElapsedTime();
+        ElapsedTime xStateTime = new ElapsedTime();
+
         int v_state = 0;
 
         waitForStart();
@@ -89,7 +93,7 @@ public class TeleOP extends LinearOpMode {
                 robot.intake.pitchUp();
                 robot.intake.reverseIntake();
             } else {
-                robot.intake.pitchUp();
+                robot.intake.pitchRest();
                 robot.intake.stopIntake();
             }
 
@@ -112,48 +116,54 @@ public class TeleOP extends LinearOpMode {
 
 
             if (gamepad1.b && !b1state) {
-                b1state = true; // Start the sequence
-                v_state = 0;    // Initialize the state machine
-                mStateTime.reset(); // Reset the timer
+                b1state = true;
+                v_state = 0;
+                mStateTime.reset();
             }
             if (b1state) {
                 switch (v_state) {
                     case 0:
+                        robot.intake.pitchUp();
                         robot.claw.clawOpen();
                         robot.claw.wristDown();
                         if (mStateTime.seconds() >= 0.15) {
-                            mStateTime.reset(); // Reset the timer for the next state
+                            mStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 1:
+                        robot.intake.pitchUp();
                         robot.claw.armDown();
                         if (mStateTime.seconds() >= 0.25) {
-                            mStateTime.reset(); // Reset the timer for the next state
+                            mStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 2:
+                        robot.intake.pitchUp();
                         robot.claw.clawClose();
                         if (mStateTime.seconds() >= 0.4) {
-                            mStateTime.reset(); // Reset the timer for the next state
+                            mStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 3:
+                        robot.intake.pitchDown();
                         robot.claw.armRest();
                         if (mStateTime.seconds() >= 0.3) {
-                            mStateTime.reset(); // Reset the timer for the next state
+                            mStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 4:
+                        robot.intake.pitchDown();
                         robot.claw.wristUP();
-                        b1state = false; // End the sequence
+                        robot.claw.armUp();
+                        b1state = false;
                         break;
                 }
             }
@@ -166,11 +176,11 @@ public class TeleOP extends LinearOpMode {
                 y1state = false;
             }
 
-            if (gamepad2.b && !a2state) {
+            if (gamepad2.b && !b2state) {
                 robot.claw.toggleClaw();
-                a2state = true;
-            } else if (!gamepad2.b && a2state) {
-                a2state = false;
+                b2state = true;
+            } else if (!gamepad2.b && b2state) {
+                b2state = false;
             }
 
             if (gamepad2.x) {
@@ -184,8 +194,12 @@ public class TeleOP extends LinearOpMode {
                 a3state = false;
             }
 
-//
-//
+            if (gamepad2.dpad_up && !bdpadUpState) {
+                robot.lifts.GoToPositionVertical(3555);
+                bdpadUpState = true;
+            } else if (!gamepad2.y && bdpadUpState) {
+                bdpadUpState = false;
+            }
 
 
             telemetry.update();
