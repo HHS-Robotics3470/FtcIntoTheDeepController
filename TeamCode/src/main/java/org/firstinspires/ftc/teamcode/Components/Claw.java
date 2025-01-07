@@ -23,12 +23,12 @@ public class Claw implements Component{
     private final double ARM_DOWN_POSITION = 0.228;
     private final double ARM_REST_POSITION = 0.252;
     private final double WRIST_UP_POSITION = 0.35;
-    private final double WRIST_AUTO_POSITION = 0.5;
+    private final double WRIST_AUTO_POSITION = 0.1; //.5
     private final double WRIST_DOWN_POSITION = 0.237
             ;
     private final double WRIST_SPECIMEN = 0.345;
     private final double ARM_SPECIMEN = 0.35;
-    private final double ARM_AUTO = 0.315;
+    private final double ARM_AUTO = 0.358; //0.315
     private final double HANG_INITIAL = 0;
     private final double HANG_ACTIVATED = 0.115;
 

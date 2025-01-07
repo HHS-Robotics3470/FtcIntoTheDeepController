@@ -56,21 +56,26 @@ public class BlueLeft extends LinearOpMode {
 
 
             drive.setPoseEstimate(new Pose2d(0,0, Math.toRadians(180)));
+
             Trajectory traj = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineToConstantHeading(new Vector2d(20, 20), Math.toRadians(180))
                     .build();
 
-        //1st Cycle
+
             Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
-                    .back(17.83)
+                    .back(45)
                     .build();
 
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
-            robot.lifts.GoToPositionVertical(1600);
+            robot.lifts.GoToPositionVertical(1500);
 
-            drive.followTrajectory(traj2);
-            robot.lifts.GoToPositionVertical(910);
+
+
+            Trajectory traj3 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
+                    .back(16)
+                    .build();
+            drive.followTrajectory(traj3);
             robot.claw.clawOpen();
 
 
@@ -80,16 +85,21 @@ public class BlueLeft extends LinearOpMode {
 
 
 
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(30)
-
-                    .build();
-            drive.followTrajectory(traj3);
 
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeLeft(70)
+                    .forward(22)
+
                     .build();
             drive.followTrajectory(traj4);
+
+
+
+            Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .strafeLeft(100)
+
+                    .build();
+            drive.followTrajectory(traj5);
+
 
             robot.lifts.GoToPositionVertical(0);
             robot.lifts.GoToPositionVertical(0);

@@ -36,7 +36,7 @@ public class BlueRight extends LinearOpMode {
         // Initialize hardware and components
         RobotHardware robot = new RobotHardware(this);
 
-         // Initialize with 'this' LinearOpMode
+        // Initialize with 'this' LinearOpMode
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -59,91 +59,114 @@ public class BlueRight extends LinearOpMode {
 
             drive.followTrajectory(traj1);
 
-            //back up
+            //Cycle 1
 
-            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40).build();
+            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(36).build();
+
 
             drive.followTrajectory(traj2);
-            //1st Cycle
-            drive.turn(Math.toRadians(66));
+
+
 
             robot.lifts.GoToPositionVertical(3800);
 
+
+
             robot.claw.armUp();
             robot.claw.wristUP();
+            drive.turn(Math.toRadians(66));
 
 
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(5).build();
+            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(2).build();
             drive.followTrajectory(traj3);
 
             robot.claw.clawOpen();
 
-            sleep(200);
+            sleep(140);
 
             robot.claw.wristDown();
             robot.claw.armRest();
             robot.lifts.GoToPositionVertical(0);
+            drive.turn(Math.toRadians(60));
+            robot.intake.pitchDown();
+            robot.intake.startIntake();
+
 
 
             //2nd Cycle
 
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeRight(.2)
-
+                    .forward(24)
                     .build();
-            drive.followTrajectory(traj4);
-            drive.turn(Math.toRadians(-66));
 
-//
-            robot.claw.wristDown();
-            robot.claw.armRest();
-            robot.claw.clawOpen();
 
+
+            robot.intake.startIntake();
+            sleep(200);
             drive.followTrajectory(traj4);
+
+            robot.intake.pitchUp();
+            sleep(200);
+            robot.intake.stopIntake();
+            sleep(30);
+            robot.claw.grab();
+
 
 
 
             Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeRight(7)
+                    .back(24)
                     .build();
-            drive.followTrajectory(traj4);
+            drive.followTrajectory(traj5);
 
-            drive.turn(Math.toRadians(66));
+            drive.turn(Math.toRadians(-60));
 
             robot.lifts.GoToPositionVertical(3800);
 
             robot.claw.armUp();
             robot.claw.wristUP();
 
-            drive.followTrajectory(traj5);
-
-
-            //strafe right
-            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(60).build();
+            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .back(4)
+                    .build();
             drive.followTrajectory(traj6);
 
+            sleep(30);
+            robot.claw.clawOpen();
 
 
+            sleep(150);
 
+            robot.claw.wristDown();
+            robot.claw.armRest();
+            robot.lifts.GoToPositionVertical(0);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            Trajectory traj7 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(35).build();
+            //strafe right
+            Trajectory traj7 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(5).build();
             drive.followTrajectory(traj7);
 
-            robot.claw.lvl1hang();
-            robot.claw.ThreadSleep(5000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//            Trajectory traj7 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(35).build();
+//            drive.followTrajectory(traj7);
+//
+//            robot.claw.lvl1hang();
+//            robot.claw.ThreadSleep(5000);
 
 
 
