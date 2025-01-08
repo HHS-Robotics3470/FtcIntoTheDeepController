@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode.Components;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Intake implements Component {
 
     public final double PITCH_DOWN = 0.005;
     public final double PITCH_UP = 0.08;
+    public final double PITCH_REST = 0.0508;
     public final double INTAKE_POWER = 1;
+    public final double PASSIVE_INTAKE_POWER = 0.8;
 
     // Declare a CRServo object for the continuous intake motor
     public CRServo intakeMotor;
@@ -34,6 +37,9 @@ public class Intake implements Component {
         intakeMotor.setPower(INTAKE_POWER);
     }
 
+    public void passiveIntake() {
+        intakeMotor.setPower(PASSIVE_INTAKE_POWER);
+    }
 //    // Set position for the intake pitch servo
 //    public void setIntakePitch(double position) {
 //        // Ensure the position is within the servo's range
@@ -58,6 +64,10 @@ public class Intake implements Component {
     public void pitchDown()
     {
         intakePitch.setPosition(PITCH_DOWN);
+    }
+
+    public void pitchRest(){
+        intakePitch.setPosition(PITCH_REST);
     }
 
     public void toggle() {
