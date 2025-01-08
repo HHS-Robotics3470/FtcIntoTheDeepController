@@ -28,9 +28,9 @@ public class Claw implements Component{
             ;
     private final double WRIST_SPECIMEN = 0.345;
     private final double ARM_SPECIMEN = 0.35;
-    private final double ARM_AUTO = 0.358; //0.315
-    private final double HANG_INITIAL = 0;
-    private final double HANG_ACTIVATED = 0.115;
+    private final double ARM_AUTO = 0.42; //0.315
+    private final double HANG_INITIAL = -0.115;
+    private final double HANG_ACTIVATED = 0;
 
 
     ;// Adjust as needed for your pitch servo
