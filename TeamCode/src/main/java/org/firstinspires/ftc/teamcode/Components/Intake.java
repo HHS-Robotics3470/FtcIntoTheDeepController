@@ -7,17 +7,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Intake implements Component {
 
-    public final double PITCH_DOWN = 0.005;
+    public final double PITCH_DOWN = 0.01;
     public final double PITCH_UP = 0.08;
     public final double PITCH_REST = 0.0508;
     public final double INTAKE_POWER = 1;
-    public final double PASSIVE_INTAKE_POWER = 0.8;
+    public final double PASSIVE_INTAKE_POWER = 0.4;
+
+    public final double SWEEPER_INITIAL_POSITION = 0;
+    public final double SWEEPER_FINAL_POSITION = 0.71;
+
+    private boolean ifPressed;
 
     // Declare a CRServo object for the continuous intake motor
     public CRServo intakeMotor;
 
     // Declare a Servo object for the intake pitch control
     public Servo intakePitch;
+    public Servo sweeper;
 
     // Initialize the intake motor and pitch servo using RobotHardware
     @Override
@@ -29,6 +35,15 @@ public class Intake implements Component {
         intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD); // or Direction.REVERSE as needed
         // Set initial position for the intake pitch servo
         intakePitch.setPosition(PITCH_UP); // Neutral position; adjust range [0.0, 1.0] as needed
+
+        sweeper = robotHardware.sweeper;
+        sweeper.setPosition(SWEEPER_INITIAL_POSITION);
+
+        sweeper.setDirection(Servo.Direction.FORWARD);
+
+        ifPressed = false;
+
+
     }
 
 
@@ -69,6 +84,30 @@ public class Intake implements Component {
     public void pitchRest(){
         intakePitch.setPosition(PITCH_REST);
     }
+
+
+    public void sweeperInitial(){
+        sweeper.setPosition(SWEEPER_INITIAL_POSITION);
+    }
+
+    public void sweeperFinal() {sweeper.setPosition(SWEEPER_FINAL_POSITION);}
+
+    public void sweeperPress(){
+        if (!ifPressed)
+        {
+           sweeperFinal();
+            ifPressed = true;
+        }
+        else
+        {
+           sweeperInitial();
+            ifPressed = false;
+        }
+    };
+
+
+
+
 
     public void toggle() {
         if (Math.abs(intakePitch.getPosition()-PITCH_UP) < 0.0001) {

@@ -75,8 +75,9 @@ public class RobotHardware {
         armRight = myOpMode.hardwareMap.get(Servo.class, "arm right");
         armLeft = myOpMode.hardwareMap.get(Servo.class, "arm left");
         lock1 = myOpMode.hardwareMap.get(Servo.class, "lock1");
-        //lock2 = myOpMode.hardwareMap.get(Servo.class, "lock2");
+        lock2 = myOpMode.hardwareMap.get(Servo.class, "lock2");
         liftLock = myOpMode.hardwareMap.get(Servo.class, "liftLock");
+        sweeper = myOpMode.hardwareMap.get(Servo.class, "sweeper");
 
 
 

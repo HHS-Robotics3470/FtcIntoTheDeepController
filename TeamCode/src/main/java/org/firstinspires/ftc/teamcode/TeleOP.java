@@ -41,6 +41,7 @@ public class TeleOP extends LinearOpMode {
     private boolean y1state = false;
     private boolean a2state = false;
     private boolean a3state = false;
+    private boolean a4state = false;
     private boolean bdpadUpState = false;
 
 
@@ -115,68 +116,68 @@ public class TeleOP extends LinearOpMode {
             }
 
 
-//            if (gamepad1.b && !b1state) {
-//                b1state = true;
-//                v_state = 0;
-//                mStateTime.reset();
-//            }
-//            if (b1state) {
-//                switch (v_state) {
-//                    case 0:
-//                        robot.intake.pitchUp();
-//                        robot.claw.clawOpen();
-//                        robot.claw.wristDown();
-//                        if (mStateTime.seconds() >= 0.15) {
-//                            mStateTime.reset();
-//                            v_state++;
-//                        }
-//                        break;
-//
-//                    case 1:
-//                        robot.intake.pitchUp();
-//                        robot.claw.armDown();
-//                        if (mStateTime.seconds() >= 0.25) {
-//                            mStateTime.reset();
-//                            v_state++;
-//                        }
-//                        break;
-//
-//                    case 2:
-//                        robot.intake.pitchUp();
-//                        robot.claw.clawClose();
-//                        if (mStateTime.seconds() >= 0.4) {
-//                            mStateTime.reset();
-//                            v_state++;
-//                        }
-//                        break;
-//
-//                    case 3:
-//                        robot.intake.pitchDown();
-//                        robot.claw.armRest();
-//                        if (mStateTime.seconds() >= 0.3) {
-//                            mStateTime.reset();
-//                            v_state++;
-//                        }
-//                        break;
-//
-//                    case 4:
-//                        robot.intake.pitchDown();
-//                        robot.claw.wristUP();
-//                        robot.claw.armUp();
-//                        b1state = false;
-//                        break;
-//                }
-//            }
-//
-            if (gamepad1.b && !b1state)
-            {
-                robot.claw.grabParallel();
+            if (gamepad1.b && !b1state) {
                 b1state = true;
+                v_state = 0;
+                mStateTime.reset();
             }
-            else if (!gamepad1.b && b1state) {
-                b1state = false;
+            if (b1state) {
+                switch (v_state) {
+                    case 0:
+                        robot.intake.pitchUp();
+                        robot.claw.clawOpen();
+                        robot.claw.wristDown();
+                        if (mStateTime.seconds() >= 0.15) {
+                            mStateTime.reset();
+                            v_state++;
+                        }
+                        break;
+
+                    case 1:
+                        robot.intake.pitchUp();
+                        robot.claw.armDown();
+                        if (mStateTime.seconds() >= 0.25) {
+                            mStateTime.reset();
+                            v_state++;
+                        }
+                        break;
+
+                    case 2:
+                        robot.intake.pitchUp();
+                        robot.claw.clawClose();
+                        if (mStateTime.seconds() >= 0.4) {
+                            mStateTime.reset();
+                            v_state++;
+                        }
+                        break;
+
+                    case 3:
+                        robot.intake.pitchDown();
+                        robot.claw.armRest();
+                        if (mStateTime.seconds() >= 0.3) {
+                            mStateTime.reset();
+                            v_state++;
+                        }
+                        break;
+
+                    case 4:
+                        robot.intake.pitchDown();
+                        robot.claw.wristUP();
+                        robot.claw.armUp();
+                        b1state = false;
+                        break;
+                }
             }
-            robot.claw.grabUpdate();
+
+//            if (gamepad1.b && !b1state)
+//            {
+//                robot.claw.grabParallel();
+//                b1state = true;
+//            }
+//            else if (!gamepad1.b && b1state) {
+//                b1state = false;
+//            }
+//            robot.claw.grabUpdate();
 
 
 
@@ -198,18 +199,37 @@ public class TeleOP extends LinearOpMode {
                 robot.claw.specimen();
             }
 
+            //HANG
             if (gamepad2.a && !a3state) {
-                robot.claw.lvl1hang();
+                robot.hang.toggle();
                 a3state = true;
             } else if (!gamepad2.a && a3state) {
                 a3state = false;
             }
 
-            if (gamepad2.dpad_up && !bdpadUpState) {
+            if (gamepad2.dpad_left && !bdpadUpState) {
                 robot.lifts.GoToPositionVertical(3555);
                 bdpadUpState = true;
             } else if (!gamepad2.y && bdpadUpState) {
                 bdpadUpState = false;
+            }
+
+            if (gamepad2.dpad_up)
+                robot.hang.lift();
+            else if (gamepad2.dpad_down)
+                robot.hang.lower();
+            else
+                robot.hang.stop();
+
+
+            //HANG
+            if (gamepad1.y && !a4state) {
+                robot.intake.sweeperPress();
+                sleep(200);
+                a4state = true;
+            } else if (!gamepad2.a && a4state) {
+
+                a4state = false;
             }
 
 

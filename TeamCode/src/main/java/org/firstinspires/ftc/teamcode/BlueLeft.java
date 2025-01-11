@@ -68,7 +68,7 @@ public class BlueLeft extends LinearOpMode {
 
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
-            robot.lifts.GoToPositionVertical(1470);
+            robot.lifts.GoToPositionVertical(1710);
 
 
 
@@ -95,14 +95,15 @@ public class BlueLeft extends LinearOpMode {
 //
 
             Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeLeft(100)
+                    .strafeLeft(140)
 
                     .build();
             drive.followTrajectory(traj5);
 
+            robot.claw.wristDown();
+            robot.claw.armRest();
+            robot.lifts.GoToPositionVertical(0);
 
-            robot.lifts.GoToPositionVertical(0);
-            robot.lifts.GoToPositionVertical(0);
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();
