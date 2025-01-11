@@ -134,7 +134,7 @@ public class BlueRight extends LinearOpMode {
 
             sleep(30);
             robot.claw.clawOpen();
-
+//
 
             sleep(150);
 
