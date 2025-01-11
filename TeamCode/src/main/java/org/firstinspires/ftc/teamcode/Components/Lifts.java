@@ -99,6 +99,20 @@ public class Lifts implements Component {
         }
     }
 
+    public void GoToPositionHorizontal(int target){
+        while (extendo.getCurrentPosition() != target)
+        {
+            extendo.setTargetPosition(target);
+
+
+            extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            extendo.setPower(1);
+
+        }
+    }
+
 
     // Lower Lift function
     public void backLift() {

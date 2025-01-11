@@ -61,7 +61,7 @@ public class BlueRight extends LinearOpMode {
 
             //Cycle 1
 
-            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(36).build();
+            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(38).build();
 
 
             drive.followTrajectory(traj2);
@@ -87,7 +87,7 @@ public class BlueRight extends LinearOpMode {
             robot.claw.wristDown();
             robot.claw.armRest();
             robot.lifts.GoToPositionVertical(0);
-            drive.turn(Math.toRadians(57));
+            drive.turn(Math.toRadians(54));
             robot.intake.pitchDown();
             robot.intake.startIntake();
 
@@ -109,6 +109,7 @@ public class BlueRight extends LinearOpMode {
             sleep(200);
             robot.intake.stopIntake();
             sleep(30);
+
             robot.claw.grab();
 
 
@@ -119,7 +120,7 @@ public class BlueRight extends LinearOpMode {
                     .build();
             drive.followTrajectory(traj5);
 
-            drive.turn(Math.toRadians(-57));
+            drive.turn(Math.toRadians(-54));
 
             robot.lifts.GoToPositionVertical(3800);
 
@@ -127,7 +128,7 @@ public class BlueRight extends LinearOpMode {
             robot.claw.wristUP();
 
             Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .back(6)
+                    .back(4)
                     .build();
             drive.followTrajectory(traj6);
 
