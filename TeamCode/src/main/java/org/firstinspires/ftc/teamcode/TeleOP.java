@@ -115,58 +115,69 @@ public class TeleOP extends LinearOpMode {
             }
 
 
-            if (gamepad1.b && !b1state) {
+//            if (gamepad1.b && !b1state) {
+//                b1state = true;
+//                v_state = 0;
+//                mStateTime.reset();
+//            }
+//            if (b1state) {
+//                switch (v_state) {
+//                    case 0:
+//                        robot.intake.pitchUp();
+//                        robot.claw.clawOpen();
+//                        robot.claw.wristDown();
+//                        if (mStateTime.seconds() >= 0.15) {
+//                            mStateTime.reset();
+//                            v_state++;
+//                        }
+//                        break;
+//
+//                    case 1:
+//                        robot.intake.pitchUp();
+//                        robot.claw.armDown();
+//                        if (mStateTime.seconds() >= 0.25) {
+//                            mStateTime.reset();
+//                            v_state++;
+//                        }
+//                        break;
+//
+//                    case 2:
+//                        robot.intake.pitchUp();
+//                        robot.claw.clawClose();
+//                        if (mStateTime.seconds() >= 0.4) {
+//                            mStateTime.reset();
+//                            v_state++;
+//                        }
+//                        break;
+//
+//                    case 3:
+//                        robot.intake.pitchDown();
+//                        robot.claw.armRest();
+//                        if (mStateTime.seconds() >= 0.3) {
+//                            mStateTime.reset();
+//                            v_state++;
+//                        }
+//                        break;
+//
+//                    case 4:
+//                        robot.intake.pitchDown();
+//                        robot.claw.wristUP();
+//                        robot.claw.armUp();
+//                        b1state = false;
+//                        break;
+//                }
+//            }
+//
+            if (gamepad1.b && !b1state)
+            {
+                robot.claw.grabParallel();
                 b1state = true;
-                v_state = 0;
-                mStateTime.reset();
             }
-            if (b1state) {
-                switch (v_state) {
-                    case 0:
-                        robot.intake.pitchUp();
-                        robot.claw.clawOpen();
-                        robot.claw.wristDown();
-                        if (mStateTime.seconds() >= 0.15) {
-                            mStateTime.reset();
-                            v_state++;
-                        }
-                        break;
-
-                    case 1:
-                        robot.intake.pitchUp();
-                        robot.claw.armDown();
-                        if (mStateTime.seconds() >= 0.25) {
-                            mStateTime.reset();
-                            v_state++;
-                        }
-                        break;
-
-                    case 2:
-                        robot.intake.pitchUp();
-                        robot.claw.clawClose();
-                        if (mStateTime.seconds() >= 0.4) {
-                            mStateTime.reset();
-                            v_state++;
-                        }
-                        break;
-
-                    case 3:
-                        robot.intake.pitchDown();
-                        robot.claw.armRest();
-                        if (mStateTime.seconds() >= 0.3) {
-                            mStateTime.reset();
-                            v_state++;
-                        }
-                        break;
-
-                    case 4:
-                        robot.intake.pitchDown();
-                        robot.claw.wristUP();
-                        robot.claw.armUp();
-                        b1state = false;
-                        break;
-                }
+            else if (!gamepad1.b && b1state) {
+                b1state = false;
             }
+            robot.claw.grabUpdate();
+
 
 
             if (gamepad2.y && !y1state) {

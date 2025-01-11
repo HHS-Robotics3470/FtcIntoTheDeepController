@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 public class Claw implements Component{
@@ -13,6 +14,20 @@ public class Claw implements Component{
     private Servo hang;
 
     private boolean ifSwinged = false;
+    private enum GRAB_STATE{
+        INACTIVE,
+        ACTION1,
+        WAIT1,
+        ACTION2,
+        WAIT2,
+        ACTION3,
+        WAIT3,
+        ACTION4,
+        WAIT4,
+        ACTION5
+    }
+    private ElapsedTime time = new ElapsedTime();
+    private GRAB_STATE grabCurrentState = GRAB_STATE.INACTIVE;
     //
     //
 
@@ -119,7 +134,66 @@ public class Claw implements Component{
         ThreadSleep(300);
         wristUP();
     }
-    //areeb the set position right now is good to transfer but when you use the wristDown() command it rotatates weirdly idk how to explain it wrist up is alaso scuffed idk <3
+
+    public void grabParallel()
+    {
+        if (grabCurrentState == GRAB_STATE.INACTIVE) {
+            grabCurrentState = GRAB_STATE.ACTION1;
+        }
+    }
+
+    public void grabUpdate() {
+        switch (grabCurrentState)
+        {
+            case ACTION1:
+                clawOpen();
+                wristDown();
+                time.reset();
+                grabCurrentState = GRAB_STATE.WAIT1;
+                break;
+            case WAIT1:
+                if (time.milliseconds() == 150) {
+                    grabCurrentState = GRAB_STATE.ACTION2;
+                }
+                break;
+            case ACTION2:
+                armDown();
+                time.reset();
+                grabCurrentState = GRAB_STATE.WAIT2;
+            case WAIT2:
+                if (time.milliseconds() == 250)
+                {
+                    grabCurrentState = GRAB_STATE.ACTION3;
+                }
+                break;
+            case ACTION3:
+                clawClose();
+                time.reset();
+                grabCurrentState = GRAB_STATE.WAIT3;
+                break;
+            case WAIT3:
+                if (time.milliseconds() == 400)
+                {
+                    grabCurrentState = GRAB_STATE.ACTION4;
+                }
+                break;
+            case ACTION4:
+                armRest();
+                time.reset();
+                grabCurrentState = GRAB_STATE.WAIT4;
+                break;
+            case WAIT4:
+                if (time.milliseconds() == 300)
+                {
+                    grabCurrentState = GRAB_STATE.ACTION5;
+                }
+                break;
+            case ACTION5:
+                wristUP();
+                grabCurrentState = GRAB_STATE.INACTIVE;
+                break;
+        }
+    }
 
     // Method to toggle the claw's open/close state
     public void toggleClaw() {
