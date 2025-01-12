@@ -39,7 +39,7 @@ public class TeleOP extends LinearOpMode {
     private boolean b1state = false;
     private boolean b2state = false;
     private boolean y1state = false;
-    private boolean a2state = false;
+    private boolean x2state = false;
     private boolean a3state = false;
     private boolean a4state = false;
     private boolean bdpadUpState = false;
@@ -195,8 +195,11 @@ public class TeleOP extends LinearOpMode {
                 b2state = false;
             }
 
-            if (gamepad2.x) {
-                robot.claw.specimen();
+            if (gamepad2.x && !x2state) {
+                robot.claw.toggleSpecimen();
+                x2state = true;
+            } else if (!gamepad2.x && x2state) {
+                x2state = false;
             }
 
             //HANG
@@ -227,7 +230,7 @@ public class TeleOP extends LinearOpMode {
                 robot.intake.sweeperPress();
                 sleep(200);
                 a4state = true;
-            } else if (!gamepad2.a && a4state) {
+            } else if (!gamepad1.y && a4state) {
 
                 a4state = false;
             }
