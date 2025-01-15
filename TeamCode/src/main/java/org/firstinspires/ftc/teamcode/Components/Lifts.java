@@ -45,6 +45,9 @@ public class Lifts implements Component {
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extendo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        lLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         extendo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -192,7 +195,7 @@ public class Lifts implements Component {
         switch (current_state)
         {
             case INACTIVE:
-                stopLiftVertical();
+
                 break;
             case MOVING_LOW:
                 ParallelMoveVertical(0);
