@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
-//Fix Blue Left Configuration
 
+//Fix Blue Left Configuration
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
@@ -11,180 +11,86 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "Left-sample cycle", group = "Autonomous")  //Name Confusion NEEDS FIXES
 public class BlueRight extends LinearOpMode {
     private RobotHardware robotHardware;
-    private RobotHardware Mecnum;
     private SampleMecanumDrive drive;
-
-
-    // Speed control constants
-//    public final double DRIVE_SPEED_MAX_AUTO = 0.5;
-//    public final double DRIVE_SPEED_SLOW_AUTO = 0.05;
-//    public double driveSpeedControl = DRIVE_SPEED_MAX_AUTO;
-//
-//    // Individual motor speed scaling
-//    public double AUTOspeedFLeft = 1.0;
-//    public double AUTOspeedFRight = 1.0;
-//    public double AUTOspeedBLeft = 2.5; // Back should have more power
-//    public double AUTOspeedBRight = 2.5; // Back should have more power
-
 
     @Override
     public void runOpMode() {
         // Initialize hardware and components
         RobotHardware robot = new RobotHardware(this);
 
-        // Initialize with 'this' LinearOpMode
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
 
         // Wait for the start of the match
         waitForStart();
         robot.init();
         drive = new SampleMecanumDrive(hardwareMap);
 
-
         if (opModeIsActive()) {
-//            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+            // Set the initial pose of the robot
+            Pose2d startPose = new Pose2d(0, 0, Math.toRadians(270));
+            drive.setPoseEstimate(startPose);
 
-            drive.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(270)));
+            // Create a trajectory sequence
+            TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+                    .strafeLeft(16)  // Strafe left
+                    .back(38.8)  // Move backward
 
-            //strafe Left
+                    .addDisplacementMarker(38.8, () -> robot.lifts.GoToPositionVertical(3800)) //Lifts to height 3800 high
+                    .addDisplacementMarker(40.3, () -> {
+                        robot.claw.armUp(); //Arm goes up
+                        robot.claw.wristUP(); //Wrist goes up
+                    })
+                    .turn(Math.toRadians(63))  // Turn the robot
+                    .strafeLeft(2)  // Strafe left again
+                    .addDisplacementMarker(42.3, () -> robot.claw.clawOpen())
+                    .waitSeconds(0.14)  // Wait for a short period
+                    .addDisplacementMarker(44.3, () -> {
+                        robot.claw.wristDown(); //Wrist goes down
+                        robot.claw.armRest(); //Arm goes down
+                        robot.lifts.GoToPositionVertical(0);
+                    })
+                    .turn(Math.toRadians(54.3))  // Turn the robot
+                    .addDisplacementMarker(46.8, () -> {
+                        robot.intake.pitchDown();   //Pitch goes down for intake process
+                        robot.intake.startIntake(); //Begin Intake Motors
+                    })
+                    .forward(26.8)  // Move forward with wait codes
+                    .waitSeconds(0.78)
+                    .addDisplacementMarker(73.6, () -> robot.intake.pitchUp())  //WAIT TO Pitch Up
+                    .waitSeconds(0.5)
+                    .addDisplacementMarker(76.8, () -> robot.intake.stopIntake()) //WAIT TO Stop Intake Motors
+                    .waitSeconds(0.03)
+                    .addDisplacementMarker(80, () -> robot.claw.grab())  //WAIT TO Grab Block
+                    .back(26.8)  // Move back
+                    .turn(Math.toRadians(-54))  // Turn the robot
+                    .addDisplacementMarker(107, () -> robot.lifts.GoToPositionVertical(3800)) //Raise up to 3800 height
+                    .addDisplacementMarker(109.2, () -> {
+                        robot.claw.armUp(); //Raise ArmUp
+                        robot.claw.wristUP(); //Raise wristUP
+                    })
+                    .back(6.3)  // Move back again
+                    .waitSeconds(0.03)
+                    .addDisplacementMarker(115.5, () -> robot.claw.clawOpen())// WAIT TO Claw OPEN
+                    .waitSeconds(0.15)
+                    .addDisplacementMarker(115.8, () -> {
+                        robot.claw.wristDown();         //Wrist down
+                        robot.claw.armRest();           //Arm rest
+                        robot.lifts.GoToPositionVertical(0); //Lifts go all the way down
+                    })
+                    .strafeRight(5)  // Strafe right to finish
+                    .build();  // Build the trajectory sequence
 
-            Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(16).build(); //Should be strafeLeft
-
-            drive.followTrajectory(traj1);
-
-            //Cycle 1
-
-            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(38.8).build();
-
-
-            drive.followTrajectory(traj2);
-
-
-
-            robot.lifts.GoToPositionVertical(3800);
-
-
-
-            robot.claw.armUp();
-            robot.claw.wristUP();
-            drive.turn(Math.toRadians(63));
-
-
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(2).build();
-            drive.followTrajectory(traj3);
-
-            robot.claw.clawOpen();
-
-            sleep(140);
-
-            robot.claw.wristDown();
-            robot.claw.armRest();
-            robot.lifts.GoToPositionVertical(0);
-            drive.turn(Math.toRadians(54.3));
-            robot.intake.pitchDown();
-            robot.intake.startIntake();
-
-
-
-            //2nd Cycle
-
-            Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(26.8)
-                    .build();
-
-
-
-            robot.intake.startIntake();
-            sleep(780);
-            drive.followTrajectory(traj4);
-
-            robot.intake.pitchUp();
-            sleep(500);
-            robot.intake.stopIntake();
-            sleep(30);
-
-            robot.claw.grab();
-
-
-
-
-            Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .back(26.8)
-                    .build();
-            drive.followTrajectory(traj5);
-
-            drive.turn(Math.toRadians(-54));
-
-            robot.lifts.GoToPositionVertical(3800);
-
-            robot.claw.armUp();
-            robot.claw.wristUP();
-
-            Trajectory traj6 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .back(6.3)
-                    .build();
-            drive.followTrajectory(traj6);
-
-            sleep(30);
-            robot.claw.clawOpen();
-//
-
-            sleep(150);
-
-            robot.claw.wristDown();
-            robot.claw.armRest();
-            robot.lifts.GoToPositionVertical(0);
-
-            //strafe right
-            Trajectory traj7 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(5).build();
-            drive.followTrajectory(traj7);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//            Trajectory traj7 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(35).build();
-//            drive.followTrajectory(traj7);
-//
-//            robot.claw.lvl1hang();
-//            robot.claw.ThreadSleep(5000);
-
-
-
+            // Follow the trajectory sequence
+            drive.followTrajectorySequence(trajSeq);
 
             telemetry.addData("Status", "Autonomous Complete");
             telemetry.update();
         }
     }
-
-    /**
-     * Set power for each motor with independent speed adjustments.
-     */
-//    public void setDrivePower(double autoPower) {
-//        robotHardware.fLeft.setPower(autoPower * driveSpeedControl * AUTOspeedFLeft);
-//        robotHardware.fRight.setPower(autoPower * driveSpeedControl * AUTOspeedFRight);
-//        robotHardware.bLeft.setPower(autoPower * driveSpeedControl * AUTOspeedBLeft);
-//        robotHardware.bRight.setPower(autoPower * driveSpeedControl * AUTOspeedBRight);
-//    }
-
 }

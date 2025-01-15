@@ -68,7 +68,7 @@ public class BlueLeft extends LinearOpMode {
 
             drive.followTrajectory(traj);
             robot.claw.specimenAuto();
-            robot.lifts.GoToPositionVertical(1710);
+            robot.lifts.GoToPositionVertical(1750);
 
 
 
