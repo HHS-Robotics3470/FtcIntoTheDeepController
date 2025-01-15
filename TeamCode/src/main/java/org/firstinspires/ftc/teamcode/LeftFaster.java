@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Left Faster", group = "Autonomous")  //Name Confusion NEEDS FIXES
+@Autonomous(name = "the broken one", group = "Autonomous")  //Name Confusion NEEDS FIXES
 public class LeftFaster extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;

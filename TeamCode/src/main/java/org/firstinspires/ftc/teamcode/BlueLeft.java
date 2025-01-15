@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Blue Right", group = "Autonomous")
+@Autonomous(name = "Right-specimen", group = "Autonomous")
 public class BlueLeft extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;
@@ -73,7 +73,7 @@ public class BlueLeft extends LinearOpMode {
 
 
             Trajectory traj3 = drive.trajectoryBuilder(new Pose2d(20, 20, Math.toRadians(180)))
-                    .back(16)
+                    .back(14.5)
                     .build();
             drive.followTrajectory(traj3);
             robot.claw.clawOpen();

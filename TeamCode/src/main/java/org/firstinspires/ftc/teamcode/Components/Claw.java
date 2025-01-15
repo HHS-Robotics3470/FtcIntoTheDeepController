@@ -12,6 +12,7 @@ public class Claw implements Component{
     private Servo armLeft;
     private Servo wrist;// Servo to adjust the pitch of the claw
     private Servo hang;
+    private Lifts lifts;
 
     private boolean ifSwinged = false;
     private enum GRAB_STATE{
@@ -42,8 +43,8 @@ public class Claw implements Component{
     private final double WRIST_DOWN_POSITION = 0.237
             ;
     private final double WRIST_SPECIMEN = 0.345;
-    private final double ARM_SPECIMEN = 0.35;
-    private final double ARM_AUTO = 0.42; //0.315
+    private final double ARM_SPECIMEN = 0.36;
+    private final double ARM_AUTO = 0.4; //0.315
     private final double HANG_INITIAL = -0.115;
     private final double HANG_ACTIVATED = 0;
 
@@ -58,6 +59,7 @@ public class Claw implements Component{
         armRight = robotHardware.armRight;
         armLeft = robotHardware.armLeft;
         hang = robotHardware.lock1;
+        lifts = robotHardware.lifts;
 
         hang.setDirection(Servo.Direction.REVERSE);
 
@@ -240,6 +242,20 @@ public class Claw implements Component{
             hang.setPosition(HANG_INITIAL);
         } else {
             hang.setPosition(HANG_ACTIVATED);
+        }
+    }
+
+    public void toggleSpecimen()
+    {
+        if (Math.abs(armLeft.getPosition() - ARM_SPECIMEN) < 0.001)
+        {
+            specimenAuto();
+            lifts.GoToPositionVertical(1710);
+        }
+        else
+        {
+            specimen();
+            lifts.GoToPositionVertical(0);
         }
     }
 //

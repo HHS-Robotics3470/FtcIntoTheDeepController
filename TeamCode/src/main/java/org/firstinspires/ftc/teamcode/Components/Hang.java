@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Components;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -9,8 +10,9 @@ public class Hang implements Component{
     private Servo hangLock1;
     private Servo hangLock2;
 
-    private final double LOCK_POS= 0.1;
+    private final double LOCK_POS= 0.07;
     private final double UNLOCK_POS= 0;
+    //Hang Position Tweaking
 
     @Override
     public void init(RobotHardware robotHardware) {
@@ -18,6 +20,7 @@ public class Hang implements Component{
         hangLock1 = robotHardware.lock1;
         hangLock2 = robotHardware.lock2;
 
+        hangMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hangLock2.setDirection(Servo.Direction.REVERSE);
 
         unlock();

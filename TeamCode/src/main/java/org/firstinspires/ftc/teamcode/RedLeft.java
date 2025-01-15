@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Red Left", group = "Autonomous")
+@Autonomous(name = "don't use", group = "Autonomous")
 public class RedLeft extends LinearOpMode {
     private RobotHardware robotHardware;
     private Lifts lifts;
