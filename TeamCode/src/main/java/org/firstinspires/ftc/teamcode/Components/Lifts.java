@@ -11,8 +11,17 @@ public class Lifts implements Component {
     private final int LIFT_HIGH = 4100;
     private final int LIFT_BACK = 0;
     private final int LIFT_FORWARD = 1810;
+    private final int LIFT_SPECIMEN = 1750;
+    private final int LIFT_BASKET = 3800;
     private final double LOCK_OPEN = 1;
     private final double LOCK_CLOSE = 0;
+    private enum LIFT_STATE{
+        INACTIVE,
+        MOVING_HIGH,
+        MOVING_LOW,
+        MOVING_SPEC,
+    }
+    private LIFT_STATE current_state = LIFT_STATE.INACTIVE;
 
     private LinearOpMode myOpMode = null;
     // Lift motors
@@ -158,4 +167,65 @@ public class Lifts implements Component {
         extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         extendo.setPower(power);
     }
+
+    public void ParallelMoveVertical(int target)
+    {
+        if (lLift.getCurrentPosition() != target && rLift.getCurrentPosition() != target)
+        {
+            lLift.setTargetPosition(target);
+            rLift.setTargetPosition(target);
+
+            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lLift.setPower(1);
+            rLift.setPower(1);
+        }
+        else
+        {
+            current_state = LIFT_STATE.INACTIVE;
+        }
+    }
+
+    public void stateUpdate()
+    {
+        switch (current_state)
+        {
+            case INACTIVE:
+                stopLiftVertical();
+                break;
+            case MOVING_LOW:
+                ParallelMoveVertical(0);
+                break;
+            case MOVING_HIGH:
+                ParallelMoveVertical(LIFT_BASKET);
+            case MOVING_SPEC:
+                ParallelMoveVertical(LIFT_SPECIMEN);
+
+        }
+    }
+
+    public LIFT_STATE getCurrentState()
+    {
+        return current_state;
+    }
+
+    public void AutoHigh()
+    {
+        current_state = LIFT_STATE.MOVING_HIGH;
+    }
+
+    public void AutoLow()
+    {
+        current_state = LIFT_STATE.MOVING_LOW;
+    }
+
+    public void AutoSpec()
+    {
+        current_state = LIFT_STATE.MOVING_SPEC;
+    }
+
+
+
+
 }
