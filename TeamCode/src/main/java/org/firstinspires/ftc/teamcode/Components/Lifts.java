@@ -225,6 +225,14 @@ public class Lifts implements Component {
         current_state = LIFT_STATE.MOVING_SPEC;
     }
 
+    public void AutoWait()
+    {
+        while (current_state != LIFT_STATE.INACTIVE)
+        {
+            stateUpdate();
+        }
+    }
+
 
 
 
