@@ -44,7 +44,7 @@ public class Lifts implements Component {
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extendo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+//
         lLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
