@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
 @Autonomous(name = "Right-specimen", group = "Autonomous")
-public class BlueLeft extends LinearOpMode {
+public class Right extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;
     private Lifts lifts;

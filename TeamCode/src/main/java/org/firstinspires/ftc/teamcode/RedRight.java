@@ -1,117 +1,43 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "also don't use", group = "Autonomous")
+@Autonomous(name = "test-dont use", group = "Autonomous")
 public class RedRight extends LinearOpMode {
     private RobotHardware robotHardware;
+    private SampleMecanumDrive drive;
 
     @Override
     public void runOpMode() {
         // Initialize hardware and components
-        robotHardware = new RobotHardware(this);
-        robotHardware.init();
+//        RobotHardware robot = new RobotHardware(this);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // Wait for the start of the match
         waitForStart();
+//        robot.init();
+        drive = new SampleMecanumDrive(hardwareMap);
+
+        Pose2d start = new Pose2d(0, 0, 0);
 
         if (opModeIsActive()) {
-            // Strafe Northwest
-            strafe(-1, 1500); // Adjust the duration for strafing NW
-            stopMoving();
+            Trajectory traj1 = drive.trajectoryBuilder(start)
+                    .splineToSplineHeading(new Pose2d(20, 20, Math.toRadians(90)), 0)
+                    .build();
 
-            // Raise Lift
-            //robotHardware.lifts.raiseLift();
-            //sleep(1000); // Allow time for lift to reach position
+            drive.followTrajectory(traj1);
 
-            // Lower Lift Slightly
-            //robotHardware.lifts.lowerLift();
-            //sleep(500); // Adjust for the partial lowering of lift
-
-
-            // Open Claw
-            //robotHardware.claw.clawOpen();
-            //sleep(500);
-
-            // Back Up
-            moveForward(-0.5, 1000); // Move backward with moderate speed
-            stopMoving();
-
-            // Fully Lower Lift
-            //robotHardware.lifts.lowerLift();
-            //sleep(1000); // Allow enough time for the lift to fully lower
-
-            // Close Claw
-            //robotHardware.claw.clawClose();
-            //sleep(500);
-
-            // Move Southeast to Park
-            strafe(1, 1500); // Adjust the duration for strafing SE
-            stopMoving();
-
-            // Turn around (180 degrees)
-            rotate(0.5, 1500); // Adjust timing for a full 180-degree turn
-            sleep(500);
 
             telemetry.addData("Status", "Autonomous Routine Complete");
             telemetry.update();
         }
     }
 
-    /**
-     * Move the robot forward/backward for a specific duration.
-     *
-     * @param power the power level to set for the motors
-     * @param time  the duration to move
-     */
-    private void moveForward(double power, int time) {
-        robotHardware.fLeft.setPower(power);
-        robotHardware.fRight.setPower(power);
-        robotHardware.bLeft.setPower(power);
-        robotHardware.bRight.setPower(power);
-        sleep(time);
-    }
-
-    /**
-     * Stop all drive motors.
-     */
-    private void stopMoving() {
-        robotHardware.fLeft.setPower(0);
-        robotHardware.fRight.setPower(0);
-        robotHardware.bLeft.setPower(0);
-        robotHardware.bRight.setPower(0);
-    }
-
-    /**
-     * Strafe the robot in a direction.
-     *
-     * @param power the power level to set for the motors
-     * @param time  the duration to strafe
-     */
-    private void strafe(double power, int time) {
-        robotHardware.fLeft.setPower(power);
-        robotHardware.fRight.setPower(-power);
-        robotHardware.bLeft.setPower(-power);
-        robotHardware.bRight.setPower(power);
-        sleep(time);
-    }
-    /**
-     * Rotate the robot either left or right.
-     *
-     * @param power the power level to set for the motors
-     * @param time the duration to rotate in milliseconds
-     */
-    private void rotate(double power, int time) {
-        robotHardware.fLeft.setPower(power);
-        robotHardware.fRight.setPower(-power);
-        robotHardware.bLeft.setPower(power);
-        robotHardware.bRight.setPower(-power);
-        sleep(time);
-        stopMoving();
-    }
 }

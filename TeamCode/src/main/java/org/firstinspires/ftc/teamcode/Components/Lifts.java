@@ -86,6 +86,8 @@ public class Lifts implements Component {
     public void stopLiftVertical() {
         rLift.setTargetPosition(rLift.getCurrentPosition());
         lLift.setTargetPosition(lLift.getCurrentPosition());
+        lLift.setPower(0);
+        rLift.setPower(0);
     }
 
     public void forwardLift() {
@@ -171,9 +173,17 @@ public class Lifts implements Component {
         extendo.setPower(power);
     }
 
+    public boolean isSortOfEqual(int lifts, int target, int error)
+    {
+        int difference = Math.abs(lifts - target);
+        if (difference < error)
+            return true;
+        else
+            return false;
+    }
     public void ParallelMoveVertical(int target)
     {
-        if (lLift.getCurrentPosition() != target && rLift.getCurrentPosition() != target)
+        if (!isSortOfEqual(lLift.getCurrentPosition(), target, 10) && !isSortOfEqual(rLift.getCurrentPosition(), target, 10))
         {
             lLift.setTargetPosition(target);
             rLift.setTargetPosition(target);
@@ -183,6 +193,11 @@ public class Lifts implements Component {
 
             lLift.setPower(1);
             rLift.setPower(1);
+
+            if (isSortOfEqual(lLift.getCurrentPosition(), target, 10) || isSortOfEqual(rLift.getCurrentPosition(), target, 10))
+            {
+                current_state = LIFT_STATE.INACTIVE;
+            }
         }
         else
         {
@@ -195,7 +210,8 @@ public class Lifts implements Component {
         switch (current_state)
         {
             case INACTIVE:
-
+                lLift.setPower(0);
+                rLift.setPower(0);
                 break;
             case MOVING_LOW:
                 ParallelMoveVertical(0);
@@ -235,8 +251,6 @@ public class Lifts implements Component {
             stateUpdate();
         }
     }
-
-
 
 
 }

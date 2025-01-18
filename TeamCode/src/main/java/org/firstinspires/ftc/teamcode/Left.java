@@ -2,21 +2,20 @@ package org.firstinspires.ftc.teamcode;
 
 //Fix Blue Left Configuration
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.Components.Lifts;
-import org.firstinspires.ftc.teamcode.Components.Claw;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "Left-sample cycle", group = "Autonomous")  //Name Confusion NEEDS FIXES
-public class BlueRight extends LinearOpMode {
+public class Left extends LinearOpMode {
     private RobotHardware robotHardware;
     private SampleMecanumDrive drive;
+    private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(270));
+    private Pose2d bucketPos = new Pose2d(5, 36, Math.toRadians(60));
+
 
     @Override
     public void runOpMode() {
@@ -33,20 +32,16 @@ public class BlueRight extends LinearOpMode {
 
         if (opModeIsActive()) {
             // Set the initial pose of the robot
-            Pose2d startPose = new Pose2d(0, 0, Math.toRadians(270));
             drive.setPoseEstimate(startPose);
 
             // Create a trajectory sequence
             TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
-                    .strafeLeft(16)  // Strafe left
-                    .back(38.8)  // Move backward
                     .addDisplacementMarker(() -> robot.lifts.AutoHigh()) //Lifts to height 3800 high
                     .addDisplacementMarker(() -> {
                         robot.claw.armUp(); //Arm goes up
                         robot.claw.wristUP(); //Wrist goes up
                     })
-                    .turn(Math.toRadians(63))  // Turn the robot
-                    .strafeLeft(2)  // Strafe left again
+                    .splineToSplineHeading(bucketPos, 0)
                     .addDisplacementMarker(() -> {
                         robot.lifts.AutoWait();
                         robot.claw.clawOpen();
