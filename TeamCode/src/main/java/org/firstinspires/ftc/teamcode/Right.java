@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class Right extends LinearOpMode {
     private SampleMecanumDrive drive;
 
-    // Define all points beforehand
+    // //Define all points beforehand
     private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
     private Pose2d midPoint = new Pose2d(20, 20, Math.toRadians(180));
     private Pose2d backPoint = new Pose2d(20, -25, Math.toRadians(180));
