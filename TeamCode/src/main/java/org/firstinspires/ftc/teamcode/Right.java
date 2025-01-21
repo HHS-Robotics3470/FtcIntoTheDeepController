@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-//Fix Blue Left Configuration
+// Fix Blue Left Configuration
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -13,13 +13,12 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class Right extends LinearOpMode {
     private SampleMecanumDrive drive;
 
-    // Define all points beforehand
-    private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
-    private Pose2d midPoint = new Pose2d(20, 20, Math.toRadians(180));
-    private Pose2d backPoint = new Pose2d(20, -25, Math.toRadians(180));
-    private Pose2d dropPoint = new Pose2d(20, -39.5, Math.toRadians(180));
-    private Pose2d collectPoint = new Pose2d(20, -61.5, Math.toRadians(180));
-    private Pose2d strafePoint = new Pose2d(20, -61.5, Math.toRadians(270));
+    // Define all points beforehand with no angle changes
+    private Pose2d startPose = new Pose2d(1, 1, 0);
+    private Pose2d midPoint = new Pose2d(5, 5, 0); // Move to with no angle turn
+    private Pose2d forwardPoint = new Pose2d(4, 0, 0); // Move straight forward to x = 4
+    private Pose2d backPoint = new Pose2d(0, 5, 0); // Move back to x = 0
+    private Pose2d strafePoint = new Pose2d(0, -10, 0); // Strafe right (to y = 10)
 
     @Override
     public void runOpMode() {
@@ -38,22 +37,32 @@ public class Right extends LinearOpMode {
             // Set the initial pose of the robot
             drive.setPoseEstimate(startPose);
 
-            // Follow trajectories using splineToSplineHeading
+            // Build and follow the trajectory sequence
             drive.followTrajectorySequence(
-                    drive.trajectorySequenceBuilder(startPose)
-                            .splineToSplineHeading(midPoint, Math.toRadians(180)) // Move to midPoint
-                            .addDisplacementMarker(() -> robot.claw.specimenAuto()) // Claw action
-                            .addDisplacementMarker(() -> robot.lifts.GoToPositionVertical(1750)) // Lifts to position
-                            .splineToSplineHeading(backPoint, Math.toRadians(180)) // Move back
-                            .addDisplacementMarker(() -> robot.claw.clawOpen()) // Open claw
-                            .splineToSplineHeading(dropPoint, Math.toRadians(180)) // Move to dropPoint
-                            .splineToSplineHeading(collectPoint, Math.toRadians(180)) // Move to collectPoint
+                    drive.trajectorySequenceBuilder(midPoint)
+
+                            .addDisplacementMarker(() -> {
+                                robot.claw.specimenAuto(); // Perform wrist action
+                                robot.lifts.GoToPositionVertical(2700); // Move lift to position
+                            })
+
+                            // Move straight forward to x = 4
+                            .splineToSplineHeading(forwardPoint, Math.toRadians(0))
+                            .waitSeconds(1)
+                            // Open claw
+                            .addDisplacementMarker(() -> robot.claw.clawOpen())
+
+                            // Move back to x = 0
+                            .splineToSplineHeading(backPoint, Math.toRadians(0))
+
+                            // Strafe right to y = 10 while lowering wrist and arm
+                            .splineToSplineHeading(strafePoint, Math.toRadians(0))
                             .addDisplacementMarker(() -> {
                                 robot.claw.wristDown();
                                 robot.claw.armRest();
                                 robot.lifts.GoToPositionVertical(0);
                             })
-                            .splineToSplineHeading(strafePoint, Math.toRadians(270)) // Strafe left
+
                             .build()
             );
 

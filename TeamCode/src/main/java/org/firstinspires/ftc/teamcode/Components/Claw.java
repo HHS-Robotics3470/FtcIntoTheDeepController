@@ -39,12 +39,12 @@ public class Claw implements Component{
     private final double ARM_DOWN_POSITION = 0.247;
     private final double ARM_REST_POSITION = 0.262;
     private final double WRIST_UP_POSITION = 0.42;
-    private final double WRIST_AUTO_POSITION = 0.1; //.5
-    private final double WRIST_DOWN_POSITION = 0.237
-            ;
+    private final double WRIST_AUTO_POSITION = 0.57; //.5
+    private final double WRIST_DOWN_POSITION = 0.237;
+
     private final double WRIST_SPECIMEN = 0.345;
-    private final double ARM_SPECIMEN = 0.25;
-    private final double ARM_AUTO = 0.4; //0.315
+    private final double ARM_SPECIMEN = 0.255;
+    private final double ARM_AUTO = 0.37; //0.315
     private final double HANG_INITIAL = -0.115;
     private final double HANG_ACTIVATED = 0;
 
@@ -247,7 +247,7 @@ public class Claw implements Component{
         if (Math.abs(armLeft.getPosition() - ARM_SPECIMEN) < 0.001)
         {
             specimenAuto();
-            lifts.GoToPositionVertical(1710);
+            lifts.GoToPositionVertical(2700);
         }
         else
         {
