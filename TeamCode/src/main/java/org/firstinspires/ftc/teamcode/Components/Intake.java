@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Intake implements Component {
 
     public final double PITCH_DOWN = 0.01;
-    public final double PITCH_UP = 0.08;
-    public final double PITCH_REST = 0.0508;
+    public final double PITCH_UP = 0.088;
+    public final double PITCH_REST = 0.0588;
     public final double INTAKE_POWER = 1;
     public final double PASSIVE_INTAKE_POWER = 0.4;
 

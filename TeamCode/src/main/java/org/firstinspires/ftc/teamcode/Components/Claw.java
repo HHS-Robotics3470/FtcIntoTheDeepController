@@ -35,15 +35,15 @@ public class Claw implements Component{
     // Constants for servo positions
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
-    private final double ARM_UP_POSITION = 0.325;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.232;
-    private final double ARM_REST_POSITION = 0.252;
-    private final double WRIST_UP_POSITION = 0.37;
+    private final double ARM_UP_POSITION = 0.32;    // Adjust as needed for your pitch servo
+    private final double ARM_DOWN_POSITION = 0.247;
+    private final double ARM_REST_POSITION = 0.262;
+    private final double WRIST_UP_POSITION = 0.42;
     private final double WRIST_AUTO_POSITION = 0.1; //.5
     private final double WRIST_DOWN_POSITION = 0.237
             ;
     private final double WRIST_SPECIMEN = 0.345;
-    private final double ARM_SPECIMEN = 0.36;
+    private final double ARM_SPECIMEN = 0.25;
     private final double ARM_AUTO = 0.4; //0.315
     private final double HANG_INITIAL = -0.115;
     private final double HANG_ACTIVATED = 0;
@@ -66,8 +66,6 @@ public class Claw implements Component{
         armRight.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.FORWARD);
 
-        wrist.setDirection(Servo.Direction.REVERSE);
-
         clawServo.setPosition(CLAW_CLOSE_POSITION);
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
@@ -81,8 +79,6 @@ public class Claw implements Component{
 
     // Method to open the claw
     public void clawOpen() {
-
-
         clawServo.setPosition(CLAW_OPEN_POSITION);
     }
 
@@ -228,6 +224,7 @@ public class Claw implements Component{
         wrist.setPosition(WRIST_SPECIMEN);
         armRight.setPosition(ARM_SPECIMEN);
         armLeft.setPosition(ARM_SPECIMEN);
+        clawOpen();
     }
 
     public void specimenAuto() {
