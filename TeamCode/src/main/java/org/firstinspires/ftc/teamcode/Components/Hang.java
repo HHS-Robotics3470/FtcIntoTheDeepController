@@ -13,7 +13,7 @@ public class Hang implements Component{
     private final double LOCK_POS= 0.13;//0.07
     private final double UNLOCK_POS= 0.1;
     //Hang Position Tweaking
-
+//
     @Override
     public void init(RobotHardware robotHardware) {
         hangMotor = robotHardware.hangMotor;
