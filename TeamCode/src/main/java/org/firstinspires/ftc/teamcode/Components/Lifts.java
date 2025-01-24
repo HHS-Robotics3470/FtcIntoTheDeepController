@@ -11,7 +11,7 @@ public class Lifts implements Component {
     private final int LIFT_HIGH = 4100;
     private final int LIFT_BACK = 0;
     private final int LIFT_FORWARD = 1810;
-    private final int LIFT_SPECIMEN = 1750;
+    private final int LIFT_SPECIMEN = 2700;
     private final int LIFT_BASKET = 3800;
     private final double LOCK_OPEN = 1;
     private final double LOCK_CLOSE = 0;
