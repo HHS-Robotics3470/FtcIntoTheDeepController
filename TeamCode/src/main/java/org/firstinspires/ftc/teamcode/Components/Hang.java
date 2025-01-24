@@ -21,7 +21,7 @@ public class Hang implements Component{
         hangLock2 = robotHardware.lock2;
 
         hangMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        hangLock2.setDirection(Servo.Direction.REVERSE);
+
 
         lock();
     }

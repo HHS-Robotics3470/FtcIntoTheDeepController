@@ -39,6 +39,8 @@ public class Right extends LinearOpMode {
             // Set the initial pose of the robot
             drive.setPoseEstimate(startPose);
 
+            robot.intake.pitchDown();
+
             // Build and follow the trajectory sequence
             TrajectorySequence traj =  drive.trajectorySequenceBuilder(startPose)
                     .addDisplacementMarker(() -> {
@@ -46,7 +48,6 @@ public class Right extends LinearOpMode {
                         robot.lifts.AutoSpec(); // Move lift to position
                         robot.lifts.AutoWait();
                     })
-                    .waitSeconds(1)
                     // Move to point before attaching
                     .back(38)
                     // Wait for lifts
@@ -54,14 +55,46 @@ public class Right extends LinearOpMode {
                         robot.claw.clawOpen();
                     })
                     .waitSeconds(0.1)
-                    .forward(30)
+                    .forward(20)
+                    .turn(0.4)
+
+                    //Moving to get next specimen
                     .addDisplacementMarker(() -> {
                         robot.claw.armRest();
                         robot.lifts.AutoLow();
                         robot.lifts.AutoWait();
                     })
-                    .strafeLeft(80)
-                    .forward(40)
+                    .strafeLeft(25)
+                    .addDisplacementMarker(() -> {
+                        robot.wrist.setPosition(0.345);
+                        robot.claw.specimen();
+                    })
+                    .forward(10)
+                    .waitSeconds(0.8)
+                    .forward(25)
+                    .waitSeconds(0.5)
+                    .addTemporalMarker(6.5, () -> {
+                        robot.claw.clawClose();
+                    })
+                    .waitSeconds(0.3)
+
+                    //Raise claw for next speciment
+                    .addDisplacementMarker(() -> {
+                        robot.lifts.AutoSpec();
+                        robot.lifts.AutoWait();
+                        robot.claw.specimenAuto();
+                    })
+                    .back(20)
+                    .turn(-0.6)
+                    .strafeRight(45)
+                    .turn(0.001)
+                    .back(7)
+                    .addTemporalMarker( 13.4, () -> {
+                        robot.claw.clawOpen();
+                    })
+                    .waitSeconds(0.2)
+                    .forward(15)
+
 
 
 //
@@ -79,13 +112,24 @@ public class Right extends LinearOpMode {
 
             drive.followTrajectorySequence(traj);
 
-            while (opModeIsActive() && !isStopRequested())
+            while (opModeIsActive() && !isStopRequested() && drive.isBusy())
             {
+
                 drive.update();
                 robot.lifts.stateUpdate();
                 telemetry.addData("Lift State", robot.lifts.getCurrentState());
                 telemetry.addData("Lift position", robot.lLift.getCurrentPosition());
                 telemetry.update();
+
+
+
+
+            }
+
+            if (!drive.isBusy())
+            {
+                robot.claw.specimen();
+                robot.lifts.GoToPositionVertical(0);
             }
 
             telemetry.addData("Status", "Autonomous Complete");

@@ -222,8 +222,8 @@ public class Claw implements Component{
     public void specimen()
     {
         wrist.setPosition(WRIST_SPECIMEN);
-        armRight.setPosition(ARM_SPECIMEN);
-        armLeft.setPosition(ARM_SPECIMEN);
+        armRight.setPosition(ARM_REST_POSITION);
+        armLeft.setPosition(ARM_REST_POSITION);
         clawOpen();
     }
 
