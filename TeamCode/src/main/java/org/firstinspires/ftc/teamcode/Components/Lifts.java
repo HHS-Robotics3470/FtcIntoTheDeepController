@@ -15,7 +15,7 @@ public class Lifts implements Component {
     private final int LIFT_BASKET = 3800;
     private final double LOCK_OPEN = 1;
     private final double LOCK_CLOSE = 0;
-    private enum LIFT_STATE{
+    public enum LIFT_STATE{
         INACTIVE,
         MOVING_HIGH,
         MOVING_LOW,
@@ -250,6 +250,11 @@ public class Lifts implements Component {
         {
             stateUpdate();
         }
+    }
+
+    public boolean IsInactive()
+    {
+        return (current_state == LIFT_STATE.INACTIVE);
     }
 
 

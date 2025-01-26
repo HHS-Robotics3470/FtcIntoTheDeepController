@@ -88,8 +88,8 @@ public class Right extends LinearOpMode {
                     .turn(-0.6)
                     .strafeRight(45)
                     .turn(0.001)
-                    .back(7)
-                    .addTemporalMarker( 13.4, () -> {
+                    .back(9)
+                    .addTemporalMarker( 12.4, () -> {
                         robot.claw.clawOpen();
                     })
                     .waitSeconds(0.2)
@@ -120,10 +120,6 @@ public class Right extends LinearOpMode {
                 telemetry.addData("Lift State", robot.lifts.getCurrentState());
                 telemetry.addData("Lift position", robot.lLift.getCurrentPosition());
                 telemetry.update();
-
-
-//
-
             }
 
             if (!drive.isBusy())

@@ -15,6 +15,7 @@ public class Intake implements Component {
 
     public final double SWEEPER_INITIAL_POSITION = 0;
     public final double SWEEPER_FINAL_POSITION = 0.71;
+    public final double SWEEPER_AUTO_POSITION = 0.34;
 
     private boolean ifPressed;
 
@@ -91,6 +92,10 @@ public class Intake implements Component {
     }
 
     public void sweeperFinal() {sweeper.setPosition(SWEEPER_FINAL_POSITION);}
+
+    public void sweeperAuto() {
+        sweeper.setPosition(SWEEPER_AUTO_POSITION);
+    }
 
     public void sweeperPress(){
         if (!ifPressed)

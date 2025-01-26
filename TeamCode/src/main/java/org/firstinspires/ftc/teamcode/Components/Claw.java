@@ -15,6 +15,9 @@ public class Claw implements Component{
     private Lifts lifts;
 
     private boolean ifSwinged = false;
+    private boolean ifOpen = false;
+    private boolean ifSpecimen = false;
+
     private enum GRAB_STATE{
         INACTIVE,
         ACTION1,
@@ -67,6 +70,7 @@ public class Claw implements Component{
         armLeft.setDirection(Servo.Direction.FORWARD);
 
         clawServo.setPosition(CLAW_CLOSE_POSITION);
+        ifOpen = false;
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
         wrist.setPosition(WRIST_DOWN_POSITION);
@@ -195,10 +199,12 @@ public class Claw implements Component{
 
     // Method to toggle the claw's open/close state
     public void toggleClaw() {
-        if (Math.abs(clawServo.getPosition() - CLAW_OPEN_POSITION) < 0.0001) {
+        if (ifOpen) {
             clawClose();
+            ifOpen = false;
         } else {
             clawOpen();
+            ifOpen = true;
         }
     }
 
@@ -244,15 +250,17 @@ public class Claw implements Component{
 
     public void toggleSpecimen()
     {
-        if (Math.abs(armLeft.getPosition() - ARM_SPECIMEN) < 0.001)
+        if (ifSpecimen)
         {
             specimenAuto();
-            lifts.GoToPositionVertical(2700);
+            ifSpecimen = false;
+//            lifts.AutoSpec();
         }
         else
         {
             specimen();
-            lifts.GoToPositionVertical(0);
+            ifSpecimen = true;
+//            lifts.AutoLow();
         }
     }
 //
