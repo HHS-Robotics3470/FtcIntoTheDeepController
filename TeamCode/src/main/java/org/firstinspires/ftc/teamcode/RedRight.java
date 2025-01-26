@@ -16,14 +16,17 @@ public class RedRight extends LinearOpMode {
     private RobotHardware robot;
     private SampleMecanumDrive drive;
 
-    private enum DRIVE_STATE{
+    public enum DRIVE_STATE{
         start,
         dropping1,
         align1,
         grabbing1,
         dropping2,
         delay1,
-        align2
+        align2,
+        grabbing2,
+        dropping3,
+        end
     }
 
     private DRIVE_STATE current_state;
@@ -38,6 +41,8 @@ public class RedRight extends LinearOpMode {
     private Pose2d specimen20 = new Pose2d(10, -50, Math.toRadians(180));
     private Pose2d specimen21 = new Pose2d(4, 10, Math.toRadians(180));
     private Pose2d specimen22 = new Pose2d(30, 16, Math.toRadians(180));
+    private Pose2d align21 = new Pose2d(25, -50, Math.toRadians(180));
+    private Pose2d align22 = new Pose2d(4, -50, Math.toRadians(180));
 
     private ElapsedTime time = new ElapsedTime();
 
@@ -80,6 +85,14 @@ public class RedRight extends LinearOpMode {
                 .splineToConstantHeading(specimen20.vec(), Math.toRadians(180))
                 .splineToConstantHeading(specimen21.vec(), Math.toRadians(180))
                 .splineToConstantHeading(specimen22.vec(), Math.toRadians(180))
+                .build();
+        //align for third specimen
+        Trajectory traj5 = drive.trajectoryBuilder(specimen22)
+                .splineToConstantHeading(align21.vec(), Math.toRadians(180))
+                .build();
+        //grab for third specimen
+        Trajectory traj6 = drive.trajectoryBuilder(align21)
+                .splineToConstantHeading(align22.vec(), Math.toRadians(180))
                 .build();
 
         current_state = DRIVE_STATE.start;
@@ -142,9 +155,7 @@ public class RedRight extends LinearOpMode {
                     if (!drive.isBusy() && robot.lifts.IsInactive())
                     {
                         robot.claw.clawOpen();
-//                        robot.claw.specimen();
-//                        robot.lifts.AutoLow();
-//                        drive.followTrajectoryAsync(traj2);
+                        drive.followTrajectoryAsync(traj5);
                         current_state = DRIVE_STATE.align2;
                     }
                     break;
