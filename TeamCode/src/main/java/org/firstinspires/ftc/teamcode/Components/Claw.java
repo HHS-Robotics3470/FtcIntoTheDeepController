@@ -37,13 +37,13 @@ public class Claw implements Component{
 
     // Constants for servo positions
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
-    private final double CLAW_CLOSE_POSITION = 0;  // Adjust as needed for your claw design
+    private final double CLAW_CLOSE_POSITION = 0.0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.32;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.247;
-    private final double ARM_REST_POSITION = 0.262;
-    private final double WRIST_UP_POSITION = 0.42;
+    private final double ARM_DOWN_POSITION = 0.2605;
+    private final double ARM_REST_POSITION = 0.27;
+    private final double WRIST_UP_POSITION = 0.44;
     private final double WRIST_AUTO_POSITION = 0.57; //.5
-    private final double WRIST_DOWN_POSITION = 0.237;
+    private final double WRIST_DOWN_POSITION = 0.23;
 
     private final double WRIST_SPECIMEN = 0.345;
     private final double ARM_SPECIMEN = 0.255;

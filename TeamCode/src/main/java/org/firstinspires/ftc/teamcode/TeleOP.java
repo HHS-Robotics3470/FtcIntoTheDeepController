@@ -1,5 +1,6 @@
 
 package org.firstinspires.ftc.teamcode;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,11 +40,19 @@ public class TeleOP extends LinearOpMode {
     private boolean b1state = false;
     private boolean b2state = false;
     private boolean y1state = false;
+    private boolean x1State = false;
     private boolean x2state = false;
+    private boolean a1state = false;
     private boolean a3state = false;
     private boolean a4state = false;
     private boolean bdpadUpState = false;
 
+
+    private PIDController controller;
+    public static double p = 0, i= 0, d= 0;
+    public static double f=0;
+    public static int target =0;
+    private final double ticks_in_degree = ((((1+(46/17))) * (1+(46/11))) * 28);
 
     @Override
     public void runOpMode() {
@@ -55,9 +64,10 @@ public class TeleOP extends LinearOpMode {
         telemetry.update();
 
         ElapsedTime mStateTime = new ElapsedTime();
-        ElapsedTime xStateTime = new ElapsedTime();
+        ElapsedTime kStateTime = new ElapsedTime();
 
         int v_state = 0;
+        int k_state = 0;
 
         waitForStart();
         robot.init();
@@ -81,7 +91,7 @@ public class TeleOP extends LinearOpMode {
             robot.mecnum.brake(1 - gamepad1.right_trigger);
             robot.mecnum.driveRobot(gamepad1);
 
-            if (gamepad1.a) {
+        /*    if (gamepad1.a) {
                 robot.intake.pitchDown();
                 robot.intake.startIntake();
             } else if (gamepad1.x) {
@@ -97,15 +107,54 @@ public class TeleOP extends LinearOpMode {
                 robot.intake.pitchRest();
                 robot.intake.stopIntake();
             }
+*/
+            if (gamepad1.a && !a1state) {
+                a1state = true;
+                k_state = 0;
+                mStateTime.reset();
+            }
+            if (a1state) {
+                switch (k_state) {
+                    case 0:
+                        robot.intake.pitchIntakeReady();
+                        robot.intake.clawIntakeOpen();
+                        robot.intake.pitchIntaking();
+                        if (mStateTime.seconds() >= 0.4) {
+                            mStateTime.reset();
+                            k_state++;
+                        }
+                        break;
+
+                    case 1:
+                        robot.intake.clawIntakeClose();
+                        if (mStateTime.seconds() >= 0.25) {
+                            mStateTime.reset();
+                            k_state++;
+                        }
+                        break;
+
+                    case 2:
+                        robot.intake.pitchTransfer();
+                        robot.intake.sweeperInitial();
+                        a1state = false;
+                        break;
+                }
+            }
 
 
             if (gamepad1.right_bumper) {
+                robot.intake.pitchIntakeReady();
+                robot.intake.clawIntakeOpen();
                 robot.lifts.forwardLift();
             } else if (gamepad1.left_bumper) {
+                robot.intake.pitchTransfer();
+                robot.intake.clawIntakeClose();
+                robot.intake.sweeperInitial();
                 robot.lifts.backLift();
             } else {
                 robot.lifts.stopLiftHorizontal();
             }
+
 
             if (gamepad2.right_bumper) {
                 robot.lifts.raiseLift();
@@ -119,49 +168,51 @@ public class TeleOP extends LinearOpMode {
             if (gamepad1.b && !b1state) {
                 b1state = true;
                 v_state = 0;
-                mStateTime.reset();
+                kStateTime.reset();
             }
             if (b1state) {
                 switch (v_state) {
                     case 0:
-                        robot.intake.pitchUp();
+                        robot.intake.pitchTransfer();
+                        robot.intake.sweeperInitial();
+                        robot.intake.clawIntakeClose();
                         robot.claw.clawOpen();
                         robot.claw.wristDown();
-                        if (mStateTime.seconds() >= 0.15) {
-                            mStateTime.reset();
+                        if (kStateTime.seconds() >= 0.15) {
+                            kStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 1:
-                        robot.intake.pitchUp();
+                        robot.intake.pitchTransfer();
+                        robot.intake.clawIntakeClose();
                         robot.claw.armDown();
-                        if (mStateTime.seconds() >= 0.25) {
-                            mStateTime.reset();
+                        if (kStateTime.seconds() >= 0.35) {
+                            kStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 2:
-                        robot.intake.pitchUp();
+                        robot.intake.pitchTransfer();
+                        robot.intake.clawIntakeOpen();
                         robot.claw.clawClose();
-                        if (mStateTime.seconds() >= 0.4) {
-                            mStateTime.reset();
+                        if (kStateTime.seconds() >= 0.4) {
+                            kStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 3:
-                        robot.intake.pitchDown();
                         robot.claw.armRest();
-                        if (mStateTime.seconds() >= 0.3) {
-                            mStateTime.reset();
+                        if (kStateTime.seconds() >= 0.3) {
+                            kStateTime.reset();
                             v_state++;
                         }
                         break;
 
                     case 4:
-                        robot.intake.pitchDown();
                         robot.claw.wristUP();
                         robot.claw.armUp();
                         b1state = false;
@@ -227,7 +278,7 @@ public class TeleOP extends LinearOpMode {
 
             //HANG
             if (gamepad1.y && !a4state) {
-                robot.intake.sweeperPress();
+                robot.intake.wristing();
                 sleep(200);
                 a4state = true;
             } else if (!gamepad1.y && a4state) {

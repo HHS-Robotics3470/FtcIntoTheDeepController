@@ -37,7 +37,7 @@ public class RobotHardware {
 
     // Servo for intake pitch control
     public Servo intakePitch;
-    public CRServoImpl roller;
+    //public CRServoImpl roller;
     public Servo clawServo;
     public Servo wrist;
     public Servo armRight;
@@ -46,6 +46,7 @@ public class RobotHardware {
     public Servo lock2;
     public Servo liftLock;
     public Servo sweeper;
+    public Servo clawIntake;
 
     //SubSystems Intake and others
     public Mecnum mecnum = new Mecnum();
@@ -68,7 +69,8 @@ public class RobotHardware {
         hangMotor = myOpMode.hardwareMap.get(DcMotorEx.class, "hang");
 
         //Initialize servos
-        roller = myOpMode.hardwareMap.get(CRServoImpl.class, "roller");
+        //roller = myOpMode.hardwareMap.get(CRServoImpl.class, "roller");
+        clawIntake = myOpMode.hardwareMap.get(Servo.class, "claw intake");
         intakePitch = myOpMode.hardwareMap.get(Servo.class, "intake pitch");
         clawServo = myOpMode.hardwareMap.get(Servo.class, "clawServo");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");

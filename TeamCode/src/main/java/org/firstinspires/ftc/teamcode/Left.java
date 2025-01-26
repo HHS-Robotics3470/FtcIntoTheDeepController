@@ -55,7 +55,7 @@ public class Left extends LinearOpMode {
                     .turn(Math.toRadians(54.3))  // Turn the robot
                     .addDisplacementMarker(() -> {
                         robot.intake.pitchDown();   //Pitch goes down for intake process
-                        robot.intake.startIntake(); //Begin Intake Motors
+                   //     robot.intake.startIntake(); //Begin Intake Motors
                     })
                     .forward(26.8)  // Move forward with wait codes
                     .waitSeconds(0.78)
@@ -63,7 +63,7 @@ public class Left extends LinearOpMode {
                     .waitSeconds(0.5)
                     .addDisplacementMarker(() -> {
                         robot.lifts.AutoWait();
-                        robot.intake.stopIntake();
+                //        robot.intake.stopIntake();
                     }) //WAIT TO Stop Intake Motors
                     .waitSeconds(0.03)
                     .addDisplacementMarker(() -> robot.claw.grab())  //WAIT TO Grab Block
