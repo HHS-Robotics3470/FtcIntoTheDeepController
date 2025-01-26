@@ -100,12 +100,12 @@ public class Intake implements Component {
     public void sweeperPress(){
         if (!ifPressed)
         {
-           sweeperFinal();
+            sweeperFinal();
             ifPressed = true;
         }
         else
         {
-           sweeperInitial();
+            sweeperInitial();
             ifPressed = false;
         }
     };

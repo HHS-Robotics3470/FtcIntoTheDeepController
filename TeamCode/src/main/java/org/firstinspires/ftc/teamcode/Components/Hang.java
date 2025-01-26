@@ -10,8 +10,8 @@ public class Hang implements Component{
     private Servo hangLock1;
     private Servo hangLock2;
 
-    private final double LOCK_POS= 0.13;//0.07
-    private final double UNLOCK_POS= 0.1;
+    private final double LOCK_POS= 0.005;//0.07
+    private final double UNLOCK_POS= 0.13;
     //Hang Position Tweaking
 //
     @Override
@@ -23,7 +23,7 @@ public class Hang implements Component{
         hangMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        lock();
+        unlock();
     }
 
     // Method to lift the robot
