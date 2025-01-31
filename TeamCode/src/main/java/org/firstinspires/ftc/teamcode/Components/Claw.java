@@ -13,7 +13,6 @@ public class Claw implements Component{
     private Servo wrist;// Servo to adjust the pitch of the claw
     private Servo hang;
     private Lifts lifts;
-
     private boolean ifSwinged = false;
     private boolean ifOpen = false;
     private boolean ifSpecimen = false;
@@ -77,7 +76,6 @@ public class Claw implements Component{
         wrist.setPosition(WRIST_UP_POSITION);
         hang.setPosition(HANG_INITIAL);
 
-//
         ifSwinged = false;
     }
 
@@ -231,12 +229,14 @@ public class Claw implements Component{
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
         clawOpen();
+        lifts.GoToPositionVerticalSpecIntake();
     }
 
     public void specimenAuto() {
         wrist.setPosition(WRIST_AUTO_POSITION);
         armRight.setPosition(ARM_AUTO);
         armLeft.setPosition(ARM_AUTO);
+        lifts.GoToPositionVerticalSpecOuttake();
     }
 
     public void lvl1hang()
