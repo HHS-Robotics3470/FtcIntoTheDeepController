@@ -76,7 +76,6 @@ public class RedRight extends LinearOpMode {
 
         // Wait for the start of the match
         waitForStart();
-        HoldLastLift.setHeight(0);
 
         robot.init();
         drive = new SampleMecanumDrive(hardwareMap);
@@ -147,7 +146,6 @@ public class RedRight extends LinearOpMode {
         {
             drive.update();
             robot.lifts.stateUpdate();
-            HoldLastLift.setHeight(robot.lLift.getCurrentPosition());
 
             switch (current_state)
             {
