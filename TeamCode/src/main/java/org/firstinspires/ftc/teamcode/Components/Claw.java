@@ -44,11 +44,15 @@ public class Claw implements Component{
     private final double WRIST_AUTO_POSITION = 0.57; //.5
     private final double WRIST_DOWN_POSITION = 0.23;
 
-    private final double WRIST_SPECIMEN = 0.345;
+    private final double WRIST_SPECIMEN = 0.36
+            ;
     private final double ARM_SPECIMEN = 0.255;
     private final double ARM_AUTO = 0.37; //0.315
     private final double HANG_INITIAL = -0.115;
     private final double HANG_ACTIVATED = 0;
+
+    private final double ARM_S_INTAKE = 0.38;
+    private final double WRIST_S_INTAKE = 0.36;
 
 
     ;// Adjust as needed for your pitch servo
@@ -226,8 +230,8 @@ public class Claw implements Component{
     public void specimen()
     {
         wrist.setPosition(WRIST_SPECIMEN);
-        armRight.setPosition(ARM_REST_POSITION);
-        armLeft.setPosition(ARM_REST_POSITION);
+        armRight.setPosition(ARM_SPECIMEN);
+        armLeft.setPosition(ARM_SPECIMEN);
         clawOpen();
         lifts.GoToPositionVerticalSpecIntake();
     }
@@ -258,7 +262,9 @@ public class Claw implements Component{
         }
         else
         {
-            specimen();
+            wrist.setPosition(WRIST_S_INTAKE);
+            armRight.setPosition(ARM_S_INTAKE);
+            armLeft.setPosition(ARM_S_INTAKE);
             ifSpecimen = true;
 //            lifts.AutoLow();
         }

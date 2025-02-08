@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServoImpl;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.util.Encoder;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
@@ -18,6 +19,9 @@ public class RobotHardware {
     public RobotHardware(LinearOpMode opMode) {
         myOpMode = opMode;
     }
+    //sensors
+
+
 
     // Motors
     public DcMotorEx fLeft;
@@ -29,6 +33,10 @@ public class RobotHardware {
     public DcMotorEx lLift;
     public DcMotorEx rLift;
 
+    //Sensors
+    public TouchSensor touch1;
+    public TouchSensor touch2;
+
 
     // Odometry
     public Encoder leftEncoder, rightEncoder, frontEncoder;
@@ -37,7 +45,7 @@ public class RobotHardware {
 
     // Servo for intake pitch control
     public Servo intakePitch;
-    //public CRServoImpl roller;
+//    public CRServoImpl roller;
     public Servo clawServo;
     public Servo wrist;
     public Servo armRight;
@@ -81,6 +89,11 @@ public class RobotHardware {
         liftLock = myOpMode.hardwareMap.get(Servo.class, "liftLock");
         sweeper = myOpMode.hardwareMap.get(Servo.class, "sweeper");
 
+        //Initiallize sensors
+        touch1 = myOpMode.hardwareMap.get(TouchSensor.class, "touch1");
+        touch2 = myOpMode.hardwareMap.get(TouchSensor.class, "touch2");
+
+
 
 
 
@@ -97,7 +110,6 @@ public class RobotHardware {
             initalvel.add(0);
         }
         localizer = new StandardTrackingWheelLocalizer(myOpMode.hardwareMap, initalpos, initalvel);
-
 
         for (int i = 0; i < components.length; i++)
         {

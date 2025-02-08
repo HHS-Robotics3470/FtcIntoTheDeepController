@@ -5,8 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class Lifts implements Component {
+    private final int liftShift = HoldLastLift.getHeight();
+
     private final int LIFT_LOW = 0;
     private final int LIFT_HIGH = 4100;
     private final int LIFT_BACK = 0;
@@ -28,6 +31,8 @@ public class Lifts implements Component {
     private DcMotorEx lLift;
     private DcMotorEx rLift;
     private Servo lock;
+    public TouchSensor touch1;
+    public TouchSensor touch2;
 
     // Horizontal extension motor
     public DcMotorEx extendo;
@@ -40,6 +45,8 @@ public class Lifts implements Component {
         rLift = robotHardware.rLift;
         extendo = robotHardware.extendo;
         lock = robotHardware.liftLock;
+        touch1 = robotHardware.touch1;
+        touch2 = robotHardware.touch2;
 
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -56,6 +63,8 @@ public class Lifts implements Component {
         lLift.setDirection(DcMotorSimple.Direction.FORWARD);
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
         extendo.setDirection(DcMotor.Direction.FORWARD);
+
+        GoToPositionVertical(LIFT_LOW);
     }
 
     // Raise Lift function
@@ -72,7 +81,7 @@ public class Lifts implements Component {
 
     // Lower Lift function
     public void lowerLift() {
-        if (rLift.getCurrentPosition() > LIFT_LOW && lLift.getCurrentPosition() > LIFT_LOW) {
+        if (true) {
             rLift.setTargetPosition(LIFT_LOW);
             lLift.setTargetPosition(LIFT_LOW);
             rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -239,7 +248,7 @@ public class Lifts implements Component {
                 rLift.setPower(0);
                 break;
             case MOVING_LOW:
-                ParallelMoveVertical(0);
+                ParallelMoveVertical(280);
                 break;
             case MOVING_HIGH:
                 ParallelMoveVertical(LIFT_BASKET);

@@ -1,6 +1,5 @@
 
 package org.firstinspires.ftc.teamcode;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -48,7 +47,6 @@ public class TeleOP extends LinearOpMode {
     private boolean bdpadUpState = false;
 
 
-    private PIDController controller;
     public static double p = 0, i= 0, d= 0;
     public static double f=0;
     public static int target =0;
@@ -80,6 +78,9 @@ public class TeleOP extends LinearOpMode {
             telemetry.addData("arm left", robot.armLeft.getPosition());
             telemetry.addData("up lift position", robot.rLift.getCurrentPosition());
             telemetry.addData("foward lift position", robot.extendo.getCurrentPosition());
+            telemetry.addData("touch1 is pressed", robot.lifts.touch1.isPressed());
+            telemetry.addData("touch2 is pressed", robot.lifts.touch2.isPressed());
+
 
 
             robot.localizer.update();
@@ -147,7 +148,6 @@ public class TeleOP extends LinearOpMode {
                 robot.intake.clawIntakeOpen();
                 robot.lifts.forwardLift();
             } else if (gamepad1.left_bumper) {
-                robot.intake.pitchTransfer();
                 robot.intake.clawIntakeClose();
                 robot.intake.sweeperInitial();
                 robot.lifts.backLift();

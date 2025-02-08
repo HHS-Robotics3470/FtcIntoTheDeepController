@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Components.HoldLastLift;
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -27,6 +28,10 @@ public class RedRight extends LinearOpMode {
         grabbing2,
         delay2,
         dropping3,
+        improv1,
+        improv2,
+        improve3,
+        improvDelay,
         end
     }
 
@@ -34,19 +39,28 @@ public class RedRight extends LinearOpMode {
 
     private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
     private Pose2d specimen1 = new Pose2d(22, 0, Math.toRadians(180));
+
     private Pose2d align11 = new Pose2d(15, -30, Math.toRadians(180));
     private Pose2d align12 = new Pose2d(35, -55, Math.toRadians(180));
     private Pose2d align13 = new Pose2d(75, -55, Math.toRadians(180));
-    private Pose2d align14 = new Pose2d(75, -48, Math.toRadians(180));
-    private Pose2d align15 = new Pose2d(1, -48, Math.toRadians(180));
-    private Pose2d specimen20 = new Pose2d(10, -48, Math.toRadians(180));
-    private Pose2d specimen21 = new Pose2d(4, 10, Math.toRadians(180));
-    private Pose2d specimen22 = new Pose2d(30, 23, Math.toRadians(180));
-    private Pose2d align21 = new Pose2d(25, -50, Math.toRadians(180));
-    private Pose2d align22 = new Pose2d(1, -50, Math.toRadians(180));
+    private Pose2d align14 = new Pose2d(75, -44, Math.toRadians(180));
+    private Pose2d alignx = new Pose2d(74, -48, Math.toRadians(180));
+    private Pose2d align15 = new Pose2d(5, -48, Math.toRadians(180));
+    private Pose2d specimen20 = new Pose2d(8, -48, Math.toRadians(180));
+    private Pose2d specimen21 = new Pose2d(5, 10, Math.toRadians(180));
+    private Pose2d specimen22 = new Pose2d(35, 27, Math.toRadians(180));
+    private Pose2d align21 = new Pose2d(11, -50, Math.toRadians(180));
+    private Pose2d align22 = new Pose2d(4.9, -50, Math.toRadians(180));
     private Pose2d specimen31 = new Pose2d(5, 25, Math.toRadians(180));
-    private Pose2d specimen32 = new Pose2d(25, 25, Math.toRadians(180));
-    private Pose2d endPose = new Pose2d(17, 25, Math.toRadians(180));
+    private Pose2d specimen32 = new Pose2d(35, 30, Math.toRadians(180));
+    private Pose2d endPose = new Pose2d (17, 25, Math.toRadians(180));
+
+
+    private Pose2d  aligny1 = new Pose2d(11, -55, Math.toRadians(180));
+    private Pose2d  aligny2 = new Pose2d(10, -55, Math.toRadians(0));
+    private Pose2d  grapy1 = new Pose2d(10, 10, Math.toRadians(180));
+    private Pose2d  graby2 = new Pose2d(26, 10, Math.toRadians(180));
+    private Pose2d  dropy = new Pose2d(10, 10, Math.toRadians(180));
 
     private ElapsedTime time = new ElapsedTime();
 
@@ -60,16 +74,29 @@ public class RedRight extends LinearOpMode {
 
         // Wait for the start of the match
         waitForStart();
+        HoldLastLift.setHeight(0);
 
         robot.init();
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
-        robot.intake.sweeperAuto();
 
         //start to first specimen drop positon
         Trajectory traj1 = drive.trajectoryBuilder(startPose, Math.toRadians(180))
                 .splineToSplineHeading(specimen1, Math.toRadians(180))
                 .build();
+        //improvise
+        Trajectory trajy2 = drive.trajectoryBuilder(specimen1)
+                .splineToSplineHeading(aligny1, Math.toRadians(180))
+                .splineToSplineHeading(aligny2, Math.toRadians(0))
+                .build();
+        Trajectory trajy3 = drive.trajectoryBuilder(aligny2)
+                .splineToSplineHeading(grapy1, Math.toRadians(180))
+                .splineToSplineHeading(graby2, Math.toRadians(180))
+                .build();
+        Trajectory trajy4 = drive.trajectoryBuilder(graby2)
+                .splineToSplineHeading(dropy, Math.toRadians(180))
+                .build();
+
         //position before grabbing second specimen
         Trajectory traj2 = drive.trajectoryBuilder(specimen1)
                 .splineToConstantHeading(align11.vec(), Math.toRadians(180))
@@ -79,15 +106,16 @@ public class RedRight extends LinearOpMode {
         //grap and move two specimen
         Trajectory traj3 = drive.trajectoryBuilder(align13)
                 .splineToConstantHeading(align14.vec(), Math.toRadians(180))
+                .splineToConstantHeading(alignx.vec(), Math.toRadians(180))
                 .splineToConstantHeading(align15.vec(), Math.toRadians(180))
                 .build();
         //drop second specimen
         Trajectory traj4 = drive.trajectoryBuilder(align15)
-                .addTemporalMarker(1, () -> {
-                    robot.claw.specimenAuto();
-                })
                 .splineToConstantHeading(specimen20.vec(), Math.toRadians(180))
                 .splineToConstantHeading(specimen21.vec(), Math.toRadians(180))
+                .addDisplacementMarker(() -> {
+                    robot.claw.specimenAuto();
+                })
                 .splineToConstantHeading(specimen22.vec(), Math.toRadians(180))
                 .build();
         //align for third specimen
@@ -100,10 +128,10 @@ public class RedRight extends LinearOpMode {
                 .build();
         //drop 3rd specimen
         Trajectory traj7 = drive.trajectoryBuilder(align22)
-                .addTemporalMarker(1, () -> {
+                .splineToConstantHeading(specimen31.vec(), Math.toRadians(180))
+                .addDisplacementMarker(() -> {
                     robot.claw.specimenAuto();
                 })
-                .splineToConstantHeading(specimen31.vec(), Math.toRadians(180))
                 .splineToConstantHeading(specimen32.vec(), Math.toRadians(180))
                 .build();
         Trajectory traj8 = drive.trajectoryBuilder(specimen32)
@@ -111,11 +139,13 @@ public class RedRight extends LinearOpMode {
                 .build();
 
         current_state = DRIVE_STATE.start;
+        HoldLastLift.setHeight(0);
 
         while (opModeIsActive() && !isStopRequested())
         {
             drive.update();
             robot.lifts.stateUpdate();
+            HoldLastLift.setHeight(robot.lLift.getCurrentPosition());
 
             switch (current_state)
             {
@@ -124,8 +154,38 @@ public class RedRight extends LinearOpMode {
                     robot.claw.specimenAuto();
                     robot.lifts.AutoWait();
                     drive.followTrajectoryAsync(traj1);
-                    current_state = DRIVE_STATE.dropping1;
+                    current_state = DRIVE_STATE.dropping3;
                     break;
+                case improv1:
+                    if (!drive.isBusy() && robot.lifts.IsInactive())
+                    {
+                        robot.claw.clawOpen();
+                        robot.claw.specimen();
+                        robot.lifts.AutoLow();
+                        drive.followTrajectoryAsync(trajy2);
+                        current_state = DRIVE_STATE.improvDelay;
+                    }
+                    break;
+                case improvDelay:
+                    if (time.milliseconds() >= 1000)
+                    {
+                        robot.claw.clawClose();
+                    }
+                    if (time.milliseconds() >= 1800)
+                    {
+
+                        robot.lifts.AutoSpec();
+                        drive.followTrajectoryAsync(trajy3);
+                        current_state = DRIVE_STATE.improv2;
+                    }
+                    break;
+                case improv2:
+                      if (!drive.isBusy() && robot.lifts.IsInactive())
+                      {
+                          robot.claw.clawOpen();
+                          drive.followTrajectoryAsync(trajy4);
+                          current_state = DRIVE_STATE.end;
+                      }
                 case dropping1:
                     if (!drive.isBusy() && robot.lifts.IsInactive())
                     {
@@ -209,8 +269,10 @@ public class RedRight extends LinearOpMode {
                     }
                     break;
                 case end:
-                    robot.lifts.AutoLow();
-                    robot.claw.specimen();
+                    if (!drive.isBusy()) {
+                        robot.claw.specimen();
+                        robot.lifts.GoToPositionVertical(0);
+                    }
                     break;
             }
 
