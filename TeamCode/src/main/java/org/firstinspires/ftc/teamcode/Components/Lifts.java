@@ -31,6 +31,8 @@ public class Lifts implements Component {
     private DcMotorEx lLift;
     private DcMotorEx rLift;
     private Servo lock;
+
+
     public TouchSensor touch1;
     public TouchSensor touch2;
 
@@ -103,6 +105,7 @@ public class Lifts implements Component {
         if (extendo.getCurrentPosition() < LIFT_FORWARD) {
             extendo.setTargetPosition(LIFT_FORWARD);
             extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             extendo.setPower(1);
         }
     }
