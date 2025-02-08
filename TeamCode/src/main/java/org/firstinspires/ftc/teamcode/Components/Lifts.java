@@ -172,7 +172,7 @@ public class Lifts implements Component {
         while (!touch1.isPressed() && !touch2.isPressed()) {
             // Wait until one of the touch sensors is pressed
         }
-
+//
         lLift.setPower(0);
         rLift.setPower(0);
 
