@@ -161,6 +161,42 @@ public class Lifts implements Component {
         }
     }
 
+    // New function to move lifts down to position 0 until a TouchSensor is pressed
+    public void moveLiftsToZero() {
+        lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        lLift.setPower(-1);
+        rLift.setPower(-1);
+
+        while (!touch1.isPressed() && !touch2.isPressed()) {
+            // Wait until one of the touch sensors is pressed
+        }
+
+        lLift.setPower(0);
+        rLift.setPower(0);
+
+        lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Lower Lift function
     public void backLift() {
@@ -293,3 +329,5 @@ public class Lifts implements Component {
 
 
 }
+
+
