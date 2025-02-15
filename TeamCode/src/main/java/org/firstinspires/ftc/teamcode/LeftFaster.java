@@ -82,3 +82,4 @@ public class LeftFaster extends LinearOpMode {
             }
         }
     }
+}
