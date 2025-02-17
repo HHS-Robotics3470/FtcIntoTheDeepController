@@ -128,11 +128,12 @@ public class Lifts implements Component {
     public void GoToPositionVerticalSpecIntake()
     {
         int targetPosition = 0; // adjust for shtuff
-        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         lLift.setTargetPosition(targetPosition);
         rLift.setTargetPosition(targetPosition);
+
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         lLift.setPower(1.0);
         rLift.setPower(1.0);
@@ -140,11 +141,11 @@ public class Lifts implements Component {
     public void GoToPositionVerticalSpecOuttake()
     {
         int targetPosition = 1600; // adjust for shtuff
-        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         lLift.setTargetPosition(targetPosition);
         rLift.setTargetPosition(targetPosition);
+
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         lLift.setPower(1.0);
         rLift.setPower(1.0);
