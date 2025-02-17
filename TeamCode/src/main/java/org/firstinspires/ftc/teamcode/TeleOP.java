@@ -78,8 +78,10 @@ public class TeleOP extends LinearOpMode {
             telemetry.addData("arm left", robot.armLeft.getPosition());
             telemetry.addData("up lift position", robot.rLift.getCurrentPosition());
             telemetry.addData("foward lift position", robot.extendo.getCurrentPosition());
-            telemetry.addData("touch1 is pressed", robot.lifts.touch1.isPressed());
-            telemetry.addData("touch2 is pressed", robot.lifts.touch2.isPressed());
+            telemetry.addData("Wrist Intake", robot.intakeWrist.getPosition());
+            telemetry.addData("Pitch Intake", robot.intakePitch.getPosition());
+            //telemetry.addData("touch1 is pressed", robot.lifts.touch1.isPressed());
+            //telemetry.addData("touch2 is pressed", robot.lifts.touch2.isPressed());
 
 
 
@@ -117,7 +119,7 @@ public class TeleOP extends LinearOpMode {
             if (a1state) {
                 switch (k_state) {
                     case 0:
-                        robot.intake.pitchIntakeReady();
+                        robot.intake.fourBarIntaking();
                         robot.intake.clawIntakeOpen();
                         robot.intake.pitchIntaking();
                         if (mStateTime.seconds() >= 0.4) {
@@ -135,8 +137,7 @@ public class TeleOP extends LinearOpMode {
                         break;
 
                     case 2:
-                        robot.intake.pitchTransfer();
-                        robot.intake.sweeperInitial();
+                        robot.intake.pitchIntakeReady();
                         a1state = false;
                         break;
                 }
@@ -146,6 +147,7 @@ public class TeleOP extends LinearOpMode {
             if (gamepad1.right_bumper) {
                 robot.intake.pitchIntakeReady();
                 robot.intake.clawIntakeOpen();
+                robot.intake.fourBarIntaking();
                 robot.lifts.forwardLift();
             } else if (gamepad1.left_bumper) {
                 robot.intake.clawIntakeClose();
@@ -174,7 +176,7 @@ public class TeleOP extends LinearOpMode {
                 switch (v_state) {
                     case 0:
                         robot.intake.pitchTransfer();
-                        robot.intake.sweeperInitial();
+                        robot.intake.fourBarTransfer();
                         robot.intake.clawIntakeClose();
                         robot.claw.clawOpen();
                         robot.claw.wristDown();
@@ -247,6 +249,7 @@ public class TeleOP extends LinearOpMode {
             }
 
             if (gamepad2.x && !x2state) {
+                robot.intake.pitchSpecimenRest();
                 robot.claw.toggleSpecimen();
                 x2state = true;
             } else if (!gamepad2.x && x2state) {
@@ -276,10 +279,8 @@ public class TeleOP extends LinearOpMode {
                 robot.hang.stop();
 
 
-            //HANG
             if (gamepad1.y && !a4state) {
                 robot.intake.wristing();
-                sleep(200);
                 a4state = true;
             } else if (!gamepad1.y && a4state) {
 

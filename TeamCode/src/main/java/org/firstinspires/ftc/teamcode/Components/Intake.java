@@ -7,9 +7,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Intake implements Component {
 
-    public final double PITCH_DOWN = 0.1;
+    public final double PITCH_DOWN = 0.08;
     public final double PITCH_UP = 0.05;
-    public final double PITCH_TRANSFER = 0.202;
+    public final double PITCH_TRANSFER = 0.12;
+    public final double PITCH_SPECIMEN_REST = 0.2;
+    public final double PITCH_TRANSFER_SAMPLE = 0.15;
     public final double PITCH_INTAKING = 0;
     public final double PITCH_INTAKE_READY = 0.06;
     public final double PITCH_REST = 0.0588;
@@ -20,6 +22,10 @@ public class Intake implements Component {
     public final double SWEEPER_FINAL_POSITION = 0.053;
     public final double SWEEPER_AUTO_POSITION = 0.34;
 
+    public final double FOUR_PITCH_TRANSFER = 0.2;
+    public final double FOUR_PITCH_INIT = 0.1;
+    public final double FOUR_PITCH_INTAKING = 0;
+
     private boolean ifPressed;
 
     // Declare a CRServo object for the continuous intake motor
@@ -28,7 +34,8 @@ public class Intake implements Component {
 
     // Declare a Servo object for the intake pitch control
     public Servo intakePitch;
-    public Servo sweeper;
+    public Servo intakeWrist;
+    public Servo fourBarPitch;
 
     // Initialize the intake motor and pitch servo using RobotHardware
     @Override
@@ -41,11 +48,16 @@ public class Intake implements Component {
         //intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD); // or Direction.REVERSE as needed
         // Set initial position for the intake pitch servo
         intakePitch.setPosition(PITCH_TRANSFER); // Neutral position; adjust range [0.0, 1.0] as needed
-        clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
-        sweeper = robotHardware.sweeper;
-        sweeper.setPosition(SWEEPER_INITIAL_POSITION);
 
-        sweeper.setDirection(Servo.Direction.FORWARD);
+        clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
+
+        intakeWrist = robotHardware.intakeWrist;
+        intakeWrist.setPosition(SWEEPER_INITIAL_POSITION);
+
+        fourBarPitch = robotHardware.fourBarPitch;
+        fourBarPitch.setDirection(Servo.Direction.FORWARD);
+
+        intakeWrist.setDirection(Servo.Direction.FORWARD);
 
         ifPressed = false;
 
@@ -82,6 +94,11 @@ public class Intake implements Component {
         intakePitch.setPosition(PITCH_UP);
     }
 
+    public void pitchSpecimenRest()
+    {
+        intakePitch.setPosition(PITCH_SPECIMEN_REST);
+    }
+
     public void pitchDown()
     {
         intakePitch.setPosition(PITCH_DOWN);
@@ -94,7 +111,7 @@ public class Intake implements Component {
     //for claw intake
     public void pitchTransfer()
     {
-        intakePitch.setPosition(PITCH_TRANSFER);
+        intakePitch.setPosition(PITCH_TRANSFER_SAMPLE);
     }
     public void pitchIntakeReady()
     {
@@ -104,6 +121,7 @@ public class Intake implements Component {
     {
         intakePitch.setPosition(PITCH_INTAKING);
     }
+
     public void clawIntakeClose()
     {
         clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
@@ -113,16 +131,27 @@ public class Intake implements Component {
         clawIntake.setPosition(INTAKE_CLAW_OPEN_POSITION);
     }
 
-
-
-    public void sweeperInitial(){
-        sweeper.setPosition(SWEEPER_INITIAL_POSITION);
+    public void fourBarInit()
+    {
+        fourBarPitch.setPosition(FOUR_PITCH_INIT);
+    }
+    public void fourBarIntaking()
+    {
+        fourBarPitch.setPosition(FOUR_PITCH_INTAKING);
+    }
+    public void fourBarTransfer()
+    {
+        fourBarPitch.setPosition(FOUR_PITCH_TRANSFER);
     }
 
-    public void sweeperFinal() {sweeper.setPosition(SWEEPER_FINAL_POSITION);}
+    public void sweeperInitial(){
+        intakeWrist.setPosition(SWEEPER_INITIAL_POSITION);
+    }
+
+    public void sweeperFinal() {intakeWrist.setPosition(SWEEPER_FINAL_POSITION);}
 
     public void sweeperAuto() {
-        sweeper.setPosition(SWEEPER_AUTO_POSITION);
+        intakeWrist.setPosition(SWEEPER_AUTO_POSITION);
     }
 
     public void wristing(){
@@ -136,7 +165,7 @@ public class Intake implements Component {
             sweeperInitial();
             ifPressed = false;
         }
-    };
+    }
 
 
 

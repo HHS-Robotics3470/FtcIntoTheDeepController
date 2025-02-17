@@ -37,22 +37,19 @@ public class Claw implements Component{
     // Constants for servo positions
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0.0;  // Adjust as needed for your claw design
-    private final double ARM_UP_POSITION = 0.32;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.2605;
-    private final double ARM_REST_POSITION = 0.27;
-    private final double WRIST_UP_POSITION = 0.44;
-    private final double WRIST_AUTO_POSITION = 0.57; //.5
+    private final double ARM_UP_POSITION = 0.328;    // Adjust as needed for your pitch servo
+    private final double ARM_DOWN_POSITION = 0.2725;
+    private final double ARM_REST_POSITION = 0.275;
+    private final double ARM_SPEC_INTAKE_POSITION = 0.259; //intake spec arm
+    private final double WRIST_UP_POSITION = 0.455;
+    private final double WRIST_AUTO_POSITION = 0.6; //.5 //outtake spec wrist
     private final double WRIST_DOWN_POSITION = 0.23;
 
-    private final double WRIST_SPECIMEN = 0.36
-            ;
-    private final double ARM_SPECIMEN = 0.255;
-    private final double ARM_AUTO = 0.37; //0.315
+    private final double WRIST_SPECIMEN = 0.42; //intake spec wrist
+    private final double ARM_SPECIMEN = 0.243;
+    private final double ARM_AUTO = 0.315; //outtake spec arm
     private final double HANG_INITIAL = -0.115;
     private final double HANG_ACTIVATED = 0;
-
-    private final double ARM_S_INTAKE = 0.38;
-    private final double WRIST_S_INTAKE = 0.36;
 
 
     ;// Adjust as needed for your pitch servo
@@ -227,20 +224,20 @@ public class Claw implements Component{
         }
     }
 
-    public void specimen()
+    public void specimen() //intake spec
     {
         wrist.setPosition(WRIST_SPECIMEN);
-        armRight.setPosition(ARM_SPECIMEN);
-        armLeft.setPosition(ARM_SPECIMEN);
+        armRight.setPosition(ARM_SPEC_INTAKE_POSITION);
+        armLeft.setPosition(ARM_SPEC_INTAKE_POSITION);
         clawOpen();
-        lifts.GoToPositionVerticalSpecIntake();
     }
 
-    public void specimenAuto() {
+    public void specimenAuto() //outtake spec
+    {
         wrist.setPosition(WRIST_AUTO_POSITION);
         armRight.setPosition(ARM_AUTO);
         armLeft.setPosition(ARM_AUTO);
-        lifts.GoToPositionVerticalSpecOuttake();
+        clawClose();
     }
 
     public void lvl1hang()
@@ -262,9 +259,7 @@ public class Claw implements Component{
         }
         else
         {
-            wrist.setPosition(WRIST_S_INTAKE);
-            armRight.setPosition(ARM_S_INTAKE);
-            armLeft.setPosition(ARM_S_INTAKE);
+            specimen();
             ifSpecimen = true;
 //            lifts.AutoLow();
         }

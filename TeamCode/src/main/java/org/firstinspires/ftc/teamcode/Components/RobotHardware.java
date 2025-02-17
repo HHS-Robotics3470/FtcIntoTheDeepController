@@ -54,7 +54,9 @@ public class RobotHardware {
     public Servo lock2;
     public Servo liftLock;
     public Servo sweeper;
+    public Servo intakeWrist;
     public Servo clawIntake;
+    public Servo fourBarPitch;
 
     //SubSystems Intake and others
     public Mecnum mecnum = new Mecnum();
@@ -88,6 +90,8 @@ public class RobotHardware {
         lock2 = myOpMode.hardwareMap.get(Servo.class, "lock2");
         liftLock = myOpMode.hardwareMap.get(Servo.class, "liftLock");
         sweeper = myOpMode.hardwareMap.get(Servo.class, "sweeper");
+        intakeWrist = myOpMode.hardwareMap.get(Servo.class, "intakeWrist");
+        fourBarPitch = myOpMode.hardwareMap.get(Servo.class, "fourBar");
 
         //Initiallize sensors
         touch1 = myOpMode.hardwareMap.get(TouchSensor.class, "touch1");

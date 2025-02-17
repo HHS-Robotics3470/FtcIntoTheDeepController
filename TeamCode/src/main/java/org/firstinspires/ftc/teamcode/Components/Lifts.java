@@ -66,7 +66,7 @@ public class Lifts implements Component {
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
         extendo.setDirection(DcMotor.Direction.FORWARD);
 
-        moveLiftsToZero();
+        GoToPositionVertical(LIFT_LOW);
     }
 
     // Raise Lift function
@@ -128,12 +128,11 @@ public class Lifts implements Component {
     public void GoToPositionVerticalSpecIntake()
     {
         int targetPosition = 0; // adjust for shtuff
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         lLift.setTargetPosition(targetPosition);
         rLift.setTargetPosition(targetPosition);
-
-        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         lLift.setPower(1.0);
         rLift.setPower(1.0);
@@ -141,11 +140,11 @@ public class Lifts implements Component {
     public void GoToPositionVerticalSpecOuttake()
     {
         int targetPosition = 1600; // adjust for shtuff
-        lLift.setTargetPosition(targetPosition);
-        rLift.setTargetPosition(targetPosition);
-
         lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lLift.setTargetPosition(targetPosition);
+        rLift.setTargetPosition(targetPosition);
 
         lLift.setPower(1.0);
         rLift.setPower(1.0);
@@ -167,15 +166,14 @@ public class Lifts implements Component {
 
     // New function to move lifts down to position 0 until a TouchSensor is pressed
     public void moveLiftsToZero() {
-        lLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        lLift.setPower(-1);
+        rLift.setPower(-1);
 
         while (!touch1.isPressed() && !touch2.isPressed()) {
             // Wait until one of the touch sensors is pressed
-            lLift.setPower(-1);
-            rLift.setPower(-1);
-
         }
 //
         lLift.setPower(0);
