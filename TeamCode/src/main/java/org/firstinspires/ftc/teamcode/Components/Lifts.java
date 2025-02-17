@@ -66,7 +66,7 @@ public class Lifts implements Component {
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
         extendo.setDirection(DcMotor.Direction.FORWARD);
 
-        GoToPositionVertical(LIFT_LOW);
+        moveLiftsToZero();
     }
 
     // Raise Lift function
