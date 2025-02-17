@@ -10,54 +10,45 @@ import org.firstinspires.ftc.teamcode.Components.HoldLastLift;
 import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
-//NOTE: NEEDS TO BE ALL FIXED AND CHANGED SINCE THIS IS FOR LEFT!!! REWRITTEN FROM RIGHT CODE!
-
 @Autonomous(name = "Left Faster-Buckets", group = "Autonomous")
 public class LeftFaster extends LinearOpMode {
     private RobotHardware robot;
     private SampleMecanumDrive drive;
+    private ElapsedTime waitTimer = new ElapsedTime();
 
     public enum DRIVE_STATE {
         start,
-        dropping1,
-        align1,
-        grabbing1,
-        dropping2,
-        delay1,
-        align2,
-        grabbing2,
-        delay2,
-        dropping3,
-        improv1,
-        improv2,
-        improve3,
-        improvDelay,
+        specimen,
+        grab1,
         end
     }
 
     private DRIVE_STATE current_state;
 
     private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
-    private Pose2d specimen1 = new Pose2d(-22, 0, Math.toRadians(180));
-
-    private ElapsedTime time = new ElapsedTime();
+    private Pose2d specimenPose = new Pose2d(20, -5, Math.toRadians(180));
+    private Pose2d backspecPose = new Pose2d(0, 0, Math.toRadians(0));
+    private Pose2d grab1pose = new Pose2d(20, 10, Math.toRadians(0));
 
     @Override
     public void runOpMode() {
         robot = new RobotHardware(this);
+        robot.init();
+        drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(startPose);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
 
-        robot.init();
-        drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(startPose);
 
-        Trajectory traj1 = drive.trajectoryBuilder(startPose, Math.toRadians(180))
-                .splineToSplineHeading(specimen1, Math.toRadians(180))
+        Trajectory dropspecimenTraj = drive.trajectoryBuilder(startPose)
+                .splineToConstantHeading(specimenPose.vec(), 0)
+                .build();
+        Trajectory movetosample1Traj = drive.trajectoryBuilder(specimenPose)
+                .splineToSplineHeading(backspecPose, 0)
+                .splineToSplineHeading(grab1pose, 0)
                 .build();
 
         current_state = DRIVE_STATE.start;
@@ -72,8 +63,18 @@ public class LeftFaster extends LinearOpMode {
                     robot.lifts.AutoSpec();
                     robot.claw.specimenAuto();
                     robot.lifts.AutoWait();
-                    drive.followTrajectoryAsync(traj1);
-                    current_state = DRIVE_STATE.dropping3;
+                    drive.followTrajectoryAsync(dropspecimenTraj);
+                    current_state = DRIVE_STATE.specimen;
+                    break;
+                case specimen:
+                    if (!drive.isBusy() && robot.lifts.IsInactive())
+                    {
+                        robot.lifts.AutoLow();
+                        robot.lifts.AutoWait();
+                        robot.claw.clawOpen();
+                        drive.followTrajectory(movetosample1Traj);
+                        current_state = DRIVE_STATE.end;
+                    }
                     break;
                 case end:
                     telemetry.addData("Status", "Autonomous Complete");
@@ -81,4 +82,5 @@ public class LeftFaster extends LinearOpMode {
                     break;
             }
         }
-    }}
+    }
+}

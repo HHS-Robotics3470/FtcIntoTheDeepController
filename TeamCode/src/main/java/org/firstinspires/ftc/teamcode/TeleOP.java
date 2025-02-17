@@ -73,7 +73,7 @@ public class TeleOP extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            telemetry.addData("Claw", robot.clawServo.getPosition());
+            telemetry.addData("Four Bar", robot.intake.fourBarPitch.getPosition());
             telemetry.addData("arm right", robot.armRight.getPosition());
             telemetry.addData("arm left", robot.armLeft.getPosition());
             telemetry.addData("up lift position", robot.rLift.getCurrentPosition());
@@ -190,7 +190,7 @@ public class TeleOP extends LinearOpMode {
                         robot.intake.pitchTransfer();
                         robot.intake.clawIntakeClose();
                         robot.claw.armDown();
-                        if (kStateTime.seconds() >= 0.35) {
+                        if (kStateTime.seconds() >= 0.3) {
                             kStateTime.reset();
                             v_state++;
                         }

@@ -22,9 +22,8 @@ public class Intake implements Component {
     public final double SWEEPER_FINAL_POSITION = 0.053;
     public final double SWEEPER_AUTO_POSITION = 0.34;
 
-    public final double FOUR_PITCH_TRANSFER = 0.2;
-    public final double FOUR_PITCH_INIT = 0.1;
-    public final double FOUR_PITCH_INTAKING = 0;
+    public final double FOUR_PITCH_TRANSFER = 0.1;
+    public final double FOUR_PITCH_INTAKING = 1;
 
     private boolean ifPressed;
 
@@ -41,23 +40,17 @@ public class Intake implements Component {
     @Override
     public void init(RobotHardware robotHardware) {
         clawIntake = robotHardware.clawIntake;
-        // Retrieve hardware components from RobotHardware
-        //intakeMotor = robotHardware.roller; // Assuming roller is defined as a CRServo in RobotHardware
         intakePitch = robotHardware.intakePitch; // Assuming intakePitch is defined as a Servo in RobotHardware
-        // Set motor direction for intake motor (CRServo)
-        //intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD); // or Direction.REVERSE as needed
-        // Set initial position for the intake pitch servo
-        intakePitch.setPosition(PITCH_TRANSFER); // Neutral position; adjust range [0.0, 1.0] as needed
-
-        clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
-
-        intakeWrist = robotHardware.intakeWrist;
-        intakeWrist.setPosition(SWEEPER_INITIAL_POSITION);
-
         fourBarPitch = robotHardware.fourBarPitch;
-        fourBarPitch.setDirection(Servo.Direction.FORWARD);
+        intakeWrist = robotHardware.intakeWrist;
 
+        fourBarPitch.setDirection(Servo.Direction.FORWARD);
         intakeWrist.setDirection(Servo.Direction.FORWARD);
+
+        intakePitch.setPosition(PITCH_TRANSFER);
+        clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);
+        intakeWrist.setPosition(SWEEPER_INITIAL_POSITION);
+        fourBarPitch.setPosition(FOUR_PITCH_INTAKING);
 
         ifPressed = false;
 
@@ -131,10 +124,7 @@ public class Intake implements Component {
         clawIntake.setPosition(INTAKE_CLAW_OPEN_POSITION);
     }
 
-    public void fourBarInit()
-    {
-        fourBarPitch.setPosition(FOUR_PITCH_INIT);
-    }
+
     public void fourBarIntaking()
     {
         fourBarPitch.setPosition(FOUR_PITCH_INTAKING);
