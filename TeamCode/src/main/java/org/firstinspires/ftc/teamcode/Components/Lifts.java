@@ -150,6 +150,17 @@ public class Lifts implements Component {
         rLift.setPower(1.0);
     }
 
+    public void setLiftPostion(int position) {
+            lLift.setTargetPosition(position);
+            rLift.setTargetPosition(position);
+
+            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            lLift.setPower(1.0);
+            rLift.setPower(1.0);
+    }
+
     public void GoToPositionHorizontal(int target){
         while (extendo.getCurrentPosition() != target)
         {

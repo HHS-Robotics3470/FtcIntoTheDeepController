@@ -255,13 +255,13 @@ public class Claw implements Component{
         {
             specimenAuto();
             ifSpecimen = false;
-//            lifts.AutoSpec();
+            lifts.setLiftPostion(1600);
         }
         else
         {
             specimen();
             ifSpecimen = true;
-//            lifts.AutoLow();
+            lifts.setLiftPostion(0);
         }
     }
 //
