@@ -38,8 +38,8 @@ public class Claw implements Component{
     private final double CLAW_OPEN_POSITION = 0.056;   // Adjust as needed for your claw design
     private final double CLAW_CLOSE_POSITION = 0.0;  // Adjust as needed for your claw design
     private final double ARM_UP_POSITION = 0.328;    // Adjust as needed for your pitch servo
-    private final double ARM_DOWN_POSITION = 0.2725;
-    private final double ARM_REST_POSITION = 0.275;
+    private final double ARM_DOWN_POSITION = 0.27375;
+    private final double ARM_REST_POSITION = 0.28;
     private final double ARM_SPEC_INTAKE_POSITION = 0.259; //intake spec arm
     private final double WRIST_UP_POSITION = 0.455;
     private final double WRIST_AUTO_POSITION = 0.6; //.5 //outtake spec wrist

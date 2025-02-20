@@ -180,7 +180,7 @@ public class TeleOP extends LinearOpMode {
                         robot.intake.clawIntakeClose();
                         robot.claw.clawOpen();
                         robot.claw.wristDown();
-                        if (kStateTime.seconds() >= 0.15) {
+                        if (kStateTime.seconds() >= 0.45) {
                             kStateTime.reset();
                             v_state++;
                         }

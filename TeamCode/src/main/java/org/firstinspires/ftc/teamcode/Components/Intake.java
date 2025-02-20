@@ -13,7 +13,7 @@ public class Intake implements Component {
     public final double PITCH_SPECIMEN_REST = 0.2;
     public final double PITCH_TRANSFER_SAMPLE = 0.15;
     public final double PITCH_INTAKING = 0;
-    public final double PITCH_INTAKE_READY = 0.06;
+    public final double PITCH_INTAKE_READY = 0.08;
     public final double PITCH_REST = 0.0588;
     private final double INTAKE_CLAW_OPEN_POSITION = 0.2;
     private final double INTAKE_CLAW_CLOSE_POSITION = 0.015;
@@ -22,7 +22,7 @@ public class Intake implements Component {
     public final double SWEEPER_FINAL_POSITION = 0.053;
     public final double SWEEPER_AUTO_POSITION = 0.34;
 
-    public final double FOUR_PITCH_TRANSFER = 0.1;
+    public final double FOUR_PITCH_TRANSFER = 0.02 ;
     public final double FOUR_PITCH_INTAKING = 1;
 
     private boolean ifPressed;
