@@ -26,9 +26,12 @@ public class LeftFaster extends LinearOpMode {
     private DRIVE_STATE current_state;
 
     private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
-    private Pose2d specimenPose = new Pose2d(20, -5, Math.toRadians(180));
-    private Pose2d backspecPose = new Pose2d(0, 0, Math.toRadians(0));
-    private Pose2d grab1pose = new Pose2d(20, 10, Math.toRadians(0));
+    private Pose2d specimenPose = new Pose2d(25, -5, Math.toRadians(180));
+    private Pose2d backspecPose = new Pose2d(13, 0, Math.toRadians(180));
+    private Pose2d grab1pose = new Pose2d(13, 28, Math.toRadians(180));
+    private Pose2d grab2pose = new Pose2d(5, 28, Math.toRadians(0));
+    private Pose2d grab3pose = new Pose2d(-20, 35, Math.toRadians(0));
+
 
     @Override
     public void runOpMode() {
@@ -44,15 +47,16 @@ public class LeftFaster extends LinearOpMode {
 
 
         Trajectory dropspecimenTraj = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(specimenPose.vec(), 0)
+                .splineToConstantHeading(specimenPose.vec(), Math.toRadians(180))
                 .build();
         Trajectory movetosample1Traj = drive.trajectoryBuilder(specimenPose)
-                .splineToSplineHeading(backspecPose, 0)
-                .splineToSplineHeading(grab1pose, 0)
+                .splineToConstantHeading(backspecPose.vec(), Math.toRadians(180))
+                .splineToConstantHeading(grab1pose.vec(), Math.toRadians(180))
+                .splineToSplineHeading(grab2pose, Math.toRadians(180))
+                .splineToConstantHeading(grab3pose.vec(), Math.toRadians(0))
                 .build();
 
         current_state = DRIVE_STATE.start;
-        HoldLastLift.setHeight(0);
 
         while (opModeIsActive() && !isStopRequested()) {
             drive.update();
