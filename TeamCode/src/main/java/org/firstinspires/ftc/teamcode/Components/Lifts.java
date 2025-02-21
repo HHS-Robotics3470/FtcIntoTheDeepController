@@ -68,7 +68,7 @@ public class Lifts implements Component {
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
         extendo.setDirection(DcMotor.Direction.FORWARD);
 
-
+//
         current_state = LIFT_STATE.INACTIVE;
         moveLiftsToZero();
     }
