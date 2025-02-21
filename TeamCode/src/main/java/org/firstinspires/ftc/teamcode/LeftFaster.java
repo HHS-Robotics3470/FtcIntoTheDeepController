@@ -32,7 +32,7 @@ public class LeftFaster extends LinearOpMode {
     private Pose2d grab2pose = new Pose2d(5, 28, Math.toRadians(0));
     private Pose2d grab3pose = new Pose2d(-20, 35, Math.toRadians(0));
 
-
+//
     @Override
     public void runOpMode() {
         robot = new RobotHardware(this);
