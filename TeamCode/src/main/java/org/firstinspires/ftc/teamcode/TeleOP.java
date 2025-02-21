@@ -39,18 +39,13 @@ public class TeleOP extends LinearOpMode {
     private boolean b1state = false;
     private boolean b2state = false;
     private boolean y1state = false;
-    private boolean x1State = false;
     private boolean x2state = false;
     private boolean a1state = false;
     private boolean a3state = false;
     private boolean a4state = false;
+    private boolean xstate = false;
     private boolean bdpadUpState = false;
 
-
-    public static double p = 0, i= 0, d= 0;
-    public static double f=0;
-    public static int target =0;
-    private final double ticks_in_degree = ((((1+(46/17))) * (1+(46/11))) * 28);
 
     @Override
     public void runOpMode() {
@@ -222,6 +217,16 @@ public class TeleOP extends LinearOpMode {
                 }
             }
 
+            if (gamepad1.x && !xstate)
+            {
+                robot.intake.fourBarSpit();
+                xstate = true;
+            }
+            else if (!gamepad1.x && xstate) {
+                xstate = false;
+            }
+
+//if
 //            if (gamepad1.b && !b1state)
 //            {
 //                robot.claw.grabParallel();
@@ -250,11 +255,16 @@ public class TeleOP extends LinearOpMode {
 
             if (gamepad2.x && !x2state) {
                 robot.intake.pitchSpecimenRest();
-                robot.claw.toggleSpecimen();
+                boolean state = robot.claw.toggleSpecimen();
+                if (state)
+                    robot.lifts.AutoLow();
+                else
+                    robot.lifts.TeleOpSpec();
                 x2state = true;
             } else if (!gamepad2.x && x2state) {
                 x2state = false;
             }
+            robot.lifts.stateUpdate();
 
             //HANG
             if (gamepad2.a && !a3state) {
@@ -287,7 +297,7 @@ public class TeleOP extends LinearOpMode {
                 a4state = false;
             }
 
-
+            robot.lifts.stateUpdate();
             telemetry.update();
         }
     }

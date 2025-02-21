@@ -23,6 +23,7 @@ public class Intake implements Component {
     public final double SWEEPER_AUTO_POSITION = 0.34;
 
     public final double FOUR_PITCH_TRANSFER = 0.02 ;
+    public final double FOUR_PITCH_SPIT = 0.5;
     public final double FOUR_PITCH_INTAKING = 1;
 
     private boolean ifPressed;
@@ -132,6 +133,10 @@ public class Intake implements Component {
     public void fourBarTransfer()
     {
         fourBarPitch.setPosition(FOUR_PITCH_TRANSFER);
+    }
+    public void fourBarSpit()
+    {
+        fourBarPitch.setPosition(FOUR_PITCH_SPIT);
     }
 
     public void sweeperInitial(){

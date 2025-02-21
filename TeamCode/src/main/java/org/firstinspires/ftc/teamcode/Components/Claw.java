@@ -249,20 +249,19 @@ public class Claw implements Component{
         }
     }
 
-    public void toggleSpecimen()
+    public boolean toggleSpecimen()
     {
         if (ifSpecimen)
         {
             specimenAuto();
             ifSpecimen = false;
-            lifts.setLiftPostion(1600);
         }
         else
         {
             specimen();
             ifSpecimen = true;
-            lifts.setLiftPostion(0);
         }
+        return ifSpecimen;
     }
 //
 //    // Method to stop the claw servo (optional, for safety)

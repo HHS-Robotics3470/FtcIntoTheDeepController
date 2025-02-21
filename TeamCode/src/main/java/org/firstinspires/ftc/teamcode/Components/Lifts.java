@@ -15,6 +15,7 @@ public class Lifts implements Component {
     private final int LIFT_BACK = 0;
     private final int LIFT_FORWARD = 1810;
     private final int LIFT_SPECIMEN = 2700;
+    private final int LIFT_TELEOP_SPECIMEN = 1600;
     private final int LIFT_BASKET = 3800;
     private final double LOCK_OPEN = 1;
     private final double LOCK_CLOSE = 0;
@@ -23,6 +24,7 @@ public class Lifts implements Component {
         MOVING_HIGH,
         MOVING_LOW,
         MOVING_SPEC,
+        MOVING_TELEOP,
     }
     private LIFT_STATE current_state = LIFT_STATE.INACTIVE;
 
@@ -66,7 +68,9 @@ public class Lifts implements Component {
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
         extendo.setDirection(DcMotor.Direction.FORWARD);
 
-        GoToPositionVertical(LIFT_LOW);
+
+        current_state = LIFT_STATE.INACTIVE;
+        moveLiftsToZero();
     }
 
     // Raise Lift function
@@ -95,8 +99,8 @@ public class Lifts implements Component {
 
     // Stop Lift function
     public void stopLiftVertical() {
-        rLift.setTargetPosition(rLift.getCurrentPosition());
-        lLift.setTargetPosition(lLift.getCurrentPosition());
+//        rLift.setTargetPosition(rLift.getCurrentPosition());
+//        lLift.setTargetPosition(lLift.getCurrentPosition());
         lLift.setPower(0);
         rLift.setPower(0);
     }
@@ -272,8 +276,8 @@ public class Lifts implements Component {
             lLift.setTargetPosition(target);
             rLift.setTargetPosition(target);
 
-            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             lLift.setPower(1);
             rLift.setPower(1);
@@ -298,12 +302,17 @@ public class Lifts implements Component {
                 rLift.setPower(0);
                 break;
             case MOVING_LOW:
-                ParallelMoveVertical(280);
+                ParallelMoveVertical(0);
                 break;
             case MOVING_HIGH:
                 ParallelMoveVertical(LIFT_BASKET);
+                break;
             case MOVING_SPEC:
                 ParallelMoveVertical(LIFT_SPECIMEN);
+                break;
+            case MOVING_TELEOP:
+                ParallelMoveVertical(LIFT_TELEOP_SPECIMEN);
+
 
         }
     }
@@ -315,17 +324,29 @@ public class Lifts implements Component {
 
     public void AutoHigh()
     {
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         current_state = LIFT_STATE.MOVING_HIGH;
     }
 
     public void AutoLow()
     {
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         current_state = LIFT_STATE.MOVING_LOW;
     }
 
     public void AutoSpec()
     {
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         current_state = LIFT_STATE.MOVING_SPEC;
+    }
+
+    public void TeleOpSpec() {
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        current_state = LIFT_STATE.MOVING_TELEOP;
     }
 
     public void AutoWait()
