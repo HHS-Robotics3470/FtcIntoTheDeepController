@@ -23,6 +23,7 @@ public class RedRight extends LinearOpMode {
         start,
         drop,
         push,
+        push2,
         end
     }
 
@@ -33,14 +34,14 @@ public class RedRight extends LinearOpMode {
 
     
     private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
-    private Pose2d predropPose = new Pose2d(15,0, Math.toRadians(180));
-    private Pose2d dropPose = new Pose2d(27, 0, Math.toRadians(180));
-    private Pose2d push1 = new Pose2d(0, -40, Math.toRadians(180));
-    private Pose2d push2 = new Pose2d(50, -40, Math.toRadians(180));
-    private Pose2d push3 = new Pose2d(50, -45, Math.toRadians(180));
-    private Pose2d push4 = new Pose2d(50, -50, Math.toRadians(180));
-    private Pose2d zone1 = new Pose2d(0, -45, Math.toRadians(180));
-    private Pose2d zone2 = new Pose2d(0, -50, Math.toRadians(180));
+    private Pose2d predropPose = new Pose2d(20,0, Math.toRadians(180));
+    private Pose2d dropPose = new Pose2d(29.4, 0, Math.toRadians(180));
+    private Pose2d push1 = new Pose2d(10, -50, Math.toRadians(180));
+    private Pose2d push2 = new Pose2d(75, -50, Math.toRadians(180));
+    private Pose2d push3 = new Pose2d(75, -55, Math.toRadians(180));
+    private Pose2d push4 = new Pose2d(75, -60, Math.toRadians(180));
+    private Pose2d zone1 = new Pose2d(0, -55, Math.toRadians(180));
+    private Pose2d zone2 = new Pose2d(10, -60, Math.toRadians(180));
     private ElapsedTime time = new ElapsedTime();
 
     @Override
@@ -54,7 +55,7 @@ public class RedRight extends LinearOpMode {
         // Wait for the start of the match
         waitForStart();
 
-//        robot.init();
+        robot.init();
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
 
@@ -68,6 +69,8 @@ public class RedRight extends LinearOpMode {
                 .splineToConstantHeading(predropPose.vec(), Math.toRadians(180))
                 .splineToConstantHeading(push1.vec(), Math.toRadians(180))
                 .splineToConstantHeading(push2.vec(), Math.toRadians(180))
+                .build();
+        Trajectory push2Traj = drive.trajectoryBuilder(push2)
                 .splineToConstantHeading(push3.vec(), Math.toRadians(180))
                 .splineToConstantHeading(zone1.vec(), Math.toRadians(180))
                 .splineToConstantHeading(push3.vec(), Math.toRadians(180))
@@ -82,20 +85,20 @@ public class RedRight extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested())
         {
             drive.update();
-//            robot.lifts.stateUpdate();
+            robot.lifts.stateUpdate();
+            robot.lifts.backLift();
 
             switch (current_state)
             {
                 case inactive:
                     break;
                 case start:
-                    //lifts up
-                    //claw in dropping pos
+                    robot.claw.specimenAuto();
+                    robot.claw.armUp();
                     drive.followTrajectoryAsync(startTraj);
                     current_state = DRIVE_STATE.drop;
                     break;
                 case drop:
-                    //wait for lifts to go all the way up
                     if (!drive.isBusy())
                     {
                         drive.followTrajectory(dropTraj);
@@ -107,16 +110,29 @@ public class RedRight extends LinearOpMode {
                     {
                         if (!isWaiting)
                         {
+                            robot.lifts.TeleOpSpec();
+                            robot.lifts.AutoWait();
+
                             time.reset();
                             isWaiting = true;
                         }
                         else if (isWaiting && time.seconds() >= 1)
                         {
                             isWaiting = false;
+                            robot.claw.clawOpen();
+                            robot.lifts.AutoLow();
+                            robot.lifts.AutoWait();
                             drive.followTrajectory(pushTraj);
-                            current_state = DRIVE_STATE.inactive;
+                            current_state = DRIVE_STATE.push2;
                         }
                     }
+                case push2:
+                    if (!drive.isBusy())
+                    {
+                        drive.followTrajectory(push2Traj);
+                        current_state = DRIVE_STATE.inactive;
+                    }
+
             }
 
 //            telemetry.addData("Lift State", robot.lifts.getCurrentState());

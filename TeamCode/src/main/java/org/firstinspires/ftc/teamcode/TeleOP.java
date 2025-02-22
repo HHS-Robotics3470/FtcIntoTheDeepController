@@ -44,6 +44,7 @@ public class TeleOP extends LinearOpMode {
     private boolean a3state = false;
     private boolean a4state = false;
     private boolean xstate = false;
+    private boolean dpadLeftState = false;
     private boolean bdpadUpState = false;
 
 
@@ -88,7 +89,6 @@ public class TeleOP extends LinearOpMode {
 
             robot.mecnum.brake(1 - gamepad1.right_trigger);
             robot.mecnum.driveRobot(gamepad1);
-            robot.lifts.stateUpdate();
 
 
         /*    if (gamepad1.a) {
@@ -160,7 +160,8 @@ public class TeleOP extends LinearOpMode {
             } else if (gamepad2.left_bumper) {
                 robot.lifts.lowerLift();
             } else {
-                robot.lifts.stopLiftVertical();
+//                robot.lifts.stopLiftVertical();
+                robot.lifts.stateUpdate();
             }
 
 
@@ -267,6 +268,15 @@ public class TeleOP extends LinearOpMode {
                 x2state = false;
             }
 
+            if (gamepad2.dpad_right && !dpadLeftState) {
+                robot.claw.specimenAuto();
+                robot.claw.armUp();
+                robot.lifts.GoToPositionVertical(1490);
+                dpadLeftState = true;
+            } else if (!gamepad2.x && dpadLeftState) {
+                dpadLeftState = false;
+            }
+
             //HANG
             if (gamepad2.a && !a3state) {
                 robot.hang.toggle();
@@ -274,14 +284,14 @@ public class TeleOP extends LinearOpMode {
             } else if (!gamepad2.a && a3state) {
                 a3state = false;
             }
-
+/*
             if (gamepad2.dpad_left && !bdpadUpState) {
                 robot.lifts.GoToPositionVertical(3555);
                 bdpadUpState = true;
             } else if (!gamepad2.y && bdpadUpState) {
                 bdpadUpState = false;
             }
-
+*/
             if (gamepad2.dpad_up)
                 robot.hang.lift();
             else if (gamepad2.dpad_down)

@@ -15,7 +15,7 @@ public class Lifts implements Component {
     private final int LIFT_BACK = 0;
     private final int LIFT_FORWARD = 1810;
     private final int LIFT_SPECIMEN = 2700;
-    private final int LIFT_TELEOP_SPECIMEN = 1600;
+    private final int LIFT_TELEOP_SPECIMEN = 907;
     private final int LIFT_BASKET = 3800;
     private final double LOCK_OPEN = 1;
     private final double LOCK_CLOSE = 0;
@@ -59,8 +59,8 @@ public class Lifts implements Component {
         lLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         extendo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set motor direction for extendo (adjust as necessary)
@@ -221,7 +221,7 @@ public class Lifts implements Component {
         if (extendo.getCurrentPosition() > LIFT_BACK) {
             extendo.setTargetPosition(LIFT_BACK);
             extendo.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            extendo.setPower(-1);
+            extendo.setPower(1);
         }
     }
 
