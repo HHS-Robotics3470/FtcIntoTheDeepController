@@ -88,6 +88,8 @@ public class TeleOP extends LinearOpMode {
 
             robot.mecnum.brake(1 - gamepad1.right_trigger);
             robot.mecnum.driveRobot(gamepad1);
+            robot.lifts.stateUpdate();
+
 
         /*    if (gamepad1.a) {
                 robot.intake.pitchDown();
@@ -264,7 +266,6 @@ public class TeleOP extends LinearOpMode {
             } else if (!gamepad2.x && x2state) {
                 x2state = false;
             }
-            robot.lifts.stateUpdate();
 
             //HANG
             if (gamepad2.a && !a3state) {
@@ -297,7 +298,6 @@ public class TeleOP extends LinearOpMode {
                 a4state = false;
             }
 
-            robot.lifts.stateUpdate();
             telemetry.update();
         }
     }

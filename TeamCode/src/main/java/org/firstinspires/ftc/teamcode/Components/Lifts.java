@@ -59,8 +59,8 @@ public class Lifts implements Component {
         lLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         extendo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set motor direction for extendo (adjust as necessary)
@@ -92,15 +92,15 @@ public class Lifts implements Component {
             lLift.setTargetPosition(LIFT_LOW);
             rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rLift.setPower(-1);
-            lLift.setPower(-1);
+            rLift.setPower(1);
+            lLift.setPower(1);
         }
     }
 
     // Stop Lift function
     public void stopLiftVertical() {
-//        rLift.setTargetPosition(rLift.getCurrentPosition());
-//        lLift.setTargetPosition(lLift.getCurrentPosition());
+        rLift.setTargetPosition(rLift.getCurrentPosition());
+        lLift.setTargetPosition(lLift.getCurrentPosition());
         lLift.setPower(0);
         rLift.setPower(0);
     }
