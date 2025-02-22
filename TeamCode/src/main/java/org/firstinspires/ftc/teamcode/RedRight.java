@@ -24,6 +24,7 @@ public class RedRight extends LinearOpMode {
         drop,
         push,
         push2,
+        push3,
         end
     }
 
@@ -36,12 +37,13 @@ public class RedRight extends LinearOpMode {
     private Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
     private Pose2d predropPose = new Pose2d(20,0, Math.toRadians(180));
     private Pose2d dropPose = new Pose2d(29.4, 0, Math.toRadians(180));
-    private Pose2d push1 = new Pose2d(10, -50, Math.toRadians(180));
-    private Pose2d push2 = new Pose2d(75, -50, Math.toRadians(180));
-    private Pose2d push3 = new Pose2d(75, -55, Math.toRadians(180));
-    private Pose2d push4 = new Pose2d(75, -60, Math.toRadians(180));
-    private Pose2d zone1 = new Pose2d(0, -55, Math.toRadians(180));
-    private Pose2d zone2 = new Pose2d(10, -60, Math.toRadians(180));
+//    private Pose2d push0 = new Pose2d(0, 0, Math.toRadians(180));
+    private Pose2d push1 = new Pose2d(15, -55, Math.toRadians(180));
+    private Pose2d push2 = new Pose2d(75, -55, Math.toRadians(180));
+    private Pose2d push3 = new Pose2d(75, -60, Math.toRadians(180));
+    private Pose2d push4 = new Pose2d(75, -70, Math.toRadians(180));
+    private Pose2d zone1 = new Pose2d(0, -60, Math.toRadians(180));
+    private Pose2d zone2 = new Pose2d(5, -70, Math.toRadians(180));
     private ElapsedTime time = new ElapsedTime();
 
     @Override
@@ -54,6 +56,7 @@ public class RedRight extends LinearOpMode {
 
         // Wait for the start of the match
         waitForStart();
+        isWaiting = false;
 
         robot.init();
         drive = new SampleMecanumDrive(hardwareMap);
@@ -67,6 +70,7 @@ public class RedRight extends LinearOpMode {
                 .build();
         Trajectory pushTraj = drive.trajectoryBuilder(dropPose)
                 .splineToConstantHeading(predropPose.vec(), Math.toRadians(180))
+//                .splineToConstantHeading(push0.vec(), Math.toRadians(180))
                 .splineToConstantHeading(push1.vec(), Math.toRadians(180))
                 .splineToConstantHeading(push2.vec(), Math.toRadians(180))
                 .build();
@@ -74,6 +78,8 @@ public class RedRight extends LinearOpMode {
                 .splineToConstantHeading(push3.vec(), Math.toRadians(180))
                 .splineToConstantHeading(zone1.vec(), Math.toRadians(180))
                 .splineToConstantHeading(push3.vec(), Math.toRadians(180))
+                .build();
+        Trajectory push3Traj = drive.trajectoryBuilder(push3)
                 .splineToConstantHeading(push4.vec(), Math.toRadians(180))
                 .splineToConstantHeading(zone2.vec(), Math.toRadians(180))
                 .build();
@@ -94,14 +100,14 @@ public class RedRight extends LinearOpMode {
                     break;
                 case start:
                     robot.claw.specimenAuto();
-                    robot.claw.armUp();
+                    robot.claw.armSpecimenAuto();
                     drive.followTrajectoryAsync(startTraj);
                     current_state = DRIVE_STATE.drop;
                     break;
                 case drop:
                     if (!drive.isBusy())
                     {
-                        drive.followTrajectory(dropTraj);
+                        drive.followTrajectoryAsync(dropTraj);
                         current_state = DRIVE_STATE.push;
                     }
                     break;
@@ -110,26 +116,33 @@ public class RedRight extends LinearOpMode {
                     {
                         if (!isWaiting)
                         {
-                            robot.lifts.TeleOpSpec();
+                            isWaiting = true;
+                            robot.lifts.ActulaAutoSpec();
                             robot.lifts.AutoWait();
+                            robot.claw.clawOpen();
 
                             time.reset();
                             isWaiting = true;
-                        }
-                        else if (isWaiting && time.seconds() >= 1)
-                        {
-                            isWaiting = false;
-                            robot.claw.clawOpen();
+
+                            robot.claw.armDown();
                             robot.lifts.AutoLow();
                             robot.lifts.AutoWait();
-                            drive.followTrajectory(pushTraj);
+                            drive.followTrajectoryAsync(pushTraj);
                             current_state = DRIVE_STATE.push2;
+                            isWaiting = false;
                         }
                     }
                 case push2:
                     if (!drive.isBusy())
                     {
-                        drive.followTrajectory(push2Traj);
+
+                        drive.followTrajectoryAsync(push2Traj);
+                        current_state = DRIVE_STATE.push3;
+                    }
+                case push3:
+                    if (!drive.isBusy())
+                    {
+                        drive.followTrajectoryAsync(push3Traj);
                         current_state = DRIVE_STATE.inactive;
                     }
 
@@ -138,6 +151,7 @@ public class RedRight extends LinearOpMode {
 //            telemetry.addData("Lift State", robot.lifts.getCurrentState());
             telemetry.addData("Drive State", current_state);
             telemetry.addData("debug", debugger);
+            telemetry.addData("problematic bool", isWaiting);
             telemetry.update();
         }
 
