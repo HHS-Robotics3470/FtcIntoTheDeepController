@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class Lifts implements Component {
     private final int liftShift = HoldLastLift.getHeight();
-
+//
     private final int LIFT_LOW = 0;
     private final int LIFT_HIGH = 4100;
     private final int LIFT_BACK = 0;
