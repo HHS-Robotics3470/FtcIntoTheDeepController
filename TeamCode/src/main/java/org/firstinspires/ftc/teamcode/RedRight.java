@@ -154,7 +154,7 @@ public class RedRight extends LinearOpMode {
             telemetry.addData("problematic bool", isWaiting);
             telemetry.update();
         }
-
+//
         telemetry.addData("Status", "Autonomous Routine Complete");
         telemetry.update();
 
