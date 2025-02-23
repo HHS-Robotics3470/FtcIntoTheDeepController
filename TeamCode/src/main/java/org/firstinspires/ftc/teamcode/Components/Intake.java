@@ -19,7 +19,7 @@ public class Intake implements Component {
     private final double INTAKE_CLAW_CLOSE_POSITION = 0.015;
 
     public final double SWEEPER_INITIAL_POSITION = 0.008;
-    public final double SWEEPER_FINAL_POSITION = 0.053;
+    public final double SWEEPER_FINAL_POSITION = 0.34; //0.053;
     public final double SWEEPER_AUTO_POSITION = 0.34;
 
     public final double FOUR_PITCH_TRANSFER = 0.02 ;
@@ -46,7 +46,7 @@ public class Intake implements Component {
         intakeWrist = robotHardware.intakeWrist;
 
         fourBarPitch.setDirection(Servo.Direction.FORWARD);
-        intakeWrist.setDirection(Servo.Direction.FORWARD);
+        intakeWrist.setDirection(Servo.Direction.REVERSE);
 
         intakePitch.setPosition(PITCH_TRANSFER);
         clawIntake.setPosition(INTAKE_CLAW_CLOSE_POSITION);

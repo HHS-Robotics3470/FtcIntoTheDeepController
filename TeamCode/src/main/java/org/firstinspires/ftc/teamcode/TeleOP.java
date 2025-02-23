@@ -80,11 +80,6 @@ public class TeleOP extends LinearOpMode {
             //telemetry.addData("touch2 is pressed", robot.lifts.touch2.isPressed());
 
 
-
-            robot.localizer.update();
-            telemetry.addData("Front Encoder", robot.frontEncoder.getCurrentPosition());
-            telemetry.addData("Right Encoder", robot.rightEncoder.getCurrentPosition());
-            telemetry.addData("Left Encoder", robot.leftEncoder.getCurrentPosition());
             telemetry.update();
 
             robot.mecnum.brake(1 - gamepad1.right_trigger);
@@ -223,6 +218,7 @@ public class TeleOP extends LinearOpMode {
             if (gamepad1.x && !xstate)
             {
                 robot.intake.fourBarSpit();
+                robot.intake.sweeperInitial();
                 xstate = true;
             }
             else if (!gamepad1.x && xstate) {
