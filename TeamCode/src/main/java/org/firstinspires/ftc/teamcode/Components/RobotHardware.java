@@ -40,7 +40,6 @@ public class RobotHardware {
 
     // Odometry
     public Encoder leftEncoder, rightEncoder, frontEncoder;
-    public StandardTrackingWheelLocalizer localizer;
 
 
     // Servo for intake pitch control
@@ -97,23 +96,6 @@ public class RobotHardware {
         touch1 = myOpMode.hardwareMap.get(TouchSensor.class, "touch1");
         touch2 = myOpMode.hardwareMap.get(TouchSensor.class, "touch2");
 
-
-
-
-
-        // Initialize encoders
-        leftEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "bRight"));
-        rightEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fRight"));
-        frontEncoder = new Encoder(myOpMode.hardwareMap.get(DcMotorEx.class, "fLeft"));
-
-        // Initialize localizer
-        List<Integer> initalpos = new ArrayList<>();
-        List<Integer> initalvel = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            initalpos.add(0);
-            initalvel.add(0);
-        }
-        localizer = new StandardTrackingWheelLocalizer(myOpMode.hardwareMap, initalpos, initalvel);
 
         for (int i = 0; i < components.length; i++)
         {
