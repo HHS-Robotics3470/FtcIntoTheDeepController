@@ -46,7 +46,7 @@ public class Claw implements Component{
     private final double WRIST_DOWN_POSITION = 0.23;
 
     private final double WRIST_SPECIMEN = 0.42; //intake spec wrist
-    private final double ARM_SPECIMEN = 0.243;
+    private final double ARM_SPECIMEN = 0.31;
     private final double ARM_AUTO = 0.315; //outtake spec arm
     private final double HANG_INITIAL = -0.115;
     private final double HANG_ACTIVATED = 0;
@@ -105,6 +105,12 @@ public class Claw implements Component{
     public void armRest(){
         armRight.setPosition(ARM_REST_POSITION);
         armLeft.setPosition(ARM_REST_POSITION);
+    }
+
+    public void armSpecimenAuto()
+    {
+        armRight.setPosition(ARM_SPECIMEN);
+        armLeft.setPosition(ARM_SPECIMEN);
     }
 
     public void wristUP(){

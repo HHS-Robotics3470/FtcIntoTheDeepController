@@ -15,6 +15,7 @@ public class Lifts implements Component {
     private final int LIFT_BACK = 0;
     private final int LIFT_FORWARD = 1810;
     private final int LIFT_SPECIMEN = 2700;
+    private final int LIFT_SPEC_AUTO = 1400;
     private final int LIFT_TELEOP_SPECIMEN = 907;
     private final int LIFT_BASKET = 3800;
     private final double LOCK_OPEN = 1;
@@ -24,6 +25,7 @@ public class Lifts implements Component {
         MOVING_HIGH,
         MOVING_LOW,
         MOVING_SPEC,
+        MOVING_SPEC_AUTO,
         MOVING_TELEOP,
     }
     private LIFT_STATE current_state = LIFT_STATE.INACTIVE;
@@ -276,8 +278,8 @@ public class Lifts implements Component {
             lLift.setTargetPosition(target);
             rLift.setTargetPosition(target);
 
-//            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             lLift.setPower(1);
             rLift.setPower(1);
@@ -312,6 +314,10 @@ public class Lifts implements Component {
                 break;
             case MOVING_TELEOP:
                 ParallelMoveVertical(LIFT_TELEOP_SPECIMEN);
+                break;
+            case MOVING_SPEC_AUTO:
+                ParallelMoveVertical(LIFT_SPEC_AUTO);
+                break;
 
 
         }
@@ -348,6 +354,12 @@ public class Lifts implements Component {
         rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         current_state = LIFT_STATE.MOVING_TELEOP;
     }
+
+    public void ActulaAutoSpec()
+    {
+        current_state = LIFT_STATE.MOVING_SPEC_AUTO;
+    }
+
 
     public void AutoWait()
     {
