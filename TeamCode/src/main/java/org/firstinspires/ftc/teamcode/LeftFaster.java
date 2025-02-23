@@ -18,7 +18,7 @@ public class LeftFaster extends LinearOpMode {
     private RobotHardware Mecnum;
     private SampleMecanumDrive drive;
 
-
+//
     // Speed control constants
 //    public final double DRIVE_SPEED_MAX_AUTO = 0.5;
 //    public final double DRIVE_SPEED_SLOW_AUTO = 0.05;
