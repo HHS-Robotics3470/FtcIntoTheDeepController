@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 //x = forward.backward, y = strafe
 
-@Autonomous(name = "Right Faster-hopefully 3 specimen", group = "Autonomous")
+@Autonomous(name = "Right-hopefully 2 specimen", group = "Autonomous")
 public class RedRight extends LinearOpMode {
     private RobotHardware robot;
     private SampleMecanumDrive drive;

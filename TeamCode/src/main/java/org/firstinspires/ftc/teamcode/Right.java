@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Right-Specimen", group = "Autonomous")
+@Autonomous(name = "dont even think about this one", group = "Autonomous")
 public class Right extends LinearOpMode {
     private SampleMecanumDrive drive;
 

@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Components.Lifts;
 import org.firstinspires.ftc.teamcode.Components.Claw;
 
-@Autonomous(name = "Left Faster-Buckets", group = "Autonomous")
+@Autonomous(name = "Left -Buckets", group = "Autonomous")
 public class LeftFaster extends LinearOpMode {
     private RobotHardware robotHardware;
     private RobotHardware Mecnum;
@@ -61,7 +61,7 @@ public class LeftFaster extends LinearOpMode {
 
             //Cycle 1
 
-            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(38.8).build();
+            Trajectory traj2 = drive.trajectoryBuilder(drive.getPoseEstimate()).back(40.7).build();
 
 
             drive.followTrajectory(traj2);
@@ -77,12 +77,12 @@ public class LeftFaster extends LinearOpMode {
             drive.turn(Math.toRadians(63));
 
 
-            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeLeft(2).build();
+            Trajectory traj3 = drive.trajectoryBuilder(drive.getPoseEstimate()).strafeRight(1.3).build();
             drive.followTrajectory(traj3);
 
             robot.claw.clawOpen();
 
-            sleep(140);
+            sleep(340);
 
             robot.claw.wristDown();
             robot.claw.armRest();
@@ -96,27 +96,81 @@ public class LeftFaster extends LinearOpMode {
             //2nd Cycle
 
             Trajectory traj4 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(26.8)
+                    .forward(12)
                     .build();
 
 
-
+            drive.turn(Math.toRadians(-10));
 //            robot.intake.startIntake();
             sleep(780);
             drive.followTrajectory(traj4);
 
-            robot.intake.pitchUp();
-            sleep(500);
-//            robot.intake.stopIntake();
-            sleep(30);
 
-            robot.claw.grab();
+            Trajectory traj90 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .strafeLeft(3.5)
+                    .build();
+
+//            robot.intake.pitchIntaking();
+//            robot.intake.fourBarIntaking();
+//            sleep(120);
+//            robot.intake.clawIntakeClose();
+//            sleep(30);
+//            robot.intake.fourBarTransfer();
+//            robot.intake.pitchTransfer();
+//            sleep(30);
+
+            drive.followTrajectory(traj90);
+            robot.claw.armRest();
+
+            robot.claw.clawOpen();
+            robot.intake.clawIntakeOpen();
+            robot.intake.pitchIntaking();
+            robot.intake.fourBarIntaking();
+            sleep(200);
+            robot.intake.clawIntakeClose();
+
+            sleep(400);
+
+        //new code
+                robot.intake.pitchTransfer();
+                robot.intake.fourBarTransfer();
+                robot.intake.clawIntakeClose();
+                robot.claw.clawOpen();
+            drive.turn(Math.toRadians(10));
+                robot.claw.wristDown();
+                sleep(450);
+
+
+
+                robot.intake.pitchTransfer();
+                robot.intake.clawIntakeClose();
+                robot.claw.armDown();
+                sleep(300);
+
+
+                robot.intake.clawIntakeOpen();
+                sleep(100);
+                robot.intake.pitchTransfer();
+                robot.claw.clawClose();
+                sleep(400);
+
+                robot.claw.armRest();
+                sleep(300);
+
+
+                robot.claw.wristUP();
+                robot.claw.armUp();
+
+            Trajectory traj91 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .strafeRight(5.5)
+                    .build();
+            drive.followTrajectory(traj91);
 
 
 
 
             Trajectory traj5 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .back(26.8)
+                    .back(10)
                     .build();
             drive.followTrajectory(traj5);
 

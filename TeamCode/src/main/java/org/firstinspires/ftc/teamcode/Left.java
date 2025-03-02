@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Left-sample cycle", group = "Autonomous")  //Name Confusion NEEDS FIXES
+@Autonomous(name = "dont use this one", group = "Autonomous")  //Name Confusion NEEDS FIXES
 public class Left extends LinearOpMode {
     private RobotHardware robotHardware;
     private SampleMecanumDrive drive;
